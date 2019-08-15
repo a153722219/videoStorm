@@ -8,18 +8,35 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-
-
-
+import {
+  createBottomTabNavigator,
+  createAppContainer
+} from 'react-navigation'
+import PopularPage from '../page/PopularPage'
+import TrendingPage from '../page/TrendingPage'
+import CollectPage from '../page/CollectPage'
+import MySelfPage from '../page/MySelfPage'
 export default class HomePage extends Component{
+  _tabNavigator(){
+      return createBottomTabNavigator({
+        PopularPage:{
+          screen:PopularPage
+        },
+        TrendingPage:{
+          screen:TrendingPage
+        },
+        CollectPage:{
+          screen:CollectPage
+        },
+        MySelfPage:{
+          screen:MySelfPage
+        }
+      });
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-          <Text style={styles.welcome}>
-          HomePage
-          </Text>
-      </View>
-    );
+    const Tab = createAppContainer(this._tabNavigator());
+    return <Tab/>
   }
 }
 

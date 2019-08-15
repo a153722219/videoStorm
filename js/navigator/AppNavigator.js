@@ -17,18 +17,19 @@ const InitNavigator = createStackNavigator({
 });
 
 const MainNavigator = createStackNavigator({
-    DetailPage:{
-        screen:DetailPage,
-        navigationOptions:{
-            header:null,//禁用标题栏
-        }
-    },
     HomePage:{
         screen:HomePage,
         navigationOptions:{
             header:null,//禁用标题栏
         }
+    },
+    DetailPage:{
+        screen:DetailPage,
+        navigationOptions:{
+            header:null,//禁用标题栏
+        }
     }
+  
 });
 
 export default createSwitchNavigator({
