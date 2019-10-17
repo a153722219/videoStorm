@@ -8,4 +8,18 @@ export default class NavigationUtil{
         navigation.goBack();
     }
 
+    static goPage(params,page){
+        const navigation = NavigationUtil.navigation;
+        if(!navigation){
+            console.log("NavigationUtil.navigation can not be null!");
+            return
+        }
+
+        navigation.navigate(
+            page,
+            {
+                ...params
+            }
+        )
+    }
 }

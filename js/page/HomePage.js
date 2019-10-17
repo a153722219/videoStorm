@@ -12,31 +12,16 @@ import {
   createBottomTabNavigator,
   createAppContainer
 } from 'react-navigation'
-import PopularPage from '../page/PopularPage'
-import TrendingPage from '../page/TrendingPage'
-import CollectPage from '../page/CollectPage'
-import MySelfPage from '../page/MySelfPage'
+
+import NavigationUtil from '../navigator/NavigationUtil'
+import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
 export default class HomePage extends Component{
-  _tabNavigator(){
-      return createBottomTabNavigator({
-        PopularPage:{
-          screen:PopularPage
-        },
-        TrendingPage:{
-          screen:TrendingPage
-        },
-        CollectPage:{
-          screen:CollectPage
-        },
-        MySelfPage:{
-          screen:MySelfPage
-        }
-      });
-  }
+
 
   render() {
-    const Tab = createAppContainer(this._tabNavigator());
-    return <Tab/>
+        NavigationUtil.navigation = this.props.navigation;
+        // const Tab = createAppContainer(DynamicTabNavigator);
+        return <DynamicTabNavigator/>
   }
 }
 

@@ -26,7 +26,7 @@ const MainNavigator = createStackNavigator({
     DetailPage:{
         screen:DetailPage,
         navigationOptions:{
-            header:null,//禁用标题栏
+            // header:null,//禁用标题栏
         }
     }
   
