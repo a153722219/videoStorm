@@ -13,12 +13,16 @@ import NavigationUtil from '../navigator/NavigationUtil';
 
 export default class WelcomePage extends Component{
   componentDidMount(){
-    this.timer=setTimeout(()=>{
-        // const {navigation} = this.props;
-        NavigationUtil.resetToHomePage({
+      NavigationUtil.resetToHomePage({
           navigation:this.props.navigation
-        })
-    },1000)
+      })
+
+    // this.timer=setTimeout(()=>{
+    //     // const {navigation} = this.props;
+    //     NavigationUtil.resetToHomePage({
+    //       navigation:this.props.navigation
+    //     })
+    // },1000)
   }
   componentWillUnmount(){
     this.timer && clearTimeout(this.timer);

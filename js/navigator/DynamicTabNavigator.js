@@ -24,6 +24,8 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import Entypo from "react-native-vector-icons/Entypo"
 import NavigationUtil from '../navigator/NavigationUtil'
+import {connect} from 'react-redux';
+
 const Tabs = { //这里配置页面路由
     PopularPage:{
         screen:PopularPage,
@@ -78,7 +80,7 @@ const Tabs = { //这里配置页面路由
         }
     }
 };
-export default class DynamicTabNavigator extends Component{
+ class DynamicTabNavigator extends Component{
     constructor(props){
         super(props)
         console.disableYellowBox = true;
@@ -90,13 +92,15 @@ export default class DynamicTabNavigator extends Component{
         const tabs = {PopularPage,TrendingPage,CollectPage,MySelfPage}; //根据需要定制显示的tab
         // PopularPage.navigationOptions.tabBarLabel = "最新";
         return createBottomTabNavigator(tabs,{
-            tabBarComponent:TabBarComponent
+            tabBarComponent:props=>{return <TabBarComponent theme={this.props.theme} {...props}/>}
         });
     }
 
     render() {
         // NavigationUtil.navigation = this.props.navigation;
-        const Tab = createAppContainer(this._tabNavigator());
+        if(!this.Tab)
+             this.Tab = createAppContainer(this._tabNavigator());
+        const Tab = this.Tab;
         return <Tab/>
     }
 }
@@ -110,32 +114,25 @@ class TabBarComponent extends React.Component{
         }
     }
     render(){
-        const {routes,index} = this.props.navigation.state;
-        if(routes[index].params){
-            const {theme} = routes[index].params;
-            //以最新的更新时间为主
-            if(theme &&  theme.updateTime > this.theme.updateTime){
-                this.theme=theme;
-            }
-
-        }
+        // const {routes,index} = this.props.navigation.state;
+        // if(routes[index].params){
+        //     const {theme} = routes[index].params;
+        //     //以最新的更新时间为主
+        //     if(theme &&  theme.updateTime > this.theme.updateTime){
+        //         this.theme=theme;
+        //     }
+        //
+        // }
         return <BottomTabBar
             {...this.props}
-            activeTintColor = {this.theme.tintColor || this.props.activeTintColor}
+            activeTintColor = {this.props.theme}
         />
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    }
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
 });
+
+export default connect(mapStateToProps)(DynamicTabNavigator);
+
