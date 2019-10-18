@@ -8,6 +8,7 @@ import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
 import {connect} from 'react-redux'
+import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
 export const rootCom = 'Init';//设置根路由
 const InitNavigator = createStackNavigator({
@@ -29,7 +30,7 @@ const MainNavigator = createStackNavigator({
     DetailPage:{
         screen:DetailPage,
         navigationOptions:{
-            // header:null,//禁用标题栏
+             // header:null
         }
     }
   
@@ -45,8 +46,6 @@ export const RootNavigator =  createSwitchNavigator({
     }
 
 });
-
-
 /**
  * 1.初始化react-navigation与redux的中间件，
  * 该方法的一个很大的作用就是为reduxifyNavigator的key设置actionSubscribers(行为订阅者)
@@ -54,6 +53,7 @@ export const RootNavigator =  createSwitchNavigator({
  * 检测订阅者是否存在@https://github.com/react-navigation/react-navigation-redux-helpers/blob/master/src/middleware.js#L97
  * @type {Middleware}
  */
+
 export const middleware = createReactNavigationReduxMiddleware(state=>state.nav,"root");
 
 /**

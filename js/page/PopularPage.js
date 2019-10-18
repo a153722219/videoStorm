@@ -31,7 +31,7 @@ export default class PopularPage extends Component{
                 }
 
             }
-        })
+        });
         return tabs;
     }
 
@@ -54,7 +54,6 @@ export default class PopularPage extends Component{
     </View>;
   }
 }
-
 
 class PopularTab extends Component{
     render() {

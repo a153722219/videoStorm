@@ -3,7 +3,6 @@ export default class NavigationUtil{
         const {navigation} = params;
         navigation.navigate("Main");
     }
-
     static goBack(navigation){
         navigation.goBack();
     }
@@ -14,7 +13,6 @@ export default class NavigationUtil{
             console.log("NavigationUtil.navigation can not be null!");
             return
         }
-
         navigation.navigate(
             page,
             {
