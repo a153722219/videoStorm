@@ -17,6 +17,7 @@ type Props = {};
 
 export default class App extends Component<Props> {
   render() {
+    // return <Text>312312</Text>
     return <Provider store={store}>
       <AppNavigator/>
     </Provider>;

@@ -9,10 +9,10 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {
-    createBottomTabNavigator,
-    createAppContainer,
-    BottomTabBar
+    createAppContainer
+
 } from 'react-navigation'
+import { createBottomTabNavigator,BottomTabBar} from 'react-navigation-tabs';
 // import {
 //     BottomTabBar
 // } from 'react-navigation-tabs'

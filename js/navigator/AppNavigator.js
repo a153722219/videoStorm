@@ -1,9 +1,10 @@
 import {
-    createStackNavigator,
     createMaterialTopTabNavigator,
-    createBottomTabNavigator,
     createSwitchNavigator
 } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'

@@ -8,7 +8,8 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import {createMaterialTopTabNavigator,createAppContainer} from "react-navigation"
+import {createAppContainer} from "react-navigation";
+import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import NavigationUtil from '../navigator/NavigationUtil'
 
 export default class PopularPage extends Component{
