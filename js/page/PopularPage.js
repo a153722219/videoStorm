@@ -7,12 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View,FlatList,RefreshControl,Image} from 'react-native';
+import {Button, StyleSheet, Text, View,FlatList,RefreshControl,Image, ActivityIndicator} from 'react-native';
 import {connect} from "react-redux"
 import {createAppContainer} from "react-navigation";
 import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import actions from '../action/index'
-
+import PopularItem from "../common/PopularItem";
+import Toast from 'react-native-easy-toast'
 export default class PopularPage extends Component{
     constructor(props){
         super(props)
@@ -68,10 +69,21 @@ class PopularTab extends Component{
         this.loadData();
     }
 
-    loadData(){
-        const {onLoadPopularData} = this.props;
+    loadData(loadMore){
+        const pageSize = 10;
+        const {onRefreshPopular,onLoadMorePopular} = this.props;
+        const store = this._store();
         const url =this.genFetchUrl(this.storeName);
-        onLoadPopularData(this.storeName,url);
+        if(loadMore){
+            console.log(pageSize)
+            onLoadMorePopular(this.storeName,++store.pageIndex, pageSize,store.items,(callback)=>{
+                this.refs.toast.show("没有更多了")
+            });
+        }else{
+            onRefreshPopular(this.storeName,url,pageSize);
+        }
+
+
     }
 
     genFetchUrl(key){
@@ -85,31 +97,51 @@ class PopularTab extends Component{
 
         const item = data.item;
         // console.log(item.thumbURL)
-        return <View style={{marginBottom:10}}>
-            <Text style={{backgroundColor: "#faa"}}>
-                {JSON.stringify(item)}
-            </Text>
+        return <PopularItem
+            item={item}
+            onSelect={()=>{
+
+                }
+            }
+        />
             {/*<Image*/}
                 {/*style={{width:"100%",height:250}}*/}
                 {/*source={{uri: item.thumbURL}}*/}
             {/*/>*/}
-        </View>
+
     }
-
-
-    render() {
+    _store(){
         const {popular} = this.props;
         let store = popular[this.storeName];
         if(!store){
             store = {
                 items:[],
-                isLoading:false
+                isLoading:false,
+                projectModel:[],
+                hideLoadingMore:true
             }
         }
+        return store
+    }
+
+    genIndicator(){
+        return this._store().hideLoadingMore?null:
+            <View style={styles.indicatorContainer}>
+                <ActivityIndicator
+                    style={{color:'red',margin:10}}
+                />
+                <Text>加载更多</Text>
+            </View>
+    }
+
+    render() {
+
+        const store = this._store();
+
         return (
             <View style={styles.container}>
                 <FlatList
-                    data={store.items}
+                    data={store.projectModel}
                     renderItem={data=>this.renderItem(data)}
                     keyExtractor={item=>""+item.id} //id
                     // contentContainerStyle={styles.listViewStyle}
@@ -124,9 +156,15 @@ class PopularTab extends Component{
                             tintColor="red"
                         />
                     }
+
+                    ListFooterComponent={()=>this.genIndicator()}
+                    onEndReached={()=>{
+                        this.loadData(true);
+                    }}
+                    onEndReachedThreshold={0.5}
                 />
 
-
+            <Toast ref={"toast"} position={'center'}/>
             </View>
         );
     }
@@ -136,13 +174,17 @@ const mapStateToProps = state=>({
     popular:state.popular
 });
 const mapDisPatchToProps = dispatch=>({
-    onLoadPopularData:(storeName,url)=>dispatch(actions.onLoadPopularData(storeName,url))
+    onRefreshPopular:(storeName,url,pageSize)=>dispatch(actions.onRefreshPopular(storeName,url,pageSize)),
+    onLoadMorePopular:(storeName,pageIndex, pageSize,items,callback)=>dispatch(actions.onLoadMorePopular(storeName,pageIndex, pageSize,items,callback))
 });
 
 const PopularTabPage = connect(mapStateToProps,mapDisPatchToProps)(PopularTab);
 
 
 const styles = StyleSheet.create({
+    indicatorContainer:{
+        alignItems:"center"
+    },
         listViewStyle: {
             // 主轴方向
             flexDirection: 'row',
