@@ -116,7 +116,7 @@ class PopularTab extends Component{
         if(!store){
             store = {
                 items:[],
-                isLoading:false,
+                isLoading:true,
                 projectModel:[],
                 hideLoadingMore:true
             }
@@ -159,8 +159,18 @@ class PopularTab extends Component{
 
                     ListFooterComponent={()=>this.genIndicator()}
                     onEndReached={()=>{
-                        this.loadData(true);
+                        if(this.canLoadMore){
+                            this.loadData(true);
+                            this.canLoadMore=false;
+                        }
+
+
                     }}
+                    onMomentumScrollBegin={()=>{
+                        //初始化页面时调用
+                        this.canLoadMore=true;
+                        }
+                    }
                     onEndReachedThreshold={0.5}
                 />
 
