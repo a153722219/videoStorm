@@ -87,12 +87,13 @@ const Tabs = { //这里配置页面路由
     }
 
     _tabNavigator(){
-
         const {PopularPage,TrendingPage,MySelfPage,CollectPage} = Tabs;
         const tabs = {PopularPage,TrendingPage,CollectPage,MySelfPage}; //根据需要定制显示的tab
         // PopularPage.navigationOptions.tabBarLabel = "最新";
         return createBottomTabNavigator(tabs,{
-            tabBarComponent:props=>{return <TabBarComponent theme={this.props.theme} {...props}/>}
+            tabBarComponent:props=>{return <TabBarComponent theme={this.props.theme} {...props}/>},
+            swipeEnabled:false,
+            animationEnabled: false
         });
     }
 
