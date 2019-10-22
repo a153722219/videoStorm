@@ -7,13 +7,15 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View,FlatList,RefreshControl,Image, ActivityIndicator} from 'react-native';
+import {Button, StyleSheet, Text, View,FlatList,RefreshControl,Image, ActivityIndicator,DeviceInfo} from 'react-native';
 import {connect} from "react-redux"
 import {createAppContainer} from "react-navigation";
 import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import actions from '../action/index'
 import PopularItem from "../common/PopularItem";
-import Toast from 'react-native-easy-toast'
+import Toast from 'react-native-easy-toast';
+import NavigationBar from '../common/Navigationbar';
+const THEME_COLOR　=　"#678";
 export default class PopularPage extends Component{
     constructor(props){
         super(props)
@@ -36,6 +38,17 @@ export default class PopularPage extends Component{
     }
 
   render() {
+        let statusBar = {
+            backgroundColor:THEME_COLOR,
+            barStyle:'light-content',
+        };
+
+      let navigationBar = <NavigationBar
+        title={'最热'}
+        statusBar = {statusBar}
+        style={{backgroundColor:THEME_COLOR}}
+      />
+
       const TabNavigator = createMaterialTopTabNavigator(this._genTab(),{
           swipeEnabled:true,
           // tabBarPosition:"bottom",
@@ -52,7 +65,8 @@ export default class PopularPage extends Component{
           }
       });
       const Tab = createAppContainer(TabNavigator);
-    return <View style={{flex:1,marginTop:30}}>
+    return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
+        {navigationBar}
         <Tab/>
     </View>;
   }

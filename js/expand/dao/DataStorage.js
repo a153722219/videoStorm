@@ -2,8 +2,13 @@
  * Created by Administrator on 2019/10/21.
  */
 import  { AsyncStorage } from "react-native"
-
+import Trending from 'GitHubTrending'
+const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 export default  class  DataStorage{
+
+
+
+
     /**保存数据**/
     saveData(url,data,callback){
         if(!data || !url) return;
@@ -35,14 +40,16 @@ export default  class  DataStorage{
 
     // 获取网络数据
 
-    fetchNetData(url) {
+    fetchNetData(url,flag) {
         return new Promise((resolve, reject) => {
-            fetch(url)
+            if(flag!==FLAG_STORAGE.flag_trending){
+                fetch(url)
                 .then((response) => {
-
                     if (response.ok) {
                         let res = response.json();
-                        // console.log(res)
+                        console.log("------请求url完成:"+url);
+                        console.log("------请求结果:",res);
+                        console.log(res)
                         return res
                     }
                     throw new Error('Network response was not ok')
@@ -54,6 +61,20 @@ export default  class  DataStorage{
                 .catch((error) => {
                     reject(error)
                 })
+            }else{
+               new Trending().fetchTrending(url).then(items=>{
+                   if(!items){
+                       throw new Error("responseData is null");
+                   }
+                   console.log("------请求url完成:"+url);
+                   console.log("------请求结果:",items);
+                   this.saveData(url,items);
+                   resolve(items)
+               }).catch(err=>{
+                   reject(err);
+               })
+            }
+           
         })
     }
 
@@ -67,13 +88,13 @@ export default  class  DataStorage{
     * 否则获取网络数据
     * */
 
-    fetchData(url){
+    fetchData(url,flag){
         return new Promise((resolve, reject) => {
             this.fetchLocalData(url).then((wrapData) => {
                 if (wrapData && DataStore.checkTimestampValid(wrapData.timestamp)) {
                     resolve(wrapData)
                 } else {
-                    this.fetchNetData(url)
+                    this.fetchNetData(url,flag)
                         .then((data) => {
                             resolve(this._wrapData(data))
                         })
@@ -83,7 +104,7 @@ export default  class  DataStorage{
                 }
             })
                 .catch((error) => {
-                    this.fetchNetData(url)
+                    this.fetchNetData(url,flag)
                         .then((data) => {
                             resolve(this._wrapData(data))
                         })
