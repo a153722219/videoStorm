@@ -14,7 +14,8 @@ import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import actions from '../action/index'
 import PopularItem from "../common/PopularItem";
 import Toast from 'react-native-easy-toast';
-import NavigationBar from '../common/Navigationbar';
+import NavigationBar from '../common/NavigationBar';
+import NavigationUtil from '../navigator/NavigationUtil';
 const THEME_COLOR　=　"#678";
 export default class PopularPage extends Component{
     constructor(props){
@@ -114,7 +115,9 @@ class PopularTab extends Component{
         return <PopularItem
             item={item}
             onSelect={()=>{
-
+                    NavigationUtil.goPage({
+                        projectModel:item
+                    },"DetailPage")
                 }
             }
         />

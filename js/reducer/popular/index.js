@@ -17,7 +17,7 @@ const defaultState = {
  * @returns {*}
  */
 export  default function onAction(state=defaultState,action) {
-    console.log(action)
+   
     switch (action.type){
         case Types.POPULAR_REFRESH_SUCCESS:
             return {

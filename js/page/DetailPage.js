@@ -7,17 +7,86 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-
-
-
+import {StyleSheet, View,TouchableOpacity} from 'react-native';
+import { WebView } from 'react-native-webview';
+import NavigationBar from '../common/NavigationBar'
+import ViewUtil from '../util/ViewUtil'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import NavigationUtil from '../navigator/NavigationUtil';
+const THEME_COLOR = "#678";
 export default class DetailPage extends Component{
+  constructor(props){
+    super(props)
+    this.params = this.props.navigation.state.params;
+    const {projectModel} = this.params;
+    this.url = projectModel.html_url || "https://github.com/"+projectModel.fullName;
+    const title = projectModel.full_name || projectModel.fullName;
+    this.state={
+      title:title,
+      url:this.url,
+      canGoBack:false
+    }
+    console.log("详情载入:"+this.url)
+  }
+
+  onBack(){
+      if(this.state.canGoBack){
+        this.webView.goBack();
+      }else{
+        NavigationUtil.goBack(this.props.navigation)
+      }
+  }
+
+  onNavigationStateChange(e){
+    console.log(e)
+    this.setState({
+      canGoBack:e.canGoBack,
+      url:e.url
+    })
+  }
+
+  renderRightButton(){
+    return (<View style={{flexDirection:"row"}}>
+        <TouchableOpacity
+        onPress={()=>{}}>
+            <FontAwesome
+                name={'star-o'}
+                size={20}
+                style={{color:'white',marginRight:10}}
+            />
+        </TouchableOpacity>
+        {ViewUtil.getShareButton(()=>{
+
+        })}
+    </View>)
+  }
+
   render() {
+    let navigationBar = <NavigationBar
+      leftButton={ViewUtil.getLeftBackButton(()=>this.onBack())}
+      title={this.state.title}
+      // statusBar = {statusBar}
+      style={{backgroundColor:THEME_COLOR}}
+      rightButton={this.renderRightButton()}
+   />
+
     return (
       <View style={styles.container}>
-          <Text style={styles.welcome}>
-          DetailPage
-          </Text>
+          {navigationBar}
+
+          <View style={{width:"100%",height:"100%",overflow:'hidden'}}>
+          <WebView
+            ref={webView=>this.webView=webView}
+            startInLoadingState={true}
+            onNavigationStateChange={e=>{
+              this.onNavigationStateChange(e)
+            }}
+            
+            source={{uri:this.state.url}}
+          />
+
+          </View>
+          
       </View>
     );
   }
@@ -25,9 +94,9 @@ export default class DetailPage extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

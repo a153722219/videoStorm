@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Button,TouchableOpacity} from 'react-native';
-import NavigationBar from '../common/Navigationbar';
+import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil'
 const THEME_COLOR = "#678";
 import Ionicons from 'react-native-vector-icons/Ionicons';

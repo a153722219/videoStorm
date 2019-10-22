@@ -14,7 +14,7 @@ import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import actions from '../action/index'
 import TrendingItem from "../common/TrendingItem";
 import Toast from 'react-native-easy-toast';
-import NavigationBar from '../common/Navigationbar';
+import NavigationBar from '../common/NavigationBar';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import TrendingDialog,{TimeSpans} from '../common/TrendingDialog'
 const THEME_COLOR　=　"#678";

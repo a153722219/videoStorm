@@ -91,7 +91,7 @@ export default  class  DataStorage{
     fetchData(url,flag){
         return new Promise((resolve, reject) => {
             this.fetchLocalData(url).then((wrapData) => {
-                if (wrapData && DataStore.checkTimestampValid(wrapData.timestamp)) {
+                if (wrapData && DataStorage.checkTimestampValid(wrapData.timestamp)) {
                     resolve(wrapData)
                 } else {
                     this.fetchNetData(url,flag)
