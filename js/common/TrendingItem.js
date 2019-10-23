@@ -9,16 +9,15 @@ import HTMLView from 'react-native-htmlview';
 import BaseItem from './BaseItem'
 export default class TrendingItem extends BaseItem{
     render(){
-        const {projectModal} = this.props;
-        const {item} = projectModal;
+        const {projectModel} = this.props;
+        const {item} = projectModel;
         if(!item) return null
-
-
 
         let description = '<p>'+item.description+"</p>";
         return(
             <TouchableOpacity
-                onPress={this.props.onSelect}
+                style={{minWidth:"100%"}}
+                onPress={()=>this.onItemClick()}
             >
                 <View style={styles.cellContainer}>
                     <Text style={styles.title}>{item.fullName}</Text>

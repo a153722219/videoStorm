@@ -3,23 +3,23 @@
  */
 import Types from "../types";
 import DataStorage from "../../expand/dao/DataStorage"
-import {handleData} from '../ActionUtil'
+import {handleData,_projectModels} from '../ActionUtil'
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 //获取最热数据action
-export function onRefreshTrending(storeName,url,pageSize) {
+export function onRefreshTrending(storeName,url,pageSize,favoriteDao) {
 
     return dispatch=>{
         dispatch({type:Types.TRENDING_REFRESH,storeName});
         let dataStore = new DataStorage();
         dataStore.fetchData(url,FLAG_STORAGE.flag_trending).then(data=>{
-            handleData(Types.TRENDING_REFRESH_SUCCESS,dispatch,storeName,data,pageSize);
+            handleData(Types.TRENDING_REFRESH_SUCCESS,dispatch,storeName,data,pageSize,favoriteDao);
         }).catch(err=>{
             console.log(err);
             dispatch({type:Types.TRENDING_REFRESH_FAIL,storeName,error:err});
         })
     }
 }
-export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],callBack) {
+export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],favoriteDao,callBack) {
     console.log(pageIndex)
     return dispatch=>{
         setTimeout(()=>{//模拟网络请求
@@ -33,19 +33,22 @@ export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],cal
                     error:"no More",
                     storeName,
                     pageIndex:--pageIndex,
-                    projectModel:dataArray
+                    // projectModel:dataArray
                 });
 
             }else{
                 //本次可载入的最大数据量
                 let max = pageSize * pageIndex > dataArray.length?dataArray.length:pageSize * pageIndex;
                  // console.log(storeName,pageIndex,pageSize,dataArray,callBack)
-                dispatch({
-                    type:Types.TRENDING_LOAD_MORE_SUCCESS,
-                    storeName,
-                    pageIndex,
-                    projectModel:dataArray.slice(0,max)
-                });
+                _projectModels(dataArray.slice(0,max),favoriteDao,projectModel=>{
+
+                    dispatch({
+                        type:Types.TRENDING_LOAD_MORE_SUCCESS,
+                        storeName,
+                        pageIndex,
+                        projectModel
+                    });
+                })
             }
 
         },500)

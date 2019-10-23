@@ -8,13 +8,14 @@ import FontAwesome  from "react-native-vector-icons/FontAwesome"
 import BaseItem from './BaseItem'
 export default class PopularItem extends BaseItem{
     render(){
-        const {projectModal} = this.props;
-        const {item} = projectModal;
+        const {projectModel} = this.props;
+        const {item} = projectModel;
         if(!item || !item.owner) return null
 
         return(
             <TouchableOpacity
-                onPress={this.props.onSelect}
+                style={{minWidth:"100%"}}
+                onPress={()=>this.onItemClick()}
             >
                 <View style={styles.cellContainer}>
                     <Text style={styles.title}>{item.full_name}</Text>

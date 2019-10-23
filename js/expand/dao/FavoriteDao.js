@@ -10,10 +10,13 @@ export default  class FavoriteDao{
     }
 
     saveFavoriteItem(key,vaule,callback) {
-        AsyncStorage.setItem(key,vaule,(error,result)=>{
+        console.log(key,vaule)
+        AsyncStorage.setItem(key.toString(),vaule,(error,result)=>{
             if (!error) {//更新Favorite的key
-                this.updateFavoriteKeys(key,true);
+                this.updateFavoriteKeys(key.toString(),true);
             }
+        }).catch(e=>{
+            console.log(e)
         });
     }
 
@@ -28,9 +31,9 @@ export default  class FavoriteDao{
                 if (result) {
                     favoriteKeys=JSON.parse(result);
                 }
-                var index=favoriteKeys.indexOf(key);
+                var index=favoriteKeys.indexOf(key.toString());
                 if(isAdd){
-                    if (index===-1)favoriteKeys.push(key);
+                    if (index===-1)favoriteKeys.push(key.toString());
                 }else {
                     if (index!==-1)favoriteKeys.splice(index, 1);
                 }
@@ -60,9 +63,9 @@ export default  class FavoriteDao{
     * */
 
     removeFavoriteItem(key){
-        AsyncStorage.removeItem(key,(err,result)=>{
-            if(!error){
-                this.updateFavoriteKeys(key,false)
+        AsyncStorage.removeItem(key.toString(),(err,result)=>{
+            if(!err){
+                this.updateFavoriteKeys(key.toString(),false)
             }
         })
     }
@@ -83,6 +86,7 @@ export default  class FavoriteDao{
                                 let value = store[i][1];
                                 if (value)items.push(JSON.parse(value));
                             });
+                            console.log(items)
                             resolve(items);
                         } catch (e) {
                             reject(e);
