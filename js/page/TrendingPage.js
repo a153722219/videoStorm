@@ -16,7 +16,9 @@ import TrendingItem from "../common/TrendingItem";
 import Toast from 'react-native-easy-toast';
 import NavigationBar from '../common/NavigationBar';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
-import TrendingDialog,{TimeSpans} from '../common/TrendingDialog'
+import TrendingDialog,{TimeSpans} from '../common/TrendingDialog';
+import NavigationUtil from '../navigator/NavigationUtil';
+
 const THEME_COLOR　=　"#678";
 const EVENT_TIME_SPAN_CHANGE = "EVENT_TIME_SPAN_CHANGE";
 export default class TrendingPage extends Component{
@@ -27,7 +29,10 @@ export default class TrendingPage extends Component{
             timeSpan:TimeSpans[0]
         }
     }
-
+    /**
+     * 渲染tab
+     * 
+     */
     _genTab(){
         const tabs = {};
         this.tabNames.forEach((item,index)=>{
@@ -41,7 +46,9 @@ export default class TrendingPage extends Component{
         });
         return tabs;
     }
-
+    /**
+     * 选中时间区间事件
+     */
     onSelectTimeSpan(tab){
         this.dialog.dismiss();
         this.setState({
@@ -49,7 +56,9 @@ export default class TrendingPage extends Component{
         })
         DeviceEventEmitter.emit(EVENT_TIME_SPAN_CHANGE,tab);
     }
-
+    /**
+     * 渲染顶部弹框
+     */
     renderTrendingDialog(){
         return <TrendingDialog
             ref={dialog=>this.dialog=dialog}
@@ -180,7 +189,9 @@ class TrendingTab extends Component{
         return <TrendingItem
             item={item}
             onSelect={()=>{
-
+                    NavigationUtil.goPage({
+                        projectModel:item
+                    },"DetailPage")
                 }
             }
         />

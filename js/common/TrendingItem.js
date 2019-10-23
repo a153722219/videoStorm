@@ -6,22 +6,14 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity,RefreshControl,Image} from 'react-native';
 import FontAwesome  from "react-native-vector-icons/FontAwesome"
 import HTMLView from 'react-native-htmlview';
-export default class TrendingItem extends Component{
+import BaseItem from './BaseItem'
+export default class TrendingItem extends BaseItem{
     render(){
-        const {item} = this.props;
+        const {projectModal} = this.props;
+        const {item} = projectModal;
         if(!item) return null
 
-        let favoriteButton =
-            <TouchableOpacity
-                style={{padding:6}}
-                onPress={()=>{
-                    }
-                }
-                underlayColor={'transparent'}
-            >
 
-            <FontAwesome name={'star'} size={26} style={{color:'red'}}/>
-        </TouchableOpacity>
 
         let description = '<p>'+item.description+"</p>";
         return(
@@ -62,7 +54,7 @@ export default class TrendingItem extends Component{
                             <Text>Star:</Text>
                             <Text>{item.starCount}</Text>
                         </View>
-                        {favoriteButton}
+                        {this._favoriteIcon()}
                     </View>
 
 
