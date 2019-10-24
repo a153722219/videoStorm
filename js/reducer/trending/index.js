@@ -66,6 +66,14 @@ export  default function onAction(state=defaultState,action) {
                     pageIndex:action.pageIndex
                 }
             };
+        case Types.FLUSH_TRENDING_FAVORITE://刷新收藏状态
+            return {
+                ...state,
+                [action.storeName]:{
+                    ...state[action.storeName],
+                    projectModel:action.projectModel
+                }
+            };
         default: return state;
     }
 }

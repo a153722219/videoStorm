@@ -21,7 +21,8 @@ export function onLoadFavoriteData(flag,isShowLoading) {
             dispatch({
                 type:Types.FAVORITE_LOAD_SUCCESS,
                 projectModels:resultData,
-                storeName:flag
+                storeName:flag,
+                isLoading:isShowLoading
             })
         }).catch(e=>{
             console.log(e)

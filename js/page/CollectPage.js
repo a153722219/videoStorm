@@ -21,7 +21,9 @@ const THEME_COLOR　=　"#678";
 import FavoriteDao from '../expand/dao/FavoriteDao';
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 import  FavoriteUtil from '../util/FavoriteUtil';
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
+import EventBus from 'react-native-event-bus'
+import EventTypes from '../util/EventTypes'
 export default class CollectPage extends Component{
     constructor(props){
         super(props)
@@ -62,7 +64,7 @@ export default class CollectPage extends Component{
             tabBarOptions:{
                 tabStyle:styles.tabstyle,
                 upperCaseLabel:false,
-                scrollEnabled:true,
+                // scrollEnabled:true,
                 animationEnabled: true,
                 style:{
                     backgroundColor: "#678" //背景颜色
@@ -89,19 +91,32 @@ class CollectTab extends Component{
 
     componentDidMount() {
         this.loadData();
+        EventBus.getInstance().addListener(EventTypes.bottom_tab_select,this.listenr=(data)=>{
+            if(data.to===2){
+                this.loadData(false)
+            }
+        })
+    }
+
+    componentWillUnmount() {
+        EventBus.getInstance().removeListener(this.listenr)
     }
 
     loadData(isShowLoading){
 
         const {onLoadFavoriteData} = this.props;
-
-
         onLoadFavoriteData(this.storeName,isShowLoading)
-
 
     }
 
-
+    onFavorite(item,isFavorite){
+        FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,this.storeName)
+        if(this.storeName===FLAG_STORAGE.flag_popular){
+            EventBus.getInstance().fireEvent(EventTypes.favorite_change_popular)
+        }else{
+            EventBus.getInstance().fireEvent(EventTypes.favorite_change_trending)
+        }
+    }
     renderItem(data){
 
         const item = data.item;
@@ -121,7 +136,8 @@ class CollectTab extends Component{
             }
             onFavorite={
                 (item,isFavorite)=>{
-                    FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,this.storeName)
+                    this.onFavorite(item,isFavorite)
+
                 }
             }
         />
@@ -211,7 +227,7 @@ const styles = StyleSheet.create({
         backgroundColor:"white"
     },
     tabstyle:{
-        width:100
+        // width:100
     },
     container: {
         flex: 1,

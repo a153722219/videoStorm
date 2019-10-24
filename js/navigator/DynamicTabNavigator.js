@@ -25,7 +25,8 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import Entypo from "react-native-vector-icons/Entypo"
 import NavigationUtil from '../navigator/NavigationUtil'
 import {connect} from 'react-redux';
-
+import EventBus from 'react-native-event-bus'
+import EventTypes from '../util/EventTypes'
 const Tabs = { //这里配置页面路由
     PopularPage:{
         screen:PopularPage,
@@ -102,7 +103,15 @@ const Tabs = { //这里配置页面路由
         if(!this.Tab)
              this.Tab = createAppContainer(this._tabNavigator());
         const Tab = this.Tab;
-        return <Tab/>
+        return <Tab
+            onNavigationStateChange={(prevState,newState,action)=>{
+                EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
+                    from:prevState.index,
+                    to:newState.index
+                })
+                }
+            }
+        />
     }
 }
 
