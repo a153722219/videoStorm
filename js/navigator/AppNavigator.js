@@ -8,9 +8,12 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
+import WebViewPage from '../page/WebViewPage'
 import FetchDemoPage from '../page/FetchDemoPage'
 import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import  DataStorageDemoPage from '../page/DataStorageDemoPage'
+import  AboutPage from '../page/about/AboutPage'
+import  AboutMePage from '../page/about/AboutMePage'
 import {connect} from 'react-redux'
 import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
@@ -54,6 +57,24 @@ const MainNavigator = createStackNavigator({
         screen:DataStorageDemoPage,
         navigationOptions:{
             // header:null
+        },
+    },
+    WebViewPage:{
+        screen:WebViewPage,
+        navigationOptions:{
+            header:null
+        },
+    },
+    AboutPage:{
+        screen:AboutPage,
+        navigationOptions:{
+            header:null
+        },
+    },
+    AboutMePage:{
+        screen:AboutMePage,
+        navigationOptions:{
+            header:null
         },
     }
 });
