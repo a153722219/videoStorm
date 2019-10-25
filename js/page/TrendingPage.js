@@ -180,7 +180,7 @@ class TrendingTab extends Component{
         const store = this._store();
         const url =this.genFetchUrl(this.storeName);
         if(loadMore){
-            console.log(pageSize)
+
             onLoadMoreTrending(this.storeName,++store.pageIndex, pageSize,store.items,favoriteDao,(callback)=>{
                 this.refs.toast.show("没有更多了")
             });

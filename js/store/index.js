@@ -15,7 +15,7 @@ const logger = store=>next=>action=>{
     }
     const result = next(action);
     console.log('nextState ',store.getState())
-}
+};
 
 
 const middlewares = [

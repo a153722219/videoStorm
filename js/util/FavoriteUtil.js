@@ -6,7 +6,7 @@ export default class FavoriteUtil{
     static onFavorite(favoriteDao,item,isFavorite,flag){
         // debugger
         const key = flag===FLAG_STORAGE.flag_trending?item.fullName:item.id;
-        console.log(favoriteDao,key,isFavorite)
+
         if(isFavorite){
             favoriteDao.saveFavoriteItem(key,JSON.stringify(item))
         }else{

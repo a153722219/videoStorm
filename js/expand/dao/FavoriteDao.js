@@ -10,7 +10,7 @@ export default  class FavoriteDao{
     }
 
     saveFavoriteItem(key,vaule,callback) {
-        console.log(key,vaule)
+
         AsyncStorage.setItem(key.toString(),vaule,(error,result)=>{
             if (!error) {//更新Favorite的key
                 this.updateFavoriteKeys(key.toString(),true);
@@ -86,7 +86,7 @@ export default  class FavoriteDao{
                                 let value = store[i][1];
                                 if (value)items.push(JSON.parse(value));
                             });
-                            console.log(items)
+
                             resolve(items);
                         } catch (e) {
                             reject(e);

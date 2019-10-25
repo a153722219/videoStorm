@@ -12,10 +12,10 @@ import {Provider} from 'react-redux';
 import AppNavigator from './navigator/AppNavigator';
 import store from './store'
 
-type Props = {};
 
 
-export default class App extends Component<Props> {
+
+export default class App extends Component {
   render() {
     // return <Text>312312</Text>
     return <Provider store={store}>

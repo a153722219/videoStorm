@@ -20,7 +20,7 @@ export function onRefreshTrending(storeName,url,pageSize,favoriteDao) {
     }
 }
 export function onLoadMoreTrending(storeName,pageIndex,pageSize,dataArray=[],favoriteDao,callBack) {
-    console.log(pageIndex)
+
     return dispatch=>{
         setTimeout(()=>{//模拟网络请求
             if((pageIndex-1)*pageSize>=dataArray.length){ //已经加载完全部数据

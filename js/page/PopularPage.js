@@ -111,7 +111,7 @@ class PopularTab extends Component{
 
         const url =this.genFetchUrl(this.storeName);
         if(loadMore){
-            console.log(pageSize)
+
             onLoadMorePopular(this.storeName,++store.pageIndex, pageSize,store.items,favoriteDao,(callback)=>{
                 this.refs.toast.show("没有更多了")
             });
