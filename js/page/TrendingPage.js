@@ -26,13 +26,16 @@ import  FavoriteUtil from '../util/FavoriteUtil';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
-export default class TrendingPage extends Component{
+import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
+ class TrendingPage extends Component{
     constructor(props){
         super(props)
         this.tabNames = ["All","C","C#","PHP","JavaScript"];
         this.state={
             timeSpan:TimeSpans[0]
         }
+        const {onLoadLanguage} = this.props
+        onLoadLanguage(FLAG_LANGUAGE.flag_language)
     }
     /**
      * 渲染tab
@@ -40,14 +43,18 @@ export default class TrendingPage extends Component{
      */
     _genTab(){
         const tabs = {};
-        this.tabNames.forEach((item,index)=>{
-            tabs["tab"+index] = {
-                screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item}/>,
-                navigationOptions:{
-                    title:item
-                }
+        const {languages} = this.props;
+        languages.forEach((item,index)=>{
+            if(item.checked){
+                tabs["tab"+index] = {
+                    screen:props=><TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name}/>,
+                    navigationOptions:{
+                        title:item.name
+                    }
 
+                }
             }
+
         });
         return tabs;
     }
@@ -99,8 +106,9 @@ export default class TrendingPage extends Component{
     }
 
     _tabNav(){
+        const {languages} = this.props;
         if(!this.tabNav) {
-            this.tabNav = createAppContainer(createMaterialTopTabNavigator(this._genTab(),{
+            this.tabNav = languages.length>0?createAppContainer(createMaterialTopTabNavigator(this._genTab(),{
                 swipeEnabled:true,
                 // tabBarPosition:"bottom",
                 tabBarOptions:{
@@ -114,7 +122,7 @@ export default class TrendingPage extends Component{
                     indicatorStyle:styles.indicatorStyle,//指示器样式
                     labelStyle:styles.labelStyle //标签样式
                 }
-            }));
+            })):null;
         }
         return this.tabNav
     }
@@ -134,7 +142,7 @@ export default class TrendingPage extends Component{
      const Tab = this._tabNav();
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
         {navigationBar}
-        <Tab/>
+        {Tab &&  <Tab/>}
         {this.renderTrendingDialog()}
     </View>;
   }
@@ -310,6 +318,16 @@ const mapDisPatchToProps = dispatch=>({
 });
 
 const TrendingTabPage = connect(mapStateToProps,mapDisPatchToProps)(TrendingTab);
+
+
+const mapPopularStateToProps = state => ({
+    languages: state.language.languages  //topNavBar数据
+});
+const mapPopularDispatchToProps = dispatch => ({
+    onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
+});
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapPopularStateToProps, mapPopularDispatchToProps)(TrendingPage);
 
 
 const styles = StyleSheet.create({

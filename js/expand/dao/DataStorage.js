@@ -62,11 +62,12 @@ export default  class  DataStorage{
                     reject(error)
                 })
             }else{
+                console.log("------请求url:"+url);
                new Trending().fetchTrending(url).then(items=>{
                    if(!items){
                        throw new Error("responseData is null");
                    }
-                   console.log("------请求url完成:"+url);
+
                    console.log("------请求结果:",items);
                    this.saveData(url,items);
                    resolve(items)

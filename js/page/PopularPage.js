@@ -21,30 +21,38 @@ import FavoriteDao from '../expand/dao/FavoriteDao';
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 import  FavoriteUtil from '../util/FavoriteUtil';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
+import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
-export default class PopularPage extends Component{
+ class PopularPage extends Component{
     constructor(props){
         super(props)
-        this.tabNames = ["android","ios","java","php","apple","banana","jump","cat"];
-
+        const {onLoadLanguage} = this.props
+        onLoadLanguage(FLAG_LANGUAGE.flag_key)
     }
 
     _genTab(){
         const tabs = {};
-        this.tabNames.forEach((item,index)=>{
-            tabs["tab"+index] = {
-                screen:props=><PopularTabPage {...props} tabLabel={item}/>,
-                navigationOptions:{
-                    title:item
-                }
+        const {keys} = this.props;
+        keys.forEach((item,index)=>{
+            if(item.checked){
+                tabs["tab"+index] = {
+                    screen:props=><PopularTabPage {...props} tabLabel={item.name}/>,
+                    navigationOptions:{
+                        title:item.name
+                    }
 
+                }
             }
+
+
         });
         return tabs;
     }
 
   render() {
+        const {keys} = this.props;
+
         let statusBar = {
             backgroundColor:THEME_COLOR,
             barStyle:'light-content',
@@ -56,7 +64,7 @@ export default class PopularPage extends Component{
         style={{backgroundColor:THEME_COLOR}}
       />
 
-      const TabNavigator = createMaterialTopTabNavigator(this._genTab(),{
+      const TabNavigator = keys.length>0?createAppContainer(createMaterialTopTabNavigator(this._genTab(),{
           swipeEnabled:true,
           // tabBarPosition:"bottom",
           tabBarOptions:{
@@ -70,11 +78,12 @@ export default class PopularPage extends Component{
               indicatorStyle:styles.indicatorStyle,//指示器样式
               labelStyle:styles.labelStyle //标签样式
           }
-      });
-      const Tab = createAppContainer(TabNavigator);
+      })):null;
+
+
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
         {navigationBar}
-        <Tab/>
+        {TabNavigator &&  <TabNavigator/>}
     </View>;
   }
 }
@@ -244,6 +253,15 @@ const mapDisPatchToProps = dispatch=>({
 
 const PopularTabPage = connect(mapStateToProps,mapDisPatchToProps)(PopularTab);
 
+
+const mapPopularStateToProps = state => ({
+    keys: state.language.keys  //topNavBar数据
+});
+const mapPopularDispatchToProps = dispatch => ({
+    onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
+});
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapPopularStateToProps, mapPopularDispatchToProps)(PopularPage);
 
 const styles = StyleSheet.create({
     indicatorContainer:{
