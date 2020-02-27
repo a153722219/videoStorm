@@ -16,7 +16,7 @@ export default class WelcomePage extends Component{
       NavigationUtil.resetToHomePage({
           navigation:this.props.navigation
       })
-
+      //APP欢迎页 不需要可以注释掉timer
     // this.timer=setTimeout(()=>{
     //     // const {navigation} = this.props;
     //     NavigationUtil.resetToHomePage({

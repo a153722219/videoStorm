@@ -24,9 +24,7 @@ const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
-import {i18n} from '../i18n/index';
-
- class HomePage extends Component{
+class ManagePage extends Component{
     constructor(props){
         super(props)
 
@@ -39,47 +37,26 @@ import {i18n} from '../i18n/index';
             barStyle:'light-content',
         };
 
-      let navigationBar = <NavigationBar
-        title={i18n.t('Home')}
-        statusBar = {statusBar}
-        style={{backgroundColor:THEME_COLOR}}
-      />
+        let navigationBar = <NavigationBar
+            title={'管理'}
+            statusBar = {statusBar}
+            style={{backgroundColor:THEME_COLOR}}
+        />
 
 
-    return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
-        {navigationBar}
+        return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
+            {navigationBar}
 
-        <Button title={i18n.t('theme_red')} onPress={()=>{
-            i18n.locale = 'en'
-            this.props.onThemeChange("red");
-            EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
-
-        }}/>
-
-        <Button  title={i18n.t('theme_green')} onPress={()=>{
-            i18n.locale = 'zh'
-            this.props.onThemeChange("green");
-            EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
-
-        }}/>
-
-
-    </View>;
-  }
+        </View>;
+    }
 }
 
+
 const mapStateToProps = state => ({
-    nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
 });
-
-
-const mapDispatchToProps = dispatch=>({
-    onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
-});
-
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps,mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps)(ManagePage);
 
 const styles = StyleSheet.create({
 

@@ -3,6 +3,7 @@ import React,{Component} from 'react'
 import {ViewPropTypes,Text,StatusBar,View,StyleSheet,Platform} from 'react-native'
 import {PropTypes} from 'prop-types'
 const BAR_HEIGHT = 20;
+import {connect} from 'react-redux';
 const IOS_STATUSBAR_HEIGHT = 44;
 const ANDROID_STATUSBAR_HEIGHT = 50;
 const StatusBarShape = {//状态栏所接受的属性
@@ -10,7 +11,7 @@ const StatusBarShape = {//状态栏所接受的属性
     hidden:PropTypes.bool,
     backgroundColor:PropTypes.string
 }
-export default class NavigationBar extends Component{
+ class NavigationBar extends Component{
     //类型检查
     static propTypes = {
         style:ViewPropTypes.style,
@@ -46,7 +47,7 @@ export default class NavigationBar extends Component{
                 </View>
                 {this.getButtonElement(this.props.rightButton)}
             </View>;
-        return <View style={[styles.container,this.props.style]}>
+        return <View style={[styles.container,this.props.style,{backgroundColor:this.props.theme}]}>
                 {statusBar}
                 {content}
         </View>
@@ -59,6 +60,12 @@ export default class NavigationBar extends Component{
     }
 
 }
+
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
+
+export default connect(mapStateToProps)(NavigationBar);
 
 
 

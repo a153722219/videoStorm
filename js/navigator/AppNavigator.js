@@ -6,7 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import WelcomePage from '../page/WelcomePage'
-import HomePage from '../page/HomePage'
+import RootPage from '../page/RootPage'
 import DetailPage from '../page/DetailPage'
 import WebViewPage from '../page/WebViewPage'
 import FetchDemoPage from '../page/FetchDemoPage'
@@ -28,8 +28,8 @@ const InitNavigator = createStackNavigator({
 });
 
 const MainNavigator = createStackNavigator({
-    HomePage:{
-        screen:HomePage,
+    RootPage:{
+        screen:RootPage,
         navigationOptions:{
             header:null,//禁用标题栏
         }
