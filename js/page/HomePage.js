@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, View,DeviceInfo} from 'react-native';
+import {Button, StyleSheet, View,DeviceInfo,Image} from 'react-native';
 import {connect} from "react-redux"
 import {createAppContainer} from "react-navigation";
 import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
@@ -25,9 +25,12 @@ import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
 import {i18n} from '../i18n/index';
 import ToastManager from '../common/ToastManager'
+import {uW, width} from "../util/screenUtil";
+
 
 
  class HomePage extends Component{
+
      static navigationOptions = ({ navigation,navigationOptions}) => {
          const label = i18n.t('Home');
          return {
@@ -37,7 +40,7 @@ import ToastManager from '../common/ToastManager'
 
 
      constructor(props){
-        super(props)
+        super(props);
 
      }
 
@@ -71,20 +74,13 @@ import ToastManager from '../common/ToastManager'
 
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
         {navigationBar}
+        <View style={[styles.backCard,{backgroundColor:this.props.theme}]}>
+            <Image
+                style={styles.banner}
+                source={require('../assets/banner.png')}
+            />
+        </View>
 
-        <Button title={i18n.t('theme_red')} onPress={()=>{
-            i18n.locale = 'en'
-            this.props.onThemeChange("red");
-            EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
-
-        }}/>
-
-        <Button  title={i18n.t('theme_green')} onPress={()=>{
-            i18n.locale = 'zh'
-            this.props.onThemeChange("green");
-            EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
-
-        }}/>
 
 
     </View>;
@@ -96,7 +92,6 @@ const mapStateToProps = state => ({
     theme: state.theme.theme
 });
 
-
 const mapDispatchToProps = dispatch=>({
     onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
 });
@@ -105,5 +100,19 @@ const mapDispatchToProps = dispatch=>({
 export default connect(mapStateToProps,mapDispatchToProps)(HomePage);
 
 const styles = StyleSheet.create({
-
+    backCard:{
+        width:uW*750,
+        height:uW*300,
+        borderBottomLeftRadius:uW*40,
+        borderBottomRightRadius:uW*40,
+        marginTop:-1
+    },
+    banner:{
+        width:uW*694,
+        height:uW*330,
+        borderRadius:uW*10,
+        position:'absolute',
+        bottom:-152*uW,
+        left:28*uW
+    }
 });

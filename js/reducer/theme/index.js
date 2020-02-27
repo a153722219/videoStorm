@@ -4,7 +4,7 @@
 import  Types from '../../action/types'
 
 const defaultState = {
-    theme:"green"
+    theme:"#008385"
 };
 export  default function onAction(state=defaultState,action) {
     switch (action.type){
