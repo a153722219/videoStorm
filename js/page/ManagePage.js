@@ -16,7 +16,7 @@ import PopularItem from "../common/PopularItem";
 import Toast from 'react-native-easy-toast';
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil';
-const THEME_COLOR　=　"#678";
+
 import FavoriteDao from '../expand/dao/FavoriteDao';
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 import  FavoriteUtil from '../util/FavoriteUtil';
@@ -24,7 +24,15 @@ const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
+import {i18n} from '../i18n/index';
 class ManagePage extends Component{
+    static navigationOptions = ({ navigation,navigationOptions}) => {
+        const label = i18n.t('Management');
+        return {
+            tabBarLabel:label
+        }
+    };
+
     constructor(props){
         super(props)
 
@@ -33,19 +41,33 @@ class ManagePage extends Component{
     render() {
 
         let statusBar = {
-            backgroundColor:THEME_COLOR,
+            backgroundColor:this.props.theme,
             barStyle:'light-content',
         };
 
         let navigationBar = <NavigationBar
-            title={'管理'}
+            title={i18n.t('Management')}
             statusBar = {statusBar}
-            style={{backgroundColor:THEME_COLOR}}
+            style={{backgroundColor:this.props.theme}}
         />
 
 
         return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
             {navigationBar}
+
+            <Button title={i18n.t('theme_red')} onPress={()=>{
+                i18n.locale = 'en'
+                this.props.onThemeChange("red");
+                EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+
+            }}/>
+
+            <Button  title={i18n.t('theme_green')} onPress={()=>{
+                i18n.locale = 'zh'
+                this.props.onThemeChange("green");
+                EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+
+            }}/>
 
         </View>;
     }
@@ -55,8 +77,12 @@ class ManagePage extends Component{
 const mapStateToProps = state => ({
     theme: state.theme.theme,
 });
+const mapDispatchToProps = dispatch=>({
+    onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
+});
+
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps)(ManagePage);
+export default connect(mapStateToProps,mapDispatchToProps)(ManagePage);
 
 const styles = StyleSheet.create({
 

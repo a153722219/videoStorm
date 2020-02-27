@@ -10,12 +10,19 @@ import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, View,Button,TouchableOpacity} from 'react-native';
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil'
-const THEME_COLOR = "#678";
 import {MORE_MENU} from '../common/MORE_MENU'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../res/styles/GlobalStyles'
-import ViewUtil from '../util/ViewUtil'
+import ViewUtil from '../util/ViewUtil';
+import {i18n} from '../i18n/index';
+const THEME_COLOR　=　"#678";
 export default class MySelfPage extends Component{
+    static navigationOptions = ({ navigation,navigationOptions}) => {
+        const label = i18n.t('Me');
+        return {
+            tabBarLabel:label
+        }
+    };
 
 
     onClick(menu){

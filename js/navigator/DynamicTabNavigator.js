@@ -35,10 +35,14 @@ import {i18n} from '../i18n/index';
     }
 
      componentDidMount() {
-
-
+         const {navigation} = NavigationUtil;
          EventBus.getInstance().addListener(EventTypes.LANGUAGE_REFRESH,  (this.languageListener = ()=> {
-             this.Tab = createAppContainer(this._tabNavigator());
+             // this.Tab = createAppContainer(this._tabNavigator());
+             //重新渲染颜色
+             navigation.setParams({theme:{
+                 tintColor:this.props.theme,
+                 updateTime:new Date().getTime()
+             }})
          }))
      }
 
@@ -56,10 +60,10 @@ import {i18n} from '../i18n/index';
             HomePage:{
                 screen:HomePage,
                 navigationOptions:{
-                    tabBarLabel:i18n.t('Home'),
+                    title:i18n.t('Home'),
                     tabBarIcon:({tintColor,focused})=>(
-                        <MaterialIcons
-                            name={"whatshot"}
+                        <Ionicons
+                            name={"ios-home"}
                             size={26}
                             style={{color:tintColor}}
                         />
@@ -69,10 +73,10 @@ import {i18n} from '../i18n/index';
             ManagePage:{
                 screen:ManagePage,
                 navigationOptions:{
-                    tabBarLabel:i18n.t('Management'),
+                    title:i18n.t('Management'),
                     tabBarIcon:({tintColor,focused})=>(
                         <Ionicons
-                            name={"md-trending-up"}
+                            name={"ios-folder"}
                             size={26}
                             style={{color:tintColor}}
                         />
@@ -82,14 +86,14 @@ import {i18n} from '../i18n/index';
             MySelfPage:{
                 screen:MySelfPage,
                 navigationOptions:{
-                    tabBarLabel:i18n.t('Me'),
-                    tabBarIcon:({tintColor,focused})=>(
-                        <Entypo
+                    title:i18n.t('Me'),
+                    tabBarIcon:({tintColor,focused})=>{
+                        return <Entypo
                             name={"user"}
                             size={26}
                             style={{color:tintColor}}
                         />
-                    )
+                    }
                 }
             }
         };
@@ -146,6 +150,7 @@ class TabBarComponent extends React.Component{
 
 const mapStateToProps = state => ({
     theme: state.theme.theme,
+    nav: state.nav,
 });
 
 export default connect(mapStateToProps)(DynamicTabNavigator);

@@ -12,19 +12,28 @@ import {Provider} from 'react-redux';
 import AppNavigator from './navigator/AppNavigator';
 import store from './store'
 import { PersistGate } from 'redux-persist/es/integration/react';
-
+import ToastManager from './common/ToastManager'
+import Toast from 'react-native-easy-toast';
 
 export default class App extends Component {
   render() {
     return <Provider store={store.store}>
       <PersistGate persistor={store.persistor}>
         <AppNavigator/>
+        <ToastComponent/>
       </PersistGate>
     </Provider>
   }
 }
+/*全局toast*/
+class ToastComponent extends React.Component {
+    //防止内存泄漏
+    componentWillUnmount() {
+        ToastManager.toast = null;
+    }
 
-const styles = StyleSheet.create({
-
-});
+    render() {
+        return (<Toast  position={'center'} ref={e => ToastManager.toast = e}/>);
+    }
+}
 
