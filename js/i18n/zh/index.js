@@ -1,16 +1,13 @@
 export default {
 
-    theme_red: '红色主题',
+    theme_red: '红色主题 - 英文',
 
-    theme_green: '绿色主题',
+    theme_green: '绿色主题 - 中文',
 
-    lang_en: '切换英文',
-
-    lang_zh: '切换中文',
 
     Home:"首页",
 
-    Management:"首页",
+    Management:"管理",
 
     Me:"我的"
 };

@@ -7,7 +7,8 @@
  */
 
 import React, {Component} from 'react';
-import {TextInput, StyleSheet, Text, View,Button, AsyncStorage} from 'react-native';
+import {TextInput, StyleSheet, Text, View,Button} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
 import DataStorage from "../expand/dao/DataStorage"
 
 const KEY =  "saveKey"

@@ -11,18 +11,20 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Provider} from 'react-redux';
 import AppNavigator from './navigator/AppNavigator';
 import store from './store'
-
-
+import { PersistGate } from 'redux-persist/es/integration/react';
 
 
 export default class App extends Component {
   render() {
-    return <Provider store={store}>
-      <AppNavigator/>
-    </Provider>;
+    return <Provider store={store.store}>
+      <PersistGate persistor={store.persistor}>
+        <AppNavigator/>
+      </PersistGate>
+    </Provider>
   }
 }
 
 const styles = StyleSheet.create({
 
 });
+

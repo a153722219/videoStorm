@@ -9,6 +9,7 @@ import favorite from './favorite'
 import language from './language'
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 
+
 //1.指定默认state
 const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
 

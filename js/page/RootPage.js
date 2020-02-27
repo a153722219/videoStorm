@@ -19,6 +19,10 @@ import {
 import NavigationUtil from '../navigator/NavigationUtil'
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
 import BackPressComponent from '../common/BackPressComponent';
+import {i18n} from '../i18n/index';
+import EventBus from 'react-native-event-bus'
+import EventTypes from '../util/EventTypes'
+
  class RootPage extends Component{
   constructor(props){
     super(props)
@@ -27,9 +31,20 @@ import BackPressComponent from '../common/BackPressComponent';
     });
   }
 
+     componentWillMount(){
+         console.log('初始化语言&主题....')
+         i18n.locale = 'en'
+         if(this.props.theme=="red"){
+             i18n.locale = 'en'
+         }else{
+             i18n.locale = 'zh'
+         }
+         EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+     }
 
-    componentDidMount() {
+     componentDidMount() {
        this.backPress.componentDidMount();
+
     }
 
     componentWillUnmount() {
@@ -61,6 +76,7 @@ import BackPressComponent from '../common/BackPressComponent';
 
 const mapStateToProps = state => ({
     nav: state.nav,
+    theme: state.theme.theme
 });
 
 export default connect(mapStateToProps)(RootPage);

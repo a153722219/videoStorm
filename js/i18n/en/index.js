@@ -1,12 +1,8 @@
 export default {
 
-    theme_red: 'Theme Red',
+    theme_red: 'Theme Red - English',
 
-    theme_green: 'Theme Green',
-
-    lang_en: 'English',
-
-    lang_zh: 'Chinese',
+    theme_green: 'Theme Green - Chinese',
 
     Home:"Home",
 

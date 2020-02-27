@@ -2,7 +2,7 @@
  * Created by Administrator on 2019/10/23.
  */
 const KEY_PREFIX = 'favorite_';
-import {AsyncStorage} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 export default  class FavoriteDao{
     constructor(flag){
         this.favoriteKey = KEY_PREFIX+flag

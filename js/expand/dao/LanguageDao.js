@@ -5,7 +5,7 @@
  * flag_language:趋势模块
  * flag_key:最热模块
  */
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import keys from '../../res/data/keys.json';   //趋势模块的topNavBar
 import langs from '../../res/data/langs.json';   //最热模块的topNavBar
 export const FLAG_LANGUAGE = {flag_language: 'language_dao_language', flag_key: 'language_dao_key'}
