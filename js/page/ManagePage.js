@@ -57,16 +57,17 @@ class ManagePage extends Component{
 
             <Button title={i18n.t('theme_red')} onPress={()=>{
                 i18n.locale = 'en'
-                this.props.onThemeChange("#008385");
+                this.props.onThemeChange("#EF7622");
                 EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+
 
             }}/>
 
             <Button  title={i18n.t('theme_green')} onPress={()=>{
-                i18n.locale = 'zh'
-                this.props.onThemeChange("#EF7622");
-                EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
 
+                i18n.locale = 'zh'
+                this.props.onThemeChange("#008385");
+                EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
             }}/>
 
         </View>;

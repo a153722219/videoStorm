@@ -1,6 +1,6 @@
 import i18n from 'react-native-i18n';
 
-import en from './en';
+import en from './zh'; //暂时用中文 后面复制字典翻译
 
 import zh from './zh';
 

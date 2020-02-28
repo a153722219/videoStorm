@@ -33,8 +33,8 @@ import EventTypes from '../util/EventTypes'
 
      componentWillMount(){
          console.log('初始化语言&主题....')
-         i18n.locale = 'en'
-         if(this.props.theme=="red"){
+         i18n.locale = 'zh'
+         if(this.props.theme=="#EF7622"){
              i18n.locale = 'en'
          }else{
              i18n.locale = 'zh'

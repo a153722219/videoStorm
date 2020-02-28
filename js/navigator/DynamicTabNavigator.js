@@ -19,7 +19,6 @@ import { createBottomTabNavigator,BottomTabBar} from 'react-navigation-tabs';
 import HomePage from '../page/HomePage'
 import ManagePage from '../page/ManagePage'
 import MySelfPage from '../page/MySelfPage'
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import Entypo from "react-native-vector-icons/Entypo"
 import NavigationUtil from '../navigator/NavigationUtil'

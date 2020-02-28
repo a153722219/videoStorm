@@ -7,13 +7,10 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, View,DeviceInfo,Image} from 'react-native';
+import {Button, StyleSheet, View,DeviceInfo,Image,Text,TouchableOpacity} from 'react-native';
 import {connect} from "react-redux"
-import {createAppContainer} from "react-navigation";
-import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import NetInfo from "@react-native-community/netinfo";
 import actions from '../action/index'
-import PopularItem from "../common/PopularItem";
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil';
 import FavoriteDao from '../expand/dao/FavoriteDao';
@@ -26,7 +23,7 @@ import EventTypes from '../util/EventTypes'
 import {i18n} from '../i18n/index';
 import ToastManager from '../common/ToastManager'
 import {uW, width} from "../util/screenUtil";
-
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 
  class HomePage extends Component{
@@ -38,10 +35,33 @@ import {uW, width} from "../util/screenUtil";
          }
      };
 
+     static HomeMenus = [
+         {
+             src:require('../assets/zh/卡航.png'),
+             label:'kahang',
+             disabled:false
+         },
+         {
+             src:require('../assets/zh/海外仓.png'),
+             label:'haiwaicang',
+             disabled:true
+         },
+         {
+             src:require('../assets/zh/CIMS.png'),
+             label:'CIMS',
+             disabled:true
+         },
+         {
+             src:require('../assets/zh/AP.png'),
+             label:'AP',
+             disabled:true
+         }
+
+     ];
+
 
      constructor(props){
         super(props);
-
      }
 
      componentDidMount(){
@@ -66,7 +86,7 @@ import {uW, width} from "../util/screenUtil";
         };
 
       let navigationBar = <NavigationBar
-        title={i18n.t('Home')}
+        title={''}
         statusBar = {statusBar}
         style={{backgroundColor:this.props.theme}}
       />
@@ -75,10 +95,54 @@ import {uW, width} from "../util/screenUtil";
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
         {navigationBar}
         <View style={[styles.backCard,{backgroundColor:this.props.theme}]}>
+            <View style={styles.searchBar}>
+                <Image
+                    style={styles.smallIcon}
+                    source={require('../assets/zh/home-搜索.png')}
+                />
+                <Text style={styles.searchText}>
+
+                    {i18n.t('searchText')}
+                </Text>
+
+                <Image
+                    style={styles.smallIcon}
+                    source={require('../assets/zh/home-扫描.png')}
+                />
+
+            </View>
             <Image
+
                 style={styles.banner}
                 source={require('../assets/banner.png')}
             />
+        </View>
+
+
+        <View style={styles.HomeMenuContainer}>
+
+            { HomePage.HomeMenus.map((item,index)=>{
+                return <TouchableOpacity  onPress={()=>{
+                            if(item.disabled){
+                                ToastManager.show(i18n.t('building'))
+                            }else if(index==0){
+                                //do something
+
+                            }
+                        }}>
+                            <View style={item.disabled?[styles.MenuItem,styles.ItemDisable]:styles.MenuItem} key={index}  >
+                                <Image
+                                    style={styles.ItemImg}
+                                    source={item.src}
+                                />
+                                <Text style={styles.ItemText} >
+                                    {i18n.t(item.label)}
+                                </Text>
+                            </View>
+                </TouchableOpacity>
+            })}
+
+
         </View>
 
 
@@ -114,5 +178,54 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom:-152*uW,
         left:28*uW
+    },
+    searchBar:{
+        width:uW*694,
+        height:uW*86,
+        borderRadius:uW*43,
+        marginLeft:28*uW,
+        backgroundColor:'rgba(255,255,255,0.2)',
+        // opacity:0.2,
+        flexDirection:'row',
+        alignItems:"center"
+    },
+    searchText:{
+        fontSize:24*uW,
+        fontWeight:"400",
+        width:uW*(694-162),
+        color:'rgba(255,255,255,0.2)',
+    },
+
+    smallIcon:{
+        width:uW*31,
+        height:uW*31,
+        opacity:1,
+        marginLeft:25*uW,
+        marginRight:25*uW
+    },
+    HomeMenuContainer:{
+        // backgroundColor:"red",
+        marginTop:228*uW,
+        width:uW*646,
+        marginLeft:52*uW,
+        flexDirection:'row',
+        justifyContent:'space-between'
+
+    },
+    MenuItem:{
+        width:92*uW
+    },
+    ItemImg:{
+        width:92*uW,
+        height:92*uW,
+    },
+    ItemText:{
+        textAlign:'center',
+        color:"#333",
+        fontSize:24*uW,
+        fontWeight:"400"
+    },
+    ItemDisable:{
+        opacity:0.2
     }
 });
