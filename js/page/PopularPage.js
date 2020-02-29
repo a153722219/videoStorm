@@ -77,7 +77,8 @@ import EventTypes from '../util/EventTypes'
               },
               indicatorStyle:styles.indicatorStyle,//指示器样式
               labelStyle:styles.labelStyle //标签样式
-          }
+          },
+          lazy:true
       })):null;
 
 

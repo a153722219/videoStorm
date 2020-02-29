@@ -24,6 +24,7 @@ import FavoriteDao from '../expand/dao/FavoriteDao';
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 import  FavoriteUtil from '../util/FavoriteUtil';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
+import ArrayUtil from '../util/ArrayUtil'
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
 import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
@@ -36,6 +37,7 @@ import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
         }
         const {onLoadLanguage} = this.props
         onLoadLanguage(FLAG_LANGUAGE.flag_language)
+        this.preKeys=[]
     }
     /**
      * 渲染tab
@@ -44,6 +46,7 @@ import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
     _genTab(){
         const tabs = {};
         const {languages} = this.props;
+        this.preKeys = languages;
         languages.forEach((item,index)=>{
             if(item.checked){
                 tabs["tab"+index] = {
@@ -107,7 +110,7 @@ import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
 
     _tabNav(){
         const {languages} = this.props;
-        if(!this.tabNav) {
+        if(!this.tabNav || !ArrayUtil.isEqual(this.preKeys,languages)) {
             this.tabNav = languages.length>0?createAppContainer(createMaterialTopTabNavigator(this._genTab(),{
                 swipeEnabled:true,
                 // tabBarPosition:"bottom",
@@ -121,7 +124,8 @@ import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
                     },
                     indicatorStyle:styles.indicatorStyle,//指示器样式
                     labelStyle:styles.labelStyle //标签样式
-                }
+                },
+                lazy:true
             })):null;
         }
         return this.tabNav

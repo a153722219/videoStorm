@@ -14,6 +14,7 @@ import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import  DataStorageDemoPage from '../page/DataStorageDemoPage'
 import  AboutPage from '../page/about/AboutPage'
 import  AboutMePage from '../page/about/AboutMePage'
+import  CustomKeyPage from '../page/CustomKeyPage'
 import {connect} from 'react-redux'
 import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
@@ -73,6 +74,12 @@ const MainNavigator = createStackNavigator({
     },
     AboutMePage:{
         screen:AboutMePage,
+        navigationOptions:{
+            header:null
+        },
+    },
+    CustomKeyPage:{
+        screen:CustomKeyPage,
         navigationOptions:{
             header:null
         },

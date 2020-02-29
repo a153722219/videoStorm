@@ -5,6 +5,20 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 export default class ViewUtil{
 
     /**
+     * 右侧文字按钮
+     * @param title
+     * @param callBack
+     * @returns {XML}
+     */
+    static getRightButton(title, callBack) {
+        return <TouchableOpacity
+            style={{ alignItems: 'center', }}
+            onPress={callBack}>
+            <Text style={{ fontSize: 20, color: '#FFFFFF', marginRight: 10 }}>{title}</Text>
+        </TouchableOpacity>
+    }
+
+    /**
      * 获取设置页的Item
      * @param callBack 单击item的回调
      * @param text 显示的文本
