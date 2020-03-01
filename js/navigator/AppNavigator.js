@@ -4,7 +4,6 @@ import {
 } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-
 import WelcomePage from '../page/WelcomePage'
 import RootPage from '../page/RootPage'
 import DetailPage from '../page/DetailPage'

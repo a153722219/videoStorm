@@ -16,7 +16,8 @@ import autoMergeLevel1  from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 const config = {
     key: 'root',
     storage:AsyncStorage,
-    stateReconciler:autoMergeLevel1
+    stateReconciler:autoMergeLevel1,
+    blacklist:['nav']
 };
 
 
