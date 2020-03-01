@@ -12,10 +12,11 @@ import NavigationUtil from '../navigator/NavigationUtil';
 
 
 export default class WelcomePage extends Component{
-  componentDidMount(){
-      NavigationUtil.resetToHomePage({
-          navigation:this.props.navigation
-      })
+    componentDidMount(){
+      
+      // NavigationUtil.resetToHomePage({
+      //     navigation:this.props.navigation
+      // })
       //APP欢迎页 不需要可以注释掉timer
     // this.timer=setTimeout(()=>{
     //     // const {navigation} = this.props;
@@ -25,7 +26,7 @@ export default class WelcomePage extends Component{
     // },1000)
   }
   componentWillUnmount(){
-    this.timer && clearTimeout(this.timer);
+    // this.timer && clearTimeout(this.timer);
   }
 
 

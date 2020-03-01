@@ -65,7 +65,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
      }
 
      componentDidMount(){
-        console.log('mount')
+
          const unsubscribe = NetInfo.addEventListener(state=> {
              ToastManager.show('type='+ state.type +' isConnected = '+ state.isConnected);
          });
@@ -122,7 +122,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
         <View style={styles.HomeMenuContainer}>
 
             { HomePage.HomeMenus.map((item,index)=>{
-                return <TouchableOpacity  onPress={()=>{
+                return <TouchableOpacity  key={index}    onPress={()=>{
                             if(item.disabled){
                                 ToastManager.show(i18n.t('building'))
                             }else if(index==0){
@@ -130,7 +130,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 
                             }
                         }}>
-                            <View style={item.disabled?[styles.MenuItem,styles.ItemDisable]:styles.MenuItem} key={index}  >
+                            <View style={item.disabled?[styles.MenuItem,styles.ItemDisable]:styles.MenuItem}>
                                 <Image
                                     style={styles.ItemImg}
                                     source={item.src}
