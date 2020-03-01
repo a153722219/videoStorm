@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
     marginTop:235 * uW
   },
   logoImg:{
-    width:244 * uW,
-    height:68 * uW,
+    width:280 * uW,
+    height:74 * uW,
   },
   main:{
     marginTop:56 * uW,
