@@ -69,23 +69,6 @@ class ManagePage extends Component{
             </ImageBackground>
 
 
-
-
-            <Button title={i18n.t('theme_red')} onPress={()=>{
-                i18n.locale = 'en'
-                this.props.onThemeChange("#EF7622");
-                EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
-
-
-            }}/>
-
-            <Button  title={i18n.t('theme_green')} onPress={()=>{
-
-                i18n.locale = 'zh'
-                this.props.onThemeChange("#008385");
-                EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
-            }}/>
-
         </View>;
     }
 }
@@ -95,7 +78,7 @@ const mapStateToProps = state => ({
     theme: state.theme.theme,
 });
 const mapDispatchToProps = dispatch=>({
-    onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
+
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

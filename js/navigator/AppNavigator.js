@@ -12,7 +12,7 @@ import FetchDemoPage from '../page/FetchDemoPage'
 import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import  DataStorageDemoPage from '../page/DataStorageDemoPage'
 import  AboutPage from '../page/about/AboutPage'
-import  AboutMePage from '../page/about/AboutMePage'
+import  ChangeLangPage from '../page/ChangeLangPage'
 import {connect} from 'react-redux'
 import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
@@ -33,49 +33,13 @@ const MainNavigator = createStackNavigator({
             header:null,//禁用标题栏
         }
     },
-    DetailPage:{
-        screen:DetailPage,
+    ChangeLangPage:{
+        screen:ChangeLangPage,
         navigationOptions:{
-             header:null
+            header:null,//禁用标题栏
         }
-    },
-    FetchDemoPage:{
-        screen:FetchDemoPage,
-        navigationOptions:{
-            // header:null
-        }
-    },
-
-    AsyncStorageDemoPage:{
-    screen:AsyncStorageDemoPage,
-        navigationOptions:{
-        // header:null
-            },
-    },
-    DataStorageDemoPage:{
-        screen:DataStorageDemoPage,
-        navigationOptions:{
-            // header:null
-        },
-    },
-    WebViewPage:{
-        screen:WebViewPage,
-        navigationOptions:{
-            header:null
-        },
-    },
-    AboutPage:{
-        screen:AboutPage,
-        navigationOptions:{
-            header:null
-        },
-    },
-    AboutMePage:{
-        screen:AboutMePage,
-        navigationOptions:{
-            header:null
-        },
     }
+
 });
 
 

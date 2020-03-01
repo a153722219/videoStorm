@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View ,Text} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -15,26 +15,50 @@ import {uW, width} from "../util/screenUtil";
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
-//import NavigationUtil from '../navigator/NavigationUtil';
+import NavigationUtil from '../navigator/NavigationUtil';
+import BackPressComponent from '../common/BackPressComponent';
+import ViewUtil from '../util/ViewUtil'
+class ChangeLangPage extends Component {
 
-class PageTemplate extends Component{
-
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.backPress = new BackPressComponent({
+            backPress:()=>this.onBackPress()
+        });
     }
 
-    componentDidMount(){
-
+    componentDidMount() {
+        this.backPress.componentDidMount();
     }
 
     componentWillUnmount() {
-
+        this.backPress.componentWillUnmount();
     };
+
+    //物理返回键
+    onBackPress(){
+        NavigationUtil.goBack(this.props.navigation)
+        return true
+    }
 
 
     render() {
-        return <View >
 
+        let statusBar = {
+            backgroundColor: this.props.theme,
+            barStyle: 'light-content'
+        }
+        let navigationBar =
+            <NavigationBar
+                title={'页面'}
+                statusBar={statusBar}
+                style={{backgroundColor:this.props.theme}}
+                // rightButton={this.getRightButton()}
+                leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation))}
+            />
+
+        return <View >
+            {navigationBar}
             <Text>page</Text>
         </View>;
     }
@@ -46,13 +70,9 @@ const mapStateToProps = state => ({
     theme: state.theme.theme
 });
 
-const mapDispatchToProps = dispatch=>({
-
-});
+const mapDispatchToProps = dispatch => ({});
 
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps,mapDispatchToProps)(PageTemplate);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeLangPage);
 //样式
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});

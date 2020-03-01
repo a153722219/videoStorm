@@ -34,7 +34,7 @@ export default class DetailPage extends Component{
     console.log("详情载入:"+this.url)
     this.backPress = new BackPressComponent({
       backPress:()=>this.onBackPress()
-  });
+    });
   }
 
 

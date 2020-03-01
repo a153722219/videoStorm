@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Text, View,Button,TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, Text, View,Image,TouchableOpacity,ImageBackground} from 'react-native';
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil'
 import {MORE_MENU} from '../common/MORE_MENU'
@@ -15,8 +15,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil';
 import {i18n} from '../i18n/index';
+import {uW, width} from "../util/screenUtil";
 import {connect} from "react-redux"
-
 const THEME_COLOR = "#678"
 class MySelfPage extends Component{
     static navigationOptions = ({ navigation,navigationOptions}) => {
@@ -30,16 +30,16 @@ class MySelfPage extends Component{
     onClick(menu){
         let RouteName,params={};
         switch (menu){
-            case MORE_MENU.Tutorial:
-                RouteName='WebViewPage';
-                params.title="教程";
-                params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
+            case MORE_MENU.Info:
+                // RouteName='WebViewPage';
+                // params.title="教程";
+                // params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
                 break;
-            case MORE_MENU.About:
-                RouteName='AboutPage';
+            case MORE_MENU.Setting:
+                // RouteName='AboutPage';
                 break;
-            case MORE_MENU.About_Author:
-                RouteName='AboutMePage';
+            case MORE_MENU.ChangeLang:
+                RouteName='ChangeLangPage';
                 break;
         }
         if(RouteName){
@@ -48,7 +48,7 @@ class MySelfPage extends Component{
     }
 
     getItem(menu){
-        return ViewUtil.getMenuItem(()=>this.onClick(menu),menu,THEME_COLOR)
+        return ViewUtil.getMenuItem(()=>this.onClick(menu),menu,this.props.theme)
     }
 
 
@@ -72,96 +72,37 @@ class MySelfPage extends Component{
     return (
       <View style={GlobalStyles.root_container}>
           {navigationBar}
-          <ScrollView
+          <ImageBackground style={styles.bgBox} source={i18n.locale=='zh'?require('../assets/zh/我的-bg.png'):require('../assets/en/bg.png')}>
+              {/*<View style={styles.boxFix}>*/}
+              {/*</View>*/}
+              <Image  style={styles.avatar} source={require('../assets/zh/路线预览-logo.png')}>
+
+              </Image>
+
+          </ImageBackground>
+
+          <View style={{marginTop:39*uW,paddingLeft:62*uW,paddingRight:62*uW}}>
+              <Text style={{fontSize:40*uW,fontWeight:'500',marginTop:20*uW,color:"#333333"}}>您好，孙云平</Text>
+              <Text style={{fontSize:26*uW,fontWeight:'400',marginTop:4*uW,color:"#B2B2B2"}}>欢迎进入星云移动</Text>
+
+              <ScrollView
+                  style={{marginTop:134*uW}}
               >
-              <TouchableOpacity
-                  style={styles.item}
-                 onPress={()=>{
-                    this.onClick(MORE_MENU.About)
-                }}
-              >
-                  <View style={styles.about_left}>
-                      <Ionicons
-                          name={MORE_MENU.About.icon}
-                          size={40}
-                          style={{marginRight:40,color:THEME_COLOR}}
 
-                      />
-                      <Text>Github Popular</Text>
+                  <View style={GlobalStyles.line}/>
+                  {this.getItem(MORE_MENU.Info)}
 
-                  </View>
-                  <Ionicons
-                      name={'ios-arrow-forward'}
-                      size={16}
-                      style={{
-                          marginRight:10,
-                          color:THEME_COLOR,
-                          alignSelf:'center'
-                      }}
+                  <View style={GlobalStyles.line}/>
+                  {this.getItem(MORE_MENU.Setting)}
 
-                  />
-              </TouchableOpacity>
-              <View style={GlobalStyles.line}/>
-              {this.getItem(MORE_MENU.Tutorial)}
-              {/*趋势管理*/}
-              <Text style={styles.groupTitle}>趋势管理</Text>
-              {/*自定义语言*/}
-              {this.getItem(MORE_MENU.Custom_Language)}
-              {/*语言排序*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.Sort_Language)}
+                  <View style={GlobalStyles.line}/>
+                  {this.getItem(MORE_MENU.ChangeLang)}
 
-              {/*最热管理*/}
-              <Text style={styles.groupTitle}>最热管理</Text>
-              {/*自定义标签*/}
-              {this.getItem(MORE_MENU.Custom_Key)}
-              {/*标签排序*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.Sort_Key)}
-              {/*标签移除*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.Remove_Key)}
+              </ScrollView>
 
-              {/*设置*/}
-              <Text style={styles.groupTitle}>设置</Text>
-              {/*自定义主题*/}
-              {this.getItem(MORE_MENU.Custom_Theme)}
-              {/*关于作者*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.About_Author)}
-              <View style={GlobalStyles.line} />
-              {/*反馈*/}
-              {this.getItem(MORE_MENU.Feedback)}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.CodePush)}
+          </View>
 
-          </ScrollView>
 
-          {/*<Text style={styles.welcome}>*/}
-          {/*MySelfPage*/}
-          {/*</Text>*/}
-
-        {/*<Text onPress={()=>{*/}
-            {/*NavigationUtil.goPage({*/}
-                {/*navigation:this.props.navigation*/}
-            {/*},"DetailPage")*/}
-        {/*}}>跳转到详情页</Text>*/}
-
-        {/*<Button*/}
-            {/*title="跳转到Fetch页"*/}
-            {/*onPress={()=>{*/}
-                {/*NavigationUtil.goPage({*/}
-                    {/*navigation:this.props.navigation*/}
-                {/*},"FetchDemoPage")*/}
-            {/*}}/>*/}
-
-        {/*<Button*/}
-            {/*title="跳转到AsyncStorage页"*/}
-            {/*onPress={()=>{*/}
-                {/*NavigationUtil.goPage({*/}
-                    {/*navigation:this.props.navigation*/}
-                {/*},"AsyncStorageDemoPage")*/}
-            {/*}}/>*/}
 
         {/*<Button*/}
             {/*title="跳转到DataStorageDemoPage页"*/}
@@ -182,12 +123,19 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(MySelfPage);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
+    bgBox:{
+      width:750*uW,height:323*uW
+    },
+    avatar:{
+        width:166*uW,
+        height:166*uW,
+        borderRadius:83*uW,
+        position:'absolute',
+        left:62*uW,
+        bottom:-39*uW,
+    },
+
+
   welcome: {
     fontSize: 20,
     textAlign: 'center',
