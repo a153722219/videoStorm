@@ -18,17 +18,7 @@ import {uW, width} from "../util/screenUtil";
 
 class WelcomePage extends Component{
     componentDidMount(){
-      
-      // NavigationUtil.resetToHomePage({
-      //     navigation:this.props.navigation
-      // })
-      //APP欢迎页 不需要可以注释掉timer
-    // this.timer=setTimeout(()=>{
-    //     // const {navigation} = this.props;
-    //     NavigationUtil.resetToHomePage({
-    //       navigation:this.props.navigation
-    //     })
-    // },1000)
+  
   }
 
   constructor(props){
@@ -86,7 +76,11 @@ class WelcomePage extends Component{
             placeholderTextColor="#CFCFCF"
             underlineColorAndroid = "#E2E2E2"
           />
-         <TouchableOpacity style={{marginTop:240 * uW}}>
+         <TouchableOpacity style={{marginTop:240 * uW}} onPress={()=>{
+             NavigationUtil.resetToHomePage({
+                 navigation:this.props.navigation
+             })
+         }}>
            <Text style={[styles.myBtn,{backgroundColor:this.props.theme}]}>登录</Text>
          </TouchableOpacity>
         </View>
@@ -122,7 +116,7 @@ const styles = StyleSheet.create({
   },
   logoImg:{
     width:244 * uW,
-    height:68 * uW,
+    height:66 * uW,
   },
   main:{
     marginTop:56 * uW,
@@ -160,7 +154,8 @@ const styles = StyleSheet.create({
     height:40 * uW,
     borderRadius:8* uW,
     textAlign:'center',
-    lineHeight:40 * uW
+    lineHeight:40 * uW,
+    fontSize:22*uW
   },
   activeItem:{
     backgroundColor:'#fff'
