@@ -20,6 +20,12 @@ import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
 class WelcomePage extends Component{
   componentDidMount(){
+    NavigationUtil.resetToHomePage({
+      navigation:this.props.navigation
+    })
+    setTimeout(()=>{
+      NavigationUtil.goPage({},'CarDetailsPage')
+    },500)
         // i18n.locale = 'zh'
   }
 

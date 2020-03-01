@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View,FlatList,ImageBackground,DeviceInfo,Image} from 'react-native';
+import {Button, StyleSheet, Text, View,FlatList,ImageBackground,DeviceInfo,Image,TouchableOpacity} from 'react-native';
 import {connect} from "react-redux"
 import {createAppContainer} from "react-navigation";
 import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
@@ -55,18 +55,21 @@ class ManagePage extends Component{
 
         return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
             {navigationBar}
+            <TouchableOpacity onPress={()=>{
+             NavigationUtil.goPage({},'CarListPage')
+            }}>
+                <ImageBackground style={styles.mCard} source={i18n.locale=='zh'?require('../assets/zh/管理-bg.png'):require('../assets/en/management.png')}>
+                    <View style={styles.iconBox} >
+                        <Image style={styles.carIcon} source={require('../assets/zh/管理-车辆管理.png')}>
 
-            <ImageBackground style={styles.mCard} source={i18n.locale=='zh'?require('../assets/zh/管理-bg.png'):require('../assets/en/management.png')}>
-                <View style={styles.iconBox}>
-                    <Image style={styles.carIcon} source={require('../assets/zh/管理-车辆管理.png')}>
-
-                    </Image>
-                    <View style={styles.dot}></View>
-                </View>
-                <Text style={{fontSize:36*uW,marginTop:45*uW,marginLeft:48*uW,color:'white'}}>
-                    {i18n.t("carManage")}
-                </Text>
-            </ImageBackground>
+                        </Image>
+                        <View style={styles.dot}></View>
+                    </View>
+                    <Text style={{fontSize:36*uW,marginTop:45*uW,marginLeft:48*uW,color:'white'}}>
+                        {i18n.t("carManage")}
+                    </Text>
+                </ImageBackground>
+            </TouchableOpacity>
 
 
         </View>;

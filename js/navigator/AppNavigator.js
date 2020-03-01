@@ -17,6 +17,8 @@ import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import  DataStorageDemoPage from '../page/DataStorageDemoPage'
 import  AboutPage from '../page/about/AboutPage'
 import  ChangeLangPage from '../page/ChangeLangPage'
+import  CarListPage from '../page/CarListPage'
+import  CarDetailsPage from '../page/CarDetailsPage'
 import {connect} from 'react-redux'
 import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
@@ -39,6 +41,18 @@ const MainNavigator = createStackNavigator({
     },
     ChangeLangPage:{
         screen:ChangeLangPage,
+        navigationOptions:{
+            header:null,//禁用标题栏
+        }
+    },
+    CarListPage:{
+        screen:CarListPage,
+        navigationOptions:{
+            header:null,//禁用标题栏
+        }
+    },
+    CarDetailsPage:{
+        screen:CarDetailsPage,
         navigationOptions:{
             header:null,//禁用标题栏
         }

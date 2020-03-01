@@ -42,5 +42,25 @@ export default {
     
     forget:'忘记密码请联系平台管理员',
 
-    copyright:'星云移动APP ︳前海云途出品'
+    copyright:'星云移动APP ︳前海云途出品',
+
+    driving:'驾驶车辆' ,
+    
+    toDayMileage:'今日里程',
+
+    nullCurrentLocal:'当前没有位置信息',
+
+    carDetails:'车辆详情',
+
+    VehicleMileage:'车辆里程',
+
+    VehicleSpeed:'速度',
+
+    OilAmount:'油量',
+
+    TodayRoute:'今日行程',
+
+    TodayRunningTime:'今日运行时长',
+
+    CarDetailsTime:'时间'
 };
