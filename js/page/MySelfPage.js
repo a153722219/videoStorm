@@ -124,7 +124,7 @@ export default connect(mapStateToProps)(MySelfPage);
 
 const styles = StyleSheet.create({
     bgBox:{
-      width:750*uW,height:323*uW
+      width:750*uW,height:323*uW,marginTop:-1
     },
     avatar:{
         width:166*uW,
