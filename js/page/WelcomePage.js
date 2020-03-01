@@ -9,12 +9,14 @@
 import React, {Component} from 'react';
 import {Platform,DeviceInfo, StyleSheet, Text, View,ImageBackground,Image,TouchableOpacity,TextInput,Button} from 'react-native';
 import {StatusBar} from 'react-native';
+//redux
+import {connect} from "react-redux";
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
 
-export default class WelcomePage extends Component{
+class WelcomePage extends Component{
     componentDidMount(){
       
       // NavigationUtil.resetToHomePage({
@@ -94,6 +96,7 @@ export default class WelcomePage extends Component{
   }
 }
 
+
 const mapStateToProps = state => ({
   nav: state.nav,
   theme: state.theme.theme
@@ -102,8 +105,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch=>({
   onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
 });
+
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps,mapDispatchToProps)(WelcomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomePage);
 
 const styles = StyleSheet.create({
   bg:{

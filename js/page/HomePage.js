@@ -139,6 +139,17 @@ import Ionicons from "react-native-vector-icons/Ionicons"
   }
 }
 
+const mapStateToProps = state => ({
+    nav: state.nav,
+    theme: state.theme.theme
+});
+
+const mapDispatchToProps = dispatch=>({
+    onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
+});
+
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage);
 
 const styles = StyleSheet.create({
     backCard:{
