@@ -20,5 +20,7 @@ export default {
 
     AP:"AP",
 
-    building:"该功能正在建设中.."
+    building:"该功能正在建设中..",
+
+    carManage:"车辆管理"
 };

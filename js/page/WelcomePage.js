@@ -9,31 +9,36 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
-
+import NavigationBar from '../common/NavigationBar';
 
 export default class WelcomePage extends Component{
-    componentDidMount(){
-      
-      // NavigationUtil.resetToHomePage({
-      //     navigation:this.props.navigation
-      // })
-      //APP欢迎页 不需要可以注释掉timer
-    // this.timer=setTimeout(()=>{
-    //     // const {navigation} = this.props;
-    //     NavigationUtil.resetToHomePage({
-    //       navigation:this.props.navigation
-    //     })
-    // },1000)
-  }
-  componentWillUnmount(){
-    // this.timer && clearTimeout(this.timer);
-  }
+        componentWillMount(){
+            NavigationUtil.resetToHomePage({
+                navigation:this.props.navigation
+            })
+        }
+
+        componentDidMount(){
+
+
+          //APP欢迎页 不需要可以注释掉timer
+            // this.timer=setTimeout(()=>{
+            //     // const {navigation} = this.props;
+            //     NavigationUtil.resetToHomePage({
+            //       navigation:this.props.navigation
+            //     })
+            // },1000)
+        }
+         componentWillUnmount(){
+            this.timer && clearTimeout(this.timer);
+        }
 
 
   render() {
     return (
-      <View style={styles.container}>
-          <Text style={styles.welcome}>
+      <View>
+
+          <Text>
           WelcomePage
           </Text>
       </View>

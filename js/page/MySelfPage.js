@@ -15,8 +15,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil';
 import {i18n} from '../i18n/index';
-const THEME_COLOR　=　"#678";
-export default class MySelfPage extends Component{
+import {connect} from "react-redux"
+
+const THEME_COLOR = "#678"
+class MySelfPage extends Component{
     static navigationOptions = ({ navigation,navigationOptions}) => {
         const label = i18n.t('Me');
         return {
@@ -52,7 +54,7 @@ export default class MySelfPage extends Component{
 
   render() {
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: this.props.theme,
       barStyle: 'light-content'
      }
 
@@ -60,9 +62,9 @@ export default class MySelfPage extends Component{
 
   let navigationBar =
       <NavigationBar
-          title={'我的'}
+          // title={'我的'}
           statusBar={statusBar}
-          style={{backgroundColor:THEME_COLOR}}
+          style={{backgroundColor:this.props.theme}}
           // rightButton={this.getRightButton()}
           // leftButton={this.getLeftButton()}
       />
@@ -72,66 +74,7 @@ export default class MySelfPage extends Component{
           {navigationBar}
           <ScrollView
               >
-              <TouchableOpacity
-                  style={styles.item}
-                 onPress={()=>{
-                    this.onClick(MORE_MENU.About)
-                }}
-              >
-                  <View style={styles.about_left}>
-                      <Ionicons
-                          name={MORE_MENU.About.icon}
-                          size={40}
-                          style={{marginRight:40,color:THEME_COLOR}}
 
-                      />
-                      <Text>Github Popular</Text>
-
-                  </View>
-                  <Ionicons
-                      name={'ios-arrow-forward'}
-                      size={16}
-                      style={{
-                          marginRight:10,
-                          color:THEME_COLOR,
-                          alignSelf:'center'
-                      }}
-
-                  />
-              </TouchableOpacity>
-              <View style={GlobalStyles.line}/>
-              {this.getItem(MORE_MENU.Tutorial)}
-              {/*趋势管理*/}
-              <Text style={styles.groupTitle}>趋势管理</Text>
-              {/*自定义语言*/}
-              {this.getItem(MORE_MENU.Custom_Language)}
-              {/*语言排序*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.Sort_Language)}
-
-              {/*最热管理*/}
-              <Text style={styles.groupTitle}>最热管理</Text>
-              {/*自定义标签*/}
-              {this.getItem(MORE_MENU.Custom_Key)}
-              {/*标签排序*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.Sort_Key)}
-              {/*标签移除*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.Remove_Key)}
-
-              {/*设置*/}
-              <Text style={styles.groupTitle}>设置</Text>
-              {/*自定义主题*/}
-              {this.getItem(MORE_MENU.Custom_Theme)}
-              {/*关于作者*/}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.About_Author)}
-              <View style={GlobalStyles.line} />
-              {/*反馈*/}
-              {this.getItem(MORE_MENU.Feedback)}
-              <View style={GlobalStyles.line} />
-              {this.getItem(MORE_MENU.CodePush)}
 
           </ScrollView>
 
@@ -172,6 +115,12 @@ export default class MySelfPage extends Component{
     );
   }
 }
+
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
+
+export default connect(mapStateToProps)(MySelfPage);
 
 const styles = StyleSheet.create({
   container: {
