@@ -46,8 +46,7 @@ class WelcomePage extends Component{
   }
 
   componentWillUnmount(){
-   
-    // this.timer && clearTimeout(this.timer);
+
   }
   
   static language = ['中文','English']
@@ -105,7 +104,7 @@ class WelcomePage extends Component{
               placeholderTextColor="#CFCFCF"
               underlineColorAndroid = "#E2E2E2"
             />
-            <TouchableOpacity style={{marginTop:240 * uW}} onPress={()=>{
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:240 * uW}} onPress={()=>{
                 NavigationUtil.resetToHomePage({
                     navigation:this.props.navigation
                 })

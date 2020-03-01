@@ -24,12 +24,12 @@ const config = {
 //自定义中间件
 const logger = store=>next=>action=>{
     if(typeof  action==='funtion'){
-        console.log("dispatching a funtion");
+        // console.log("dispatching a funtion");
     }else {
-        console.log("dispatching ",action);
+        // console.log("dispatching ",action);
     }
     const result = next(action);
-    console.log('nextState ',store.getState())
+    // console.log('nextState ',store.getState())
 };
 
 

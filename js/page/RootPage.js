@@ -67,8 +67,8 @@ import EventTypes from '../util/EventTypes'
 
   render() {
         NavigationUtil.navigation = this.props.navigation;
-      // this.props.navigation.navigate("DetailPage",{})
-        console.log("this.props.navigation",this.props.navigation);
+        // this.props.navigation.navigate("DetailPage",{})
+        //console.log("this.props.navigation",this.props.navigation);
         // const Tab = createAppContainer(DynamicTabNavigator);
         return <DynamicTabNavigator/>
   }

@@ -44,6 +44,7 @@ export default {
 
     copyright:'星云移动APP ︳前海云途出品',
 
+<<<<<<< HEAD
     driving:'驾驶车辆' ,
     
     toDayMileage:'今日里程',
@@ -63,4 +64,13 @@ export default {
     TodayRunningTime:'今日运行时长',
 
     CarDetailsTime:'时间'
+=======
+    searchPlaceHolder:'计划号/订单号',
+
+    cancel:'取消',
+
+    searchHistory:"搜索历史",
+
+    clearBtn:"清除历史搜索"
+>>>>>>> 10ad8c7ca9136f42e6ef183c01b5ec56a6bf0453
 };

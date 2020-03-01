@@ -15,7 +15,7 @@ import WebViewPage from '../page/WebViewPage'
 import FetchDemoPage from '../page/FetchDemoPage'
 import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import  DataStorageDemoPage from '../page/DataStorageDemoPage'
-import  AboutPage from '../page/about/AboutPage'
+import  SearchPage from '../page/SearchPage'
 import  ChangeLangPage from '../page/ChangeLangPage'
 import  CarListPage from '../page/CarListPage'
 import  CarDetailsPage from '../page/CarDetailsPage'
@@ -53,6 +53,12 @@ const MainNavigator = createStackNavigator({
     },
     CarDetailsPage:{
         screen:CarDetailsPage,
+        navigationOptions:{
+            header:null,//禁用标题栏
+        }
+    },
+    SearchPage:{
+        screen:SearchPage,
         navigationOptions:{
             header:null,//禁用标题栏
         }
