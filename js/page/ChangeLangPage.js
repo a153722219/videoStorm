@@ -26,8 +26,9 @@ class ChangeLangPage extends Component {
         this.backPress = new BackPressComponent({
             backPress:()=>this.onBackPress()
         });
+
         this.state={
-            zh:true
+            zh:i18n.locale=='zh'
         }
     }
 
