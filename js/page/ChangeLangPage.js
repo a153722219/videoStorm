@@ -20,7 +20,7 @@ import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
 class ChangeLangPage extends Component {
-
+    
     constructor(props) {
         super(props);
         this.backPress = new BackPressComponent({
