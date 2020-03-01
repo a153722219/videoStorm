@@ -42,5 +42,13 @@ export default {
     
     forget:'忘记密码请联系平台管理员',
 
-    copyright:'星云移动APP ︳前海云途出品'
+    copyright:'星云移动APP ︳前海云途出品',
+
+    searchPlaceHolder:'计划号/订单号',
+
+    cancel:'取消',
+
+    searchHistory:"搜索历史",
+
+    clearBtn:"清除历史搜索"
 };

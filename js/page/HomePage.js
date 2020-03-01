@@ -94,34 +94,37 @@ import Ionicons from "react-native-vector-icons/Ionicons"
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
         {navigationBar}
         <View style={[styles.backCard,{backgroundColor:this.props.theme}]}>
-            <View style={styles.searchBar}>
+            <TouchableOpacity activeOpacity={0.8} onPress={()=>{
+                NavigationUtil.goPage({},"SearchPage")
+            }}>
+                <View style={styles.searchBar}>
+                    <Image
+                        style={styles.smallIcon}
+                        source={require('../assets/zh/home-搜索.png')}
+                    />
+                    <Text style={styles.searchText}>
+                        {i18n.t('searchText')}
+                    </Text>
+
+                    <Image
+                        style={styles.smallIcon}
+                        source={require('../assets/zh/home-扫描.png')}
+                    />
+
+                </View>
+            </TouchableOpacity>
+
                 <Image
-                    style={styles.smallIcon}
-                    source={require('../assets/zh/home-搜索.png')}
+                    style={styles.banner}
+                    source={require('../assets/banner.png')}
                 />
-                <Text style={styles.searchText}>
-
-                    {i18n.t('searchText')}
-                </Text>
-
-                <Image
-                    style={styles.smallIcon}
-                    source={require('../assets/zh/home-扫描.png')}
-                />
-
-            </View>
-            <Image
-
-                style={styles.banner}
-                source={require('../assets/banner.png')}
-            />
         </View>
 
 
         <View style={styles.HomeMenuContainer}>
 
             { HomePage.HomeMenus.map((item,index)=>{
-                return <TouchableOpacity  key={index}    onPress={()=>{
+                return <TouchableOpacity  key={index} activeOpacity={0.8}  onPress={()=>{
                             if(item.disabled){
                                 ToastManager.show(i18n.t('building'))
                             }else if(index==0){
