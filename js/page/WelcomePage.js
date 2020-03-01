@@ -20,21 +20,23 @@ import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
 class WelcomePage extends Component{
   componentDidMount(){
-        i18n.locale = 'zh'
-         if(this.props.theme=="#EF7622"){
-             i18n.locale = 'en'
-         }else{
-             i18n.locale = 'zh'
-         }
-         console.log(i18n.locale)
-         EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+        // i18n.locale = 'zh'
   }
 
   constructor(props){
     super(props);
-    this.state = {
-      active:0
-    }
+
+      if(this.props.theme=="#EF7622"){
+          i18n.locale = 'en'
+      }else{
+          i18n.locale = 'zh'
+      }
+      console.log(i18n.locale)
+      EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+
+      this.state = {
+        active:i18n.locale=="zh"?0:1
+      }
   }
 
   componentWillUnmount(){
