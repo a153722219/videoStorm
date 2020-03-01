@@ -13,6 +13,7 @@ import NetInfo from "@react-native-community/netinfo";
 import actions from '../action/index'
 import NavigationUtil from '../navigator/NavigationUtil';
 import FavoriteDao from '../expand/dao/FavoriteDao';
+import NavigationBar from '../common/NavigationBar';
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 import  FavoriteUtil from '../util/FavoriteUtil';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
@@ -78,6 +79,16 @@ import Ionicons from "react-native-vector-icons/Ionicons"
      };
 
     render() {
+        let statusBar = {
+            backgroundColor:this.props.theme,
+            barStyle:'light-content',
+        };
+
+        let navigationBar = <NavigationBar
+            title={''}
+            statusBar = {statusBar}
+            style={{backgroundColor:this.props.theme}}
+        />
 
 
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
