@@ -20,5 +20,13 @@ export default {
 
     AP:"AP",
 
-    building:"该功能正在建设中.."
+    building:"该功能正在建设中..",
+
+    carManage:"车辆管理",
+
+    ChangeLang:"语言切换",
+
+    zh:"中文",
+
+    en:"英文"
 };

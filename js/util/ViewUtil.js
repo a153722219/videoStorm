@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native'
+import { TouchableOpacity, StyleSheet, View, Text,Image} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
+import {uW, width} from "../util/screenUtil";
 export default class ViewUtil{
 
     /**
@@ -14,18 +14,17 @@ export default class ViewUtil{
      * @param expandableIco 右侧图标
      * @return {XML}
      */
-    static getSettingItem(callBack, text, color, Icons, icon, expandableIco) {
+    static getSettingItem(callBack, text, color,  icon, expandableIco) {
         return (
             <TouchableOpacity
                 onPress={callBack}
                 style={styles.setting_item_container}
             >
                 <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                    {Icons && icon ?    //如果有图标显示图标,没有图标不显示
-                        <Icons
-                            name={icon}
-                            size={16}
-                            style={{ color: color, marginRight: 10 }}
+                    {icon ?    //如果有图标显示图标,没有图标不显示
+                        <Image
+                            source={icon}
+                            style={{width: 32*uW, height: 16, marginRight: 10 }}
                         /> :
                         <View style={{ opacity: 1, width: 16, height: 16, marginRight: 10, }} />
                     }
@@ -51,7 +50,7 @@ export default class ViewUtil{
      * @return {XML}
      */
     static getMenuItem(callBack, menu, color, expandableIco) {
-        return ViewUtil.getSettingItem(callBack, menu.name, color, menu.Icons, menu.icon, expandableIco)
+        return ViewUtil.getSettingItem(callBack, menu.name, color, menu.icon, expandableIco)
     }
 
     static getLeftBackButton(callback){
@@ -61,10 +60,10 @@ export default class ViewUtil{
         >
               <Ionicons
                  name={'ios-arrow-back'}
-                 size={26}
+                 size={22}
                  style={{color:"white"}}
               />
-         
+
         </TouchableOpacity>)
       }
 
@@ -85,8 +84,9 @@ export default class ViewUtil{
 
 const styles = StyleSheet.create({
     setting_item_container: {
-        backgroundColor: 'white',
-        padding: 10, height: 60,
+        // backgroundColor: 'white',
+        // padding: 10,
+        height: 60,
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row'
