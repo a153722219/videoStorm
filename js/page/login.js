@@ -26,5 +26,13 @@ import {uW, width} from "../util/screenUtil";
 import Ionicons from "react-native-vector-icons/Ionicons"
 
 class LoginPage extends Component{
-    
+     constructor(props){
+        super(props);
+     }
+
+     componentDidMount(){}
+
+     componentWillUnmount(){}
+
+     render() {}
 }

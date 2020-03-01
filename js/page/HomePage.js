@@ -11,7 +11,6 @@ import {Button, StyleSheet, View,DeviceInfo,Image,Text,TouchableOpacity} from 'r
 import {connect} from "react-redux"
 import NetInfo from "@react-native-community/netinfo";
 import actions from '../action/index'
-import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil';
 import FavoriteDao from '../expand/dao/FavoriteDao';
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
@@ -80,17 +79,6 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 
     render() {
 
-        let statusBar = {
-            backgroundColor:this.props.theme,
-            barStyle:'light-content',
-        };
-
-      let navigationBar = <NavigationBar
-        title={''}
-        statusBar = {statusBar}
-        style={{backgroundColor:this.props.theme}}
-      />
-
 
     return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
         {navigationBar}
@@ -151,17 +139,6 @@ import Ionicons from "react-native-vector-icons/Ionicons"
   }
 }
 
-const mapStateToProps = state => ({
-    nav: state.nav,
-    theme: state.theme.theme
-});
-
-const mapDispatchToProps = dispatch=>({
-    onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
-});
-
-//注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps,mapDispatchToProps)(HomePage);
 
 const styles = StyleSheet.create({
     backCard:{
