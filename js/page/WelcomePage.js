@@ -24,9 +24,9 @@ class WelcomePage extends Component{
       navigation:this.props.navigation
     })
     setTimeout(()=>{
-      NavigationUtil.goPage({},'CarDetailsPage')
+      NavigationUtil.goPage({},'KaHangPage')
     },500)
-        // i18n.locale = 'zh'
+    
   }
 
   constructor(props){

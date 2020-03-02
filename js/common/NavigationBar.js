@@ -30,6 +30,13 @@ const StatusBarShape = {//状态栏所接受的属性
         }
     }
 
+    constructor(props){
+        super(props)
+        const statusBarHeight = 20;
+        const navHeight = Platform.OS==="ios"?IOS_STATUSBAR_HEIGHT:ANDROID_STATUSBAR_HEIGHT;
+        this.navBarTotalHeight = statusBarHeight + navHeight;
+    }
+
     render(){
         let statusBar = !this.props.statusBar.hidden?
         <View style={styles.statusBar}>
@@ -47,7 +54,7 @@ const StatusBarShape = {//状态栏所接受的属性
                 </View>
                 {this.getButtonElement(this.props.rightButton)}
             </View>;
-        return <View style={[styles.container,this.props.style,{backgroundColor:this.props.theme}]}>
+        return <View style={[styles.container,this.props.style,{backgroundColor:this.props.style.backgroundColor}]}>
                 {statusBar}
                 {content}
         </View>
@@ -65,7 +72,14 @@ const mapStateToProps = state => ({
     theme: state.theme.theme,
 });
 
-export default connect(mapStateToProps)(NavigationBar);
+
+const mapDispatchToProps = (dispatch)=>{
+    return {
+
+    }
+}
+//子组件设置了forwardRef:true之后,父组件就可以通过ref获取到子组件的实例,调用子组件的方法或者获取子组件的数据
+export default connect(mapStateToProps,mapDispatchToProps,null,{forwardRef:true})(NavigationBar);
 
 
 

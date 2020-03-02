@@ -129,7 +129,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
                                 ToastManager.show(i18n.t('building'))
                             }else if(index==0){
                                 //do something
-
+                                NavigationUtil.goPage({},"KaHangPage")
                             }
                         }}>
                             <View style={item.disabled?[styles.MenuItem,styles.ItemDisable]:styles.MenuItem}>

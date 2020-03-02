@@ -19,7 +19,7 @@ export default class BaseItem extends Component{
            isFavorite:this.props.projectModel.isFavorite,
        }
    }
-
+    //这个生命周期的意思就是从props中获取state，这个生命周期的功能实际上就是将传入的props映射到state上面。
    static getDerivedStateFromProps(nextProps,prevState){
        const isFavorite = nextProps.projectModel.isFavorite;
        if(prevState.isFavorite!==isFavorite){

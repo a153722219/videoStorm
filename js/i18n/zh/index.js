@@ -70,5 +70,28 @@ export default {
 
     searchHistory:"搜索历史",
 
-    clearBtn:"清除历史搜索"
+    clearBtn:"清除历史搜索",
+
+    noFinished:"待执行",
+
+    Pending:"待执中",
+
+    Finished:"已完成",
+
+    PlanNumber:"计划号",
+
+    remain:"剩余",
+
+    sites:"站",
+
+    Vehicles:"运输车辆",
+
+    DepartureTime:"发车时间",
+
+    goLoad:"去装货",
+
+    goOffLoad:"去交货",
+
+    AbnormalCauses:"异常原因"
+
 };

@@ -14,7 +14,7 @@ import DetailPage from '../page/DetailPage'
 import WebViewPage from '../page/WebViewPage'
 import FetchDemoPage from '../page/FetchDemoPage'
 import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
-import  DataStorageDemoPage from '../page/DataStorageDemoPage'
+import  KaHangPage from '../page/KaHangPage'
 import  SearchPage from '../page/SearchPage'
 import  ChangeLangPage from '../page/ChangeLangPage'
 import  CarListPage from '../page/CarListPage'
@@ -36,31 +36,37 @@ const MainNavigator = createStackNavigator({
     RootPage: {
         screen: RootPage,
         navigationOptions: {
-            header: null, //禁用标题栏
+            header: null,
+        }
+    },
+    KaHangPage: {
+        screen: KaHangPage,
+        navigationOptions: {
+            header: null,
         }
     },
     ChangeLangPage:{
         screen:ChangeLangPage,
         navigationOptions:{
-            header:null,//禁用标题栏
+            header:null,
         }
     },
     CarListPage:{
         screen:CarListPage,
         navigationOptions:{
-            header:null,//禁用标题栏
+            header:null,
         }
     },
     CarDetailsPage:{
         screen:CarDetailsPage,
         navigationOptions:{
-            header:null,//禁用标题栏
+            header:null,
         }
     },
     SearchPage:{
         screen:SearchPage,
         navigationOptions:{
-            header:null,//禁用标题栏
+            header:null,
         }
     }
 

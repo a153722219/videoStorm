@@ -53,7 +53,7 @@ export default class ViewUtil{
         return ViewUtil.getSettingItem(callBack, menu.name, color, menu.icon, expandableIco)
     }
 
-    static getLeftBackButton(callback){
+    static getLeftBackButton(callback,color="white"){
         return (<TouchableOpacity
           style={{padding:8,marginLeft:12}}
           onPress={callback}
@@ -61,24 +61,23 @@ export default class ViewUtil{
               <Ionicons
                  name={'ios-arrow-back'}
                  size={22}
-                 style={{color:"white"}}
+                 style={{color:color}}
               />
 
         </TouchableOpacity>)
       }
 
-      static getShareButton(callback){
+      static getIconButton(callback,icon,style={},w=41,h=41){
         return (<TouchableOpacity
             underlayColor={'transparent'}
             onPress={callback}
           >
-                <Ionicons
-                   name={'md-share'}
-                   size={20}
-                   style={{color:"white",opacity:0.9,marginRight:10}}
-                />
-           
-          </TouchableOpacity>)
+            <Image
+                source={icon}
+                style={[{width: w*uW, height: h*uW},style]}
+            />
+
+        </TouchableOpacity>)
       }
 }
 
