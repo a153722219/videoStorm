@@ -32,9 +32,7 @@ const StatusBarShape = {//状态栏所接受的属性
 
     constructor(props){
         super(props)
-        const statusBarHeight = 20;
-        const navHeight = Platform.OS==="ios"?IOS_STATUSBAR_HEIGHT:ANDROID_STATUSBAR_HEIGHT;
-        this.navBarTotalHeight = statusBarHeight + navHeight;
+        
     }
 
     render(){

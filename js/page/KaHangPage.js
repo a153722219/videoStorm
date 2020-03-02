@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,TouchableOpacity,FlatList,RefreshControl,ActivityIndicator,Dimensions,TouchableHighlight} from 'react-native';
+import {StyleSheet, View, Text,TouchableOpacity,FlatList,RefreshControl,ActivityIndicator,TouchableHighlight} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -52,8 +52,7 @@ class KaHangPage extends Component {
 
     componentDidMount() {
         this.backPress.componentDidMount();
-        // console.log(this.NavigationBar.navBarTotalHeight)
-        this.containerHeight  =Dimensions.get('window').height - this.NavigationBar.navBarTotalHeight
+
     }
 
     componentWillUnmount() {
@@ -151,16 +150,17 @@ class KaHangPage extends Component {
                 statusBar={statusBar}
                 style={{backgroundColor: "white"}}
                 leftButton={this.getLeftBackButton()}
-                ref={(e)=>this.NavigationBar = e}
+
             />
 
         return <View style={styles.rootContainer}>
             {navigationBar}
             <View style={{
-                height:this.containerHeight
+                flex:1
             }}>
                 <FlatList
                     style={{
+                        flex:1,
                         minWidth:"100%",
                         minHeight: "100%",
                     }}
