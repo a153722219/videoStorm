@@ -45,16 +45,17 @@ class CarDetailsPage extends Component {
     render() {
 
         let statusBar = {
-            backgroundColor: this.props.theme,
-            barStyle: 'light-content'
+            backgroundColor: "rgba(255,255,255,1)",
+            barStyle: 'dark-content', //可以将状态栏文字颜色改变
         }
-        let navigationBar =
-            <NavigationBar
+       
+        let navigationBar = <NavigationBar
                 title={i18n.t('carDetails')}
                 statusBar={statusBar}
-                style={{backgroundColor:this.props.theme}}
+                style={{backgroundColor: "white"}}
+                titleStyle = {[{color:"#000",fontSize:20}]}
                 // rightButton={this.getRightButton()}
-                leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation))}
+                leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')}
             />
 
         return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0,backgroundColor:'#F9F9F9'}}>

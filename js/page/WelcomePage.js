@@ -24,7 +24,7 @@ class WelcomePage extends Component{
       navigation:this.props.navigation
     })
     setTimeout(()=>{
-      NavigationUtil.goPage({},'KaHangPage')
+      NavigationUtil.goPage({},'CarListPage')
     },500)
     
   }
