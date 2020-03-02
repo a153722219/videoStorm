@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,TouchableOpacity,FlatList,RefreshControl,ActivityIndicator,Dimensions,TouchableHighlight,Modal} from 'react-native';
+import {StyleSheet, View, Text,TouchableOpacity,FlatList,RefreshControl,ActivityIndicator,Dimensions,TouchableHighlight} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -11,6 +11,7 @@ import NavigationBar from '../common/NavigationBar';
 //国际化和适配
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
+import Modal from 'react-native-translucent-modal';
 //可选导入
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
@@ -202,28 +203,28 @@ class KaHangPage extends Component {
 
 
 
-            {/*<Modal*/}
-                {/*animationType="slide"*/}
-                {/*transparent={true}*/}
-                {/*visible={this.state.modalVisible}*/}
-                {/*onRequestClose={() => {*/}
-                    {/*alert("Modal has been closed.");*/}
-                {/*}}*/}
-            {/*>*/}
-                {/*<View style={{ backgroundColor: "rgba(0,0,0,0.6)"}}>*/}
-                    {/*<View>*/}
-                        {/*<Text>Hello World!</Text>*/}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                    alert("Modal has been closed.");
+                }}
+            >
+                <View style={{ backgroundColor: "rgba(0,0,0,0.6)",flex:1}}>
+                    <View>
+                        <Text>Hello World!</Text>
 
-                        {/*<TouchableHighlight*/}
-                            {/*onPress={() => {*/}
-                                {/*this.setState({ modalVisible: false });*/}
-                            {/*}}*/}
-                        {/*>*/}
-                            {/*<Text>Hide Modal</Text>*/}
-                        {/*</TouchableHighlight>*/}
-                    {/*</View>*/}
-                {/*</View>*/}
-            {/*</Modal>*/}
+                        <TouchableHighlight
+                            onPress={() => {
+                                this.setState({ modalVisible: false });
+                            }}
+                        >
+                            <Text>Hide Modal</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
 
         </View>;
     }
