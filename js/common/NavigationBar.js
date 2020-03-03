@@ -1,11 +1,13 @@
 
 import React,{Component} from 'react'
-import {ViewPropTypes,Text,StatusBar,View,StyleSheet,Platform} from 'react-native'
+import {ViewPropTypes,Text,StatusBar,View,StyleSheet,Platform,DeviceInfo} from 'react-native'
 import {PropTypes} from 'prop-types'
 const BAR_HEIGHT = 20;
 import {connect} from 'react-redux';
 const IOS_STATUSBAR_HEIGHT = 44;
 const ANDROID_STATUSBAR_HEIGHT = 50;
+const STATUS_BAR_HEIGHT = Platform.OS==="ios" ? (DeviceInfo.isIPhoneX_deprecated ? 34 : 20) : StatusBar.currentHeight;
+
 const StatusBarShape = {//状态栏所接受的属性
     barStyle:PropTypes.oneOf(['light-content','default','dark-content']),
     hidden:PropTypes.bool,
@@ -27,23 +29,19 @@ const StatusBarShape = {//状态栏所接受的属性
     static defaultProps ={
         statusBar:{
             barStyle:'light-content',
-            hidden:false,
-            // backgroundColor:"white"
+            hidden:false
         }
     }
 
     constructor(props){
         super(props)
-        // console.log(props)
+
     }
-
-
-
 
     render(){
         let statusBar = !this.props.statusBar.hidden?
         <View style={styles.statusBar}>
-            <StatusBar {...this.props.statusBar}/>
+             <StatusBar {...this.props.statusBar}/>
         </View>:null
 
         let titleView = this.props.titleView?this.props.titleView :
@@ -114,6 +112,6 @@ const styles = StyleSheet.create({
         color:"white"
     },
     statusBar:{
-        height:Platform.OS==="ios"?BAR_HEIGHT:0
+        height:STATUS_BAR_HEIGHT
     }
 })

@@ -31,6 +31,7 @@ import {i18n} from '../i18n/index';
     constructor(props){
         super(props)
         console.disableYellowBox = true;
+
     }
 
      componentDidMount() {
@@ -42,7 +43,9 @@ import {i18n} from '../i18n/index';
                  tintColor:this.props.theme,
                  updateTime:new Date().getTime()
              }})
-         }))
+         }));
+
+
      }
 
      componentWillUnmount() {
@@ -59,6 +62,7 @@ import {i18n} from '../i18n/index';
             HomePage:{
                 screen:HomePage,
                 navigationOptions:{
+                    unmountOnBlur:true,
                     title:i18n.t('Home'),
                     tabBarIcon:({tintColor,focused})=>(
                         <Ionicons
@@ -112,10 +116,11 @@ import {i18n} from '../i18n/index';
         const Tab = this.Tab;
         return <Tab
             onNavigationStateChange={(prevState,newState,action)=>{
-                EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
-                    from:prevState.index,
-                    to:newState.index
-                })
+                    console.log(prevState,newState,action)
+                    EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
+                        from:prevState.index,
+                        to:newState.index
+                    })
                 }
             }
         />

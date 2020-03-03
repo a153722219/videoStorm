@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,DeviceInfo} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -18,6 +18,11 @@ import {uW, width} from "../util/screenUtil";
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
+import  setStatusBar from '../common/setStatusBar'
+@setStatusBar({
+    barStyle: 'dark-content',
+    translucent: true
+})
 class CarDetailsPage extends Component {
 
     constructor(props) {
@@ -44,21 +49,16 @@ class CarDetailsPage extends Component {
 
     render() {
 
-        let statusBar = {
-            backgroundColor: "rgba(255,255,255,1)",
-            barStyle: 'dark-content', //可以将状态栏文字颜色改变
-        }
-       
         let navigationBar = <NavigationBar
                 title={i18n.t('carDetails')}
-                statusBar={statusBar}
+                statusBar={{}}
                 style={{backgroundColor: "white"}}
                 titleStyle = {{color:"#000",fontSize:20}}
                 // rightButton={this.getRightButton()}
                 leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')}
             />
 
-        return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0,backgroundColor:'#F9F9F9'}}>
+        return <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
             {navigationBar}
            <View style={{backgroundColor:'#fff',height:500 * uW,marginTop:24 * uW,paddingLeft:46 * uW,paddingRight:37 * uW ,}}>
                 <Text style={{marginTop:38 * uW,fontSize:36 * uW}}>粤B87K90</Text>

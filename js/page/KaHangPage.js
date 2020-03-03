@@ -16,10 +16,16 @@ import Modal from 'react-native-translucent-modal';
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
+
+import  setStatusBar from '../common/setStatusBar'
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import KaHangItem from '../common/KaHangItem'
+@setStatusBar({
+    barStyle: 'dark-content',
+    translucent: true
+})
 class KaHangPage extends Component {
 
     static Keys = [
@@ -140,14 +146,10 @@ class KaHangPage extends Component {
 
     render() {
 
-        let statusBar = {
-            backgroundColor: "rgba(0,0,0,0)",
-            barStyle: 'dark-content', //可以将状态栏文字颜色改变
-        }
         let navigationBar =
             <NavigationBar
                 title={''}
-                statusBar={statusBar}
+                statusBar={{}}
                 style={{backgroundColor: "white"}}
                 leftButton={this.getLeftBackButton()}
 

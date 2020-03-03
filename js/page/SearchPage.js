@@ -17,7 +17,13 @@ import {uW, width} from "../util/screenUtil";
 //import ToastManager from '../common/ToastManager'
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
-import ViewUtil from '../util/ViewUtil'
+import ViewUtil from '../util/ViewUtil';
+import  setStatusBar from '../common/setStatusBar'
+@setStatusBar({
+    barStyle: 'light-content',
+    translucent: true
+})
+
 class SearchPage extends Component {
 
     constructor(props) {
@@ -63,14 +69,10 @@ class SearchPage extends Component {
 
     render() {
 
-        let statusBar = {
-            backgroundColor: this.props.theme,
-            barStyle: 'light-content'
-        }
         let navigationBar =
             <NavigationBar
                 // title={'页面'}
-                statusBar={statusBar}
+                statusBar={{}}
                 style={{backgroundColor: this.props.theme}}
                 // rightButton={this.getRightButton()}
                 leftButton={this.getSearchIpt()}

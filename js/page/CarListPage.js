@@ -18,6 +18,11 @@ import {uW, width} from "../util/screenUtil";
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
+import  setStatusBar from '../common/setStatusBar'
+@setStatusBar({
+    barStyle: 'dark-content',
+    translucent: true
+})
 class CarListPage extends Component {
 
     constructor(props) {
@@ -79,15 +84,12 @@ class CarListPage extends Component {
     }
 
     render() {
-        let statusBar = {
-            backgroundColor: "rgba(255,255,255,1)",
-            barStyle: 'dark-content', //可以将状态栏文字颜色改变
-        }
+
        
         let navigationBar =
             <NavigationBar
                 title={i18n.t('driving')}
-                statusBar={statusBar}
+                statusBar={{}}
                 style={{backgroundColor: "white"}}
                 titleStyle = {{color:"#000",fontSize:20}}
                 // rightButton={this.getRightButton()}

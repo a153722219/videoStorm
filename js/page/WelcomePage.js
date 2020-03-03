@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform,DeviceInfo, StyleSheet, Text, View,ImageBackground,Image,TouchableOpacity,TextInput,ScrollView } from 'react-native';
+import {Platform, StyleSheet, Text, View,ImageBackground,Image,TouchableOpacity,TextInput,ScrollView } from 'react-native';
 import {StatusBar} from 'react-native';
 //redux
 import {connect} from "react-redux";
@@ -56,7 +56,7 @@ class WelcomePage extends Component{
 
     return (
       <ScrollView>
-        <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
+        <View style={{flex:1}}>
           <StatusBar hidden={true}/>
           <ImageBackground source={i18n.locale=='zh'?require('../assets/zh/signIn-bg.png'):require('../assets/en/signIn-bg.png')} style={styles.bg}>
             <View style={styles.logoBox}>

@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, View,DeviceInfo,Image,Text,TouchableOpacity} from 'react-native';
+import {Button, StyleSheet, View,Image,Text,TouchableOpacity} from 'react-native';
 import {connect} from "react-redux"
 import NetInfo from "@react-native-community/netinfo";
 import actions from '../action/index'
@@ -24,12 +24,17 @@ import {i18n} from '../i18n/index';
 import ToastManager from '../common/ToastManager'
 import {uW, width} from "../util/screenUtil";
 import Ionicons from "react-native-vector-icons/Ionicons"
-
-
+import  setStatusBar from '../common/setStatusBar'
+@setStatusBar({
+    barStyle: 'light-content',
+    translucent: true
+})
  class HomePage extends Component{
 
      static navigationOptions = ({ navigation,navigationOptions}) => {
+
          const label = i18n.t('Home');
+
          return {
              tabBarLabel:label
          }
@@ -62,6 +67,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 
      constructor(props){
         super(props);
+
      }
 
      componentDidMount(){
@@ -75,23 +81,18 @@ import Ionicons from "react-native-vector-icons/Ionicons"
      componentWillUnmount() {
          console.log('unmount')
          unsubscribe()
-
      };
 
     render() {
-        let statusBar = {
-            backgroundColor:this.props.theme,
-            barStyle:'light-content',
-        };
 
         let navigationBar = <NavigationBar
             title={''}
-            statusBar = {statusBar}
+            statusBar={{}}
             style={{backgroundColor:this.props.theme}}
         />
 
 
-    return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
+    return <View style={{flex:1}}>
         {navigationBar}
         <View style={[styles.backCard,{backgroundColor:this.props.theme}]}>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>{

@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View,FlatList,ImageBackground,DeviceInfo,Image,TouchableOpacity,StatusBar} from 'react-native';
+import {Button, StyleSheet, Text, View,FlatList,ImageBackground,Image,TouchableOpacity,StatusBar} from 'react-native';
 import {connect} from "react-redux"
 import {createAppContainer} from "react-navigation";
 import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
@@ -24,8 +24,16 @@ import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
 import {i18n} from '../i18n/index';
-import {uW} from '../util/screenUtil'
-class ManagePage extends Component{
+import {uW} from '../util/screenUtil';
+import  setStatusBar from '../common/setStatusBar'
+
+@setStatusBar({
+    barStyle: 'dark-content',
+    translucent: false,
+    backgroundColor: '#fff'
+})
+
+class ManagePage extends React.PureComponent{
     static navigationOptions = ({ navigation,navigationOptions}) => {
         const label = i18n.t('Management');
         return {
@@ -53,14 +61,9 @@ class ManagePage extends Component{
 
     render() {
 
-        let statusBar = {
-            backgroundColor: "#fff",
-            barStyle: 'dark-content', //可以将状态栏文字颜色改变
-        }
-
         let navigationBar =<NavigationBar
             title={i18n.t('carManage')}
-            statusBar={statusBar}
+            statusBar={{}} //hidden:true
             style={{backgroundColor: "white"}}
             titleStyle = {{color:"#000",fontSize:20}}
             // rightButton={this.getRightButton()}
@@ -69,7 +72,7 @@ class ManagePage extends Component{
 
 
 
-        return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0,backgroundColor:'#F9F9F9'}}>
+        return <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
             {navigationBar}
             <TouchableOpacity onPress={()=>{
              NavigationUtil.goPage({},'CarListPage')

@@ -19,6 +19,11 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
+import  setStatusBar from '../common/setStatusBar'
+@setStatusBar({
+    barStyle: 'light-content',
+    translucent: true
+})
 class ChangeLangPage extends Component {
     
     constructor(props) {
@@ -49,14 +54,11 @@ class ChangeLangPage extends Component {
 
     render() {
 
-        let statusBar = {
-            backgroundColor: this.props.theme,
-            barStyle: 'light-content'
-        }
+
         let navigationBar =
             <NavigationBar
                 title={i18n.t('ChangeLang')}
-                statusBar={statusBar}
+                statusBar={{}}
                 style={{backgroundColor:this.props.theme}}
                 // rightButton={this.getRightButton()}
                  leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation))}

@@ -17,7 +17,12 @@ import ViewUtil from '../util/ViewUtil';
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
 import {connect} from "react-redux"
-const THEME_COLOR = "#678"
+import  setStatusBar from '../common/setStatusBar'
+@setStatusBar({
+    barStyle: 'light-content',
+    translucent: false,
+    backgroundColor: null //null-跟随主题 也可以指定颜色值
+})
 class MySelfPage extends Component{
     static navigationOptions = ({ navigation,navigationOptions}) => {
         const label = i18n.t('Me');
@@ -53,17 +58,11 @@ class MySelfPage extends Component{
 
 
   render() {
-    let statusBar = {
-      backgroundColor: this.props.theme,
-      barStyle: 'light-content'
-     }
-
-
 
   let navigationBar =
       <NavigationBar
           // title={'我的'}
-          statusBar={statusBar}
+          statusBar={{}}
           style={{backgroundColor:this.props.theme}}
           // rightButton={this.getRightButton()}
           // leftButton={this.getLeftButton()}
