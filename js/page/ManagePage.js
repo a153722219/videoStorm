@@ -42,18 +42,22 @@ class ManagePage extends Component{
     render() {
 
         let statusBar = {
-            backgroundColor:this.props.theme,
-            barStyle:'light-content',
-        };
+            backgroundColor: "rgba(255,255,255,1)",
+            barStyle: 'dark-content', //可以将状态栏文字颜色改变
+        }
 
-        let navigationBar = <NavigationBar
-            title={i18n.t('Management')}
-            statusBar = {statusBar}
-            style={{backgroundColor:this.props.theme}}
+        let navigationBar =<NavigationBar
+            title={i18n.t('carManage')}
+            statusBar={statusBar}
+            style={{backgroundColor: "white"}}
+            titleStyle = {[{color:"#000",fontSize:20}]}
+            // rightButton={this.getRightButton()}
+            // leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')}
         />
 
 
-        return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0}}>
+
+        return <View style={{flex:1,marginTop:DeviceInfo.isIPhoneX_deprecated?30:0,backgroundColor:'#F9F9F9'}}>
             {navigationBar}
             <TouchableOpacity onPress={()=>{
              NavigationUtil.goPage({},'CarListPage')

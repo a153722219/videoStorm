@@ -21,7 +21,8 @@ const StatusBarShape = {//状态栏所接受的属性
         hide:PropTypes.bool,
         rightButton:PropTypes.element,
         statusBar:PropTypes.shape(StatusBarShape),
-        leftButton:PropTypes.element
+        leftButton:PropTypes.element,
+        titleStyle:ViewPropTypes.style
     }
     static defaultProps ={
         statusBar:{
@@ -32,7 +33,6 @@ const StatusBarShape = {//状态栏所接受的属性
 
     constructor(props){
         super(props)
-
     }
 
     render(){
@@ -42,7 +42,7 @@ const StatusBarShape = {//状态栏所接受的属性
         </View>:null
 
         let titleView = this.props.titleView?this.props.titleView :
-            <Text ellipsizeMode="head" numberOfLines={1} style={styles.title}>{this.props.title}</Text>;
+            <Text ellipsizeMode="head" numberOfLines={1} style={this.props.titleStyle?this.props.titleStyle:styles.title}>{this.props.title}</Text>;
 
         let content = this.props.hide?null:
             <View style={styles.navBar}>
