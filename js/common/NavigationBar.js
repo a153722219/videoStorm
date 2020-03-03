@@ -4,15 +4,16 @@ import {ViewPropTypes,Text,StatusBar,View,StyleSheet,Platform,DeviceInfo} from '
 import {PropTypes} from 'prop-types'
 const BAR_HEIGHT = 20;
 import {connect} from 'react-redux';
+import Globals from '../util/Globals'
 const IOS_STATUSBAR_HEIGHT = 44;
 const ANDROID_STATUSBAR_HEIGHT = 50;
-const STATUS_BAR_HEIGHT = Platform.OS==="ios" ? (DeviceInfo.isIPhoneX_deprecated ? 34 : 20) : StatusBar.currentHeight;
+
 
 const StatusBarShape = {//状态栏所接受的属性
     barStyle:PropTypes.oneOf(['light-content','default','dark-content']),
     hidden:PropTypes.bool,
     backgroundColor:PropTypes.string
-}
+};
  class NavigationBar extends Component{
     //类型检查
     static propTypes = {
@@ -35,12 +36,14 @@ const StatusBarShape = {//状态栏所接受的属性
 
     constructor(props){
         super(props)
-
+        //适配安卓低版本
+        this.STATUS_BAR_HEIGHT = Globals.Android_SDK_INT && Globals.Android_SDK_INT>19?StatusBar.currentHeight:0;
+        this.STATUS_BAR_HEIGHT = Platform.OS==="ios" ? (DeviceInfo.isIPhoneX_deprecated ? 34 : 20) : this.STATUS_BAR_HEIGHT;
     }
 
     render(){
         let statusBar = !this.props.statusBar.hidden?
-        <View style={styles.statusBar}>
+        <View style={{height:this.STATUS_BAR_HEIGHT}}>
              <StatusBar {...this.props.statusBar}/>
         </View>:null
 
@@ -110,8 +113,5 @@ const styles = StyleSheet.create({
     title:{
         fontSize:20,
         color:"white"
-    },
-    statusBar:{
-        height:STATUS_BAR_HEIGHT
     }
 })

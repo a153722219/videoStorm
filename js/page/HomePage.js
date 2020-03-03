@@ -79,7 +79,7 @@ import  setStatusBar from '../common/setStatusBar'
      }
 
      componentWillUnmount() {
-         console.log('unmount')
+
          unsubscribe()
      };
 

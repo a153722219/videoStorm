@@ -116,7 +116,7 @@ import {i18n} from '../i18n/index';
         const Tab = this.Tab;
         return <Tab
             onNavigationStateChange={(prevState,newState,action)=>{
-                    console.log(prevState,newState,action)
+                    // console.log(prevState,newState,action)
                     EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
                         from:prevState.index,
                         to:newState.index

@@ -26,6 +26,7 @@ import EventTypes from '../util/EventTypes'
  class RootPage extends Component{
   constructor(props){
     super(props)
+
     this.backPress = new BackPressComponent({
         backPress:this.onBackPress
     });
@@ -70,7 +71,7 @@ import EventTypes from '../util/EventTypes'
         // this.props.navigation.navigate("DetailPage",{})
         //console.log("this.props.navigation",this.props.navigation);
         // const Tab = createAppContainer(DynamicTabNavigator);
-        return <DynamicTabNavigator/>
+        return <DynamicTabNavigator />
   }
 }
 
