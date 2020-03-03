@@ -20,8 +20,7 @@ import {connect} from "react-redux"
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
     barStyle: 'light-content',
-    translucent: false,
-    backgroundColor: null //null-跟随主题 也可以指定颜色值
+    translucent: true
 })
 class MySelfPage extends Component{
     static navigationOptions = ({ navigation,navigationOptions}) => {
