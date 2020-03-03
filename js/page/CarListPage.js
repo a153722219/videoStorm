@@ -89,7 +89,7 @@ class CarListPage extends Component {
                 title={i18n.t('driving')}
                 statusBar={statusBar}
                 style={{backgroundColor: "white"}}
-                titleStyle = {[{color:"#000",fontSize:20}]}
+                titleStyle = {{color:"#000",fontSize:20}}
                 // rightButton={this.getRightButton()}
                 leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')}
             />

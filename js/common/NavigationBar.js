@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 const IOS_STATUSBAR_HEIGHT = 44;
 const ANDROID_STATUSBAR_HEIGHT = 50;
 const StatusBarShape = {//状态栏所接受的属性
-    barStyle:PropTypes.oneOf(['light-content','default']),
+    barStyle:PropTypes.oneOf(['light-content','default','dark-content']),
     hidden:PropTypes.bool,
     backgroundColor:PropTypes.string
 }
@@ -22,18 +22,23 @@ const StatusBarShape = {//状态栏所接受的属性
         rightButton:PropTypes.element,
         statusBar:PropTypes.shape(StatusBarShape),
         leftButton:PropTypes.element,
-        titleStyle:ViewPropTypes.style
+        titleStyle:PropTypes.object
     }
     static defaultProps ={
         statusBar:{
             barStyle:'light-content',
-            hidden:false
+            hidden:false,
+            // backgroundColor:"white"
         }
     }
 
     constructor(props){
         super(props)
+        // console.log(props)
     }
+
+
+
 
     render(){
         let statusBar = !this.props.statusBar.hidden?
@@ -66,19 +71,20 @@ const StatusBarShape = {//状态栏所接受的属性
 
 }
 
-const mapStateToProps = state => ({
-    theme: state.theme.theme,
-});
-
-
-const mapDispatchToProps = (dispatch)=>{
-    return {
-
-    }
-}
+// const mapStateToProps = state => ({
+//     theme: state.theme.theme,
+//     nav:state.nav
+// });
+//
+//
+// const mapDispatchToProps = (dispatch)=>{
+//     return {
+//
+//     }
+// }
 //子组件设置了forwardRef:true之后,父组件就可以通过ref获取到子组件的实例,调用子组件的方法或者获取子组件的数据
-export default connect(mapStateToProps,mapDispatchToProps,null,{forwardRef:true})(NavigationBar);
-
+// export default connect(mapStateToProps,mapDispatchToProps,null,{forwardRef:true})(NavigationBar);
+export default NavigationBar
 
 
 const styles = StyleSheet.create({

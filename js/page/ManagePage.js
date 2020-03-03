@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View,FlatList,ImageBackground,DeviceInfo,Image,TouchableOpacity} from 'react-native';
+import {Button, StyleSheet, Text, View,FlatList,ImageBackground,DeviceInfo,Image,TouchableOpacity,StatusBar} from 'react-native';
 import {connect} from "react-redux"
 import {createAppContainer} from "react-navigation";
 import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
@@ -29,9 +29,21 @@ class ManagePage extends Component{
     static navigationOptions = ({ navigation,navigationOptions}) => {
         const label = i18n.t('Management');
         return {
-            tabBarLabel:label
+            tabBarLabel:label,
+            statusBarStyle: 'dark-content',
         }
     };
+
+
+    componentDidMount() {
+
+
+    }
+
+    componentWillUnmount() {
+
+
+    }
 
 
     constructor(props){
@@ -42,7 +54,7 @@ class ManagePage extends Component{
     render() {
 
         let statusBar = {
-            backgroundColor: "rgba(255,255,255,1)",
+            backgroundColor: "#fff",
             barStyle: 'dark-content', //可以将状态栏文字颜色改变
         }
 
@@ -50,7 +62,7 @@ class ManagePage extends Component{
             title={i18n.t('carManage')}
             statusBar={statusBar}
             style={{backgroundColor: "white"}}
-            titleStyle = {[{color:"#000",fontSize:20}]}
+            titleStyle = {{color:"#000",fontSize:20}}
             // rightButton={this.getRightButton()}
             // leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')}
         />
