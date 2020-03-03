@@ -189,11 +189,9 @@ class KaHangPage extends Component {
                             }}, 100)
                     }}
                     onScrollBeginDrag={() => {
-                        console.log("onScrollBeginDrag")
                         this.canLoadMore = true;
                     }}
                     onMomentumScrollBegin={()=>{
-                        console.log("onMomentumScrollBegin")
                         this.canLoadMore=true;
                     }
                     }

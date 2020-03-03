@@ -32,7 +32,7 @@ const StatusBarShape = {//状态栏所接受的属性
 
     constructor(props){
         super(props)
-        
+
     }
 
     render(){
