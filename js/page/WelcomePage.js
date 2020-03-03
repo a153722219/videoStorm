@@ -20,12 +20,12 @@ import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
 class WelcomePage extends Component{
   componentDidMount(){
-    // NavigationUtil.resetToHomePage({
-    //   navigation:this.props.navigation
-    // })
-    // setTimeout(()=>{
-    //   NavigationUtil.goPage({},'CarListPage')
-    // },500)
+    NavigationUtil.resetToHomePage({
+      navigation:this.props.navigation
+    })
+    setTimeout(()=>{
+      NavigationUtil.goPage({},'KaHangPage')
+    },500)
     
   }
 

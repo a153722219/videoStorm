@@ -3,7 +3,11 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,TouchableOpacity,FlatList,RefreshControl,ActivityIndicator,TouchableHighlight} from 'react-native';
+import {StyleSheet, View, Text,TouchableOpacity,FlatList,
+    RefreshControl,ActivityIndicator,Image,ScrollView
+
+
+} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -204,26 +208,53 @@ class KaHangPage extends Component {
 
 
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.modalVisible}
-                onRequestClose={() => {
-                    alert("Modal has been closed.");
+                 onRequestClose={() => {
+                     this.setState({ modalVisible: false });
                 }}
             >
-                <View style={{ backgroundColor: "rgba(0,0,0,0.6)",flex:1}}>
+                <View style={{ backgroundColor: "rgba(0,0,0,0.6)",flex:1,justifyContent:"space-around",alignItems:"center"}}>
                     <View>
-                        <Text>Hello World!</Text>
+                        <View style={styles.modalBox}>
+                            <View style={[{backgroundColor:this.props.theme},styles.headBox]} >
+                                <Image style={styles.smallogo} source={i18n.locale=="zh"?require('../assets/zh/路线预览-logo.png'):require('../assets/en/路线预览-logo.png')}/>
+                                <Text style={styles.PlanNO}>{i18n.t('PlanNumber')}:T20191128PKLX002</Text>
+                                <Text style={styles.Info}>{i18n.t('total')}8{i18n.t('sites')}，{i18n.t('Finished')}2{i18n.t('sites')}，{i18n.t('remain')}6{i18n.t('sites')}</Text>
+                            </View>
 
-                        <TouchableHighlight
-                            onPress={() => {
-                                this.setState({ modalVisible: false });
-                            }}
-                        >
-                            <Text>Hide Modal</Text>
-                        </TouchableHighlight>
+                            <View style={styles.bottomContainer}>
+                                <ScrollView style={{maxHeight:600*uW}} showsVerticalScrollIndicator={false}>
+
+                                    {[1,2,3,4,5].map((item,index)=>(
+                                        <View style={styles.lineItemBox} key={index}>
+                                            <Text style={[styles.ItemText,{color:this.props.theme}]}>{i18n.t('Finished')}</Text>
+                                            <View  style={[styles.ItemDot,{backgroundColor:this.props.theme}]}>
+                                                <Text style={styles.ItemDotText}>1</Text>
+                                                {index<4 && <View style={styles.ItemLine}/>}
+                                            </View>
+                                            <View>
+                                                <Text numberOfLines={1} style={styles.lineTitle}>华盛辉综合楼</Text>
+                                                <Text numberOfLines={3} style={styles.lineSubTitle}>广东省深圳市宝安区西乡街道盐田社区盐田街106号</Text>
+                                            </View>
+
+                                        </View>
+                                    ))
+                                    }
+
+                                </ScrollView>
+
+                            </View>
+                        </View>
+                        <TouchableOpacity activeOpacity={0.8} onPress={()=>{  this.setState({ modalVisible: false }); }}>
+                            <Image style={styles.Close} source={require('../assets/zh/路线预览-关闭.png')}/>
+                        </TouchableOpacity>
                     </View>
+
                 </View>
+
+
             </Modal>
 
         </View>;
@@ -242,6 +273,112 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(KaHangPage);
 //样式
 const styles = StyleSheet.create({
+    lineItemBox:{
+        flexDirection:'row',
+        alignItems:"flex-start",
+        minHeight:(114+46)*uW,
+        width:450*uW
+    },
+
+    lineTitle:{
+        fontSize:28*uW,
+        fontWeight:"500",
+        color:"#333"
+    },
+    lineSubTitle:{
+        fontSize:24*uW,
+        fontWeight:"400",
+        color:"#666"
+    },
+
+
+    ItemText:{
+        fontSize:20*uW,
+        fontWeight:"500",
+        // marginRight:14*uW
+        width:75*uW
+    },
+
+    ItemDot:{
+        marginRight:37*uW,
+        width:46*uW,
+        height:46*uW,
+        borderRadius:23*uW
+
+    },
+
+    ItemLine:{
+        height:114*uW,
+        width:1,
+        borderLeftWidth:1,
+        borderLeftColor:"#979797",
+        borderStyle:"dashed",
+        position:'absolute',
+        left:22*uW,
+        top:46*uW
+
+    },
+    ItemDotText:{
+        fontSize:26*uW,
+        fontWeight:"400",
+        lineHeight:46*uW,
+        textAlign:"center",
+        color:"white"
+    },
+
+    Close:{
+        width:80*uW,
+        height:80*uW,
+        marginTop:44*uW,
+        marginLeft:(672-80)/2*uW
+    },
+
+    bottomContainer:{
+        paddingTop:55*uW,
+        paddingBottom:45*uW,
+        paddingLeft:30*uW,
+        paddingRight:30*uW,
+        backgroundColor:"#fff",
+        borderBottomLeftRadius:20*uW,
+        borderBottomRightRadius:20*uW,
+    },
+
+
+    PlanNO:{
+        fontSize:32*uW,
+        fontWeight:"500",
+        lineHeight:45*uW,
+        color:"white",
+        marginTop:22*uW
+    },
+
+    Info:{
+        fontSize:26*uW,
+        fontWeight:"400",
+        lineHeight:27*uW,
+        color:"white",
+        marginTop:5*uW
+    },
+
+    modalBox:{
+        width:672*uW,
+        // height:450*uW,
+        backgroundColor:"white",
+        borderRadius:20*uW
+    },
+    headBox:{
+        height:265*uW,
+        borderTopLeftRadius:20*uW,
+        borderTopRightRadius:20*uW,
+        alignItems:'center'
+    },
+
+    smallogo:{
+        width:98*uW,
+        height:98*uW,
+        marginTop:36*uW
+    },
+
     rootContainer:{
         flex:1,
         backgroundColor:"#f5f5f5",

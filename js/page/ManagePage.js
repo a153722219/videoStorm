@@ -74,7 +74,7 @@ class ManagePage extends React.PureComponent{
 
         return <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
             {navigationBar}
-            <TouchableOpacity onPress={()=>{
+            <TouchableOpacity activeOpacity={0.7} onPress={()=>{
              NavigationUtil.goPage({},'CarListPage')
             }}>
                 <ImageBackground style={styles.mCard} source={i18n.locale=='zh'?require('../assets/zh/管理-bg.png'):require('../assets/en/management.png')}>

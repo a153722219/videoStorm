@@ -76,6 +76,8 @@ export default {
 
     Pending:"待执中",
 
+    Pending2:"执行中",
+
     Finished:"已完成",
 
     PlanNumber:"计划号",
@@ -92,6 +94,8 @@ export default {
 
     goOffLoad:"去交货",
 
-    AbnormalCauses:"异常原因"
+    AbnormalCauses:"异常原因",
+
+    total:"总"
 
 };
