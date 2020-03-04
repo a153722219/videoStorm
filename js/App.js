@@ -19,7 +19,8 @@ export default class App extends Component {
 
     constructor(props) {
         super(props)
-        Globals.Android_SDK_INT = props.Android_SDK_INT
+        Globals.Android_SDK_INT = props.Android_SDK_INT;
+        Globals.store = store.store;
     }
   render() {
     return <Provider store={store.store}>

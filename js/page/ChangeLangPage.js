@@ -21,8 +21,9 @@ import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
-    barStyle: 'light-content',
-    translucent: true
+    barStyle: 'dark-content',
+    translucent: true,
+    backgroundColor:"#fff"
 })
 class ChangeLangPage extends Component {
     
@@ -59,9 +60,10 @@ class ChangeLangPage extends Component {
             <NavigationBar
                 title={i18n.t('ChangeLang')}
                 statusBar={{}}
-                style={{backgroundColor:this.props.theme}}
+                style={{backgroundColor:"#fff"}}
+                titleStyle={{color:"#000",fontSize:20}}
                 // rightButton={this.getRightButton()}
-                 leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation))}
+                 leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000')}
             />
 
         return <View >

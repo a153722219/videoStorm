@@ -94,8 +94,38 @@ export default {
 
     goOffLoad:"去交货",
 
+    goTran:"去运输",
+
     AbnormalCauses:"异常原因",
 
-    total:"总"
+    total:"总",
+
+    total2:"共",
+
+    PODRecords:"回单记录",
+
+    baseInfo:"基本信息",
+
+    Detail:"详情",
+
+    requireCarTime:"发车时间要求",
+
+    totalSites:"总站数",
+
+    tranDots:"运输节点",
+
+    Dots:"个节点",
+
+    LoadOrder:"装货订单",
+
+    OffLoadOrder:"交货订单",
+
+    Route:"路线",
+
+    saler:"发货人",
+
+    concat:"联系方式",
+
+    orderNo:"订单号"
 
 };

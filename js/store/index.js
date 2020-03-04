@@ -57,3 +57,5 @@ const { persistor, store } = configureStore();
 export default {
     persistor:persistor, store:store
 }
+
+

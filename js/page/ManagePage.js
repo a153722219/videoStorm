@@ -29,7 +29,7 @@ import  setStatusBar from '../common/setStatusBar'
 
 @setStatusBar({
     barStyle: 'dark-content',
-    translucent: false,
+    translucent: true,
     backgroundColor: '#fff'
 })
 

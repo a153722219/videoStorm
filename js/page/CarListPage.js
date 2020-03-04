@@ -21,7 +21,8 @@ import ViewUtil from '../util/ViewUtil'
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
     barStyle: 'dark-content',
-    translucent: true
+    translucent: true,
+    backgroundColor:"#fff"
 })
 class CarListPage extends Component {
 

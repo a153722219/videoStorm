@@ -5,8 +5,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text,TouchableOpacity,FlatList,
     RefreshControl,ActivityIndicator,Image,ScrollView
-
-
 } from 'react-native';
 //redux
 import {connect} from "react-redux";
@@ -109,7 +107,7 @@ class KaHangPage extends Component {
     renderItem(){
         return <KaHangItem onClickRemainBtn={()=>{
             this.setState({ modalVisible: true });
-        }}>
+        }}  onItemClick={()=>{this.goDetail()}}>
 
         </KaHangItem>
     }
@@ -146,6 +144,10 @@ class KaHangPage extends Component {
             },2000)
         }
 
+    }
+
+    goDetail(){
+        NavigationUtil.goPage({},'TaskDetailsPage')
     }
 
     render() {

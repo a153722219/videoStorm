@@ -13,7 +13,7 @@ import RootPage from '../page/RootPage'
 import DetailPage from '../page/DetailPage'
 import WebViewPage from '../page/WebViewPage'
 import FetchDemoPage from '../page/FetchDemoPage'
-import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
+import  TaskDetailsPage from '../page/TaskDetailsPage'
 import  KaHangPage from '../page/KaHangPage'
 import  SearchPage from '../page/SearchPage'
 import  ChangeLangPage from '../page/ChangeLangPage'
@@ -68,7 +68,13 @@ const MainNavigator = createStackNavigator({
         navigationOptions:{
             header:null,
         }
+    },
+    TaskDetailsPage:{
+    screen:TaskDetailsPage,
+        navigationOptions:{
+        header:null,
     }
+}
 
 });
 
