@@ -112,8 +112,8 @@ class CarListPage extends Component {
                         renderItem={({item,index})=> {
                         
                             return <View style={{paddingTop:24*uW}}>
-                                <TouchableOpacity onPress={(()=>{
-                    
+                                <TouchableOpacity activeOpacity={0.6} onPress={(()=>{
+                                    
                                     NavigationUtil.goPage({},'CarDetailsPage')
                                 })}>
                                     <View style={styles.item}>

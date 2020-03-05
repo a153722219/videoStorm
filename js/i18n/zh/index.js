@@ -126,6 +126,40 @@ export default {
 
     concat:"联系方式",
 
-    orderNo:"订单号"
+    orderNo:"订单号",
+
+    userInfoTitle:'个人信息',
+
+    userInfoName:'姓名',
+
+    userInfoPhone:'手机号',
+
+    userInfoCompany:'合作公司',
+
+    majorDriver:'主司机',
+
+    assistantDriver:'副司机',
+
+    settingPage:'设置',
+
+    account:'账号',
+
+    setPassword:'修改密码',
+
+    logout:'退出登录',
+
+    changePassword:'修改密码',
+
+    loginPassword:'登录密码',
+    
+    currentPassword:'当前密码',
+
+    newPassword:'新密码',
+
+    confirmPassword:'确认密码',
+
+    inputTips:'6-20位数字/字母/字符',
+
+    changePasswordSend:'提交'
 
 };

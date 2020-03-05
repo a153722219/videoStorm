@@ -19,6 +19,9 @@ import  SearchPage from '../page/SearchPage'
 import  ChangeLangPage from '../page/ChangeLangPage'
 import  CarListPage from '../page/CarListPage'
 import  CarDetailsPage from '../page/CarDetailsPage'
+import  UserInfoPage from '../page/UserInfoPage'
+import  SettingPage from '../page/SettingPage'
+import  ChangePasswordPage from '../page/ChangePasswordPage'
 import {connect} from 'react-redux'
 import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
@@ -69,12 +72,30 @@ const MainNavigator = createStackNavigator({
             header:null,
         }
     },
-    TaskDetailsPage:{
-    screen:TaskDetailsPage,
+    UserInfoPage:{
+        screen:UserInfoPage,
         navigationOptions:{
-        header:null,
+            header:null,
+        }
+    },
+    SettingPage:{
+        screen:SettingPage,
+        navigationOptions:{
+            header:null,
+        }
+    },
+    ChangePasswordPage:{
+        screen:ChangePasswordPage,
+        navigationOptions:{
+            header:null,
+        }
+    },
+    TaskDetailsPage:{
+        screen:TaskDetailsPage,
+            navigationOptions:{
+            header:null,
+        }
     }
-}
 
 });
 

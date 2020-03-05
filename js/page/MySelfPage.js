@@ -35,12 +35,12 @@ class MySelfPage extends Component{
         let RouteName,params={};
         switch (menu){
             case MORE_MENU.Info:
-                // RouteName='WebViewPage';
+                RouteName='UserInfoPage';
                 // params.title="教程";
                 // params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
                 break;
             case MORE_MENU.Setting:
-                // RouteName='AboutPage';
+                RouteName='SettingPage';
                 break;
             case MORE_MENU.ChangeLang:
                 RouteName='ChangeLangPage';
