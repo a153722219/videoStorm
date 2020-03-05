@@ -12,8 +12,8 @@ import WelcomePage from '../page/WelcomePage'
 import RootPage from '../page/RootPage'
 import DetailPage from '../page/DetailPage'
 import WebViewPage from '../page/WebViewPage'
-import FetchDemoPage from '../page/FetchDemoPage'
-import  TaskDetailsPage from '../page/TaskDetailsPage'
+import TaskDetailPage from '../page/TaskDetailPage'
+import  GoTransPage from '../page/GoTransPage'
 import  KaHangPage from '../page/KaHangPage'
 import  SearchPage from '../page/SearchPage'
 import  ChangeLangPage from '../page/ChangeLangPage'
@@ -69,12 +69,18 @@ const MainNavigator = createStackNavigator({
             header:null,
         }
     },
-    TaskDetailsPage:{
-    screen:TaskDetailsPage,
+    GoTransPage: {
+        screen: GoTransPage,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    TaskDetailPage:{
+        screen:TaskDetailPage,
         navigationOptions:{
-        header:null,
+            header:null,
+        }
     }
-}
 
 });
 

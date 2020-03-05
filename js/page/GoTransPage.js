@@ -26,7 +26,7 @@ import  setStatusBar from '../common/setStatusBar'
     translucent: true,
     backgroundColor:"#fff"
 })
-class TaskDetailsPage extends Component {
+class GoTransPage extends Component {
 
     constructor(props) {
         super(props);
@@ -59,6 +59,8 @@ class TaskDetailsPage extends Component {
     }
 
 
+
+
     render() {
 
         let navigationBar =
@@ -75,7 +77,7 @@ class TaskDetailsPage extends Component {
             {navigationBar}
 
             <ScrollView style={{flex:1}}>
-                <TaskBaseInfo />
+                <TaskBaseInfo showDetail={true}/>
 
                 <TaskLinesInfo />
 
@@ -114,7 +116,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({});
 
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps, mapDispatchToProps)(TaskDetailsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(GoTransPage);
 //样式
 const styles = StyleSheet.create({
     _finished:{

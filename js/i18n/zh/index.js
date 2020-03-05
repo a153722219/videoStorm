@@ -126,6 +126,28 @@ export default {
 
     concat:"联系方式",
 
-    orderNo:"订单号"
+    orderNo:"订单号",
+
+    TranDetail:"运输详情",
+
+    dispatch:"调度",
+
+    remark:"备注",
+
+    stationInfo:"站点信息",
+
+    LoadingDetail:"需要装货确认",
+
+    offLoadingDetail:"需要交货确认",
+
+    requireArrTime:"要求到达时间",
+
+    requireLeaveTime:"要求离开时间",
+
+    realArrTime:"实际到达时间",
+
+    realLeaveTime:"实际离开时间",
+
+
 
 };
