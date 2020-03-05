@@ -15,13 +15,13 @@ import {uW} from "../util/screenUtil";
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
-
+import NavigationUtil from '../navigator/NavigationUtil';
 
 class TaskBaseInfo extends Component {
 
     constructor(props) {
         super(props);
-
+        console.log(props)
     }
 
     componentDidMount() {
@@ -31,6 +31,10 @@ class TaskBaseInfo extends Component {
     componentWillUnmount() {
 
     };
+
+    goDetails(){
+        NavigationUtil.goPage({},'TaskDetailPage')
+    }
 
     render() {
         return <View style={styles.container}>
@@ -43,14 +47,17 @@ class TaskBaseInfo extends Component {
                         {i18n.t('baseInfo')}
                     </Text>
                 </View>
-                <TouchableOpacity activeOpacity={0.7}>
-                    <View style={styles.detailBtn}>
-                        <Text style={[styles.detail,{color:this.props.theme}]}>
-                            {i18n.t('Detail')}
-                        </Text>
-                        <Image style={styles.icon} source={i18n.locale==='zh'?require('../assets/zh/详情.png'):require('../assets/en/详细.png')}/>
-                    </View>
-                </TouchableOpacity>
+                {
+                    this.props.showDetail &&
+                    <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.goDetails()}}>
+                        <View style={styles.detailBtn}>
+                            <Text style={[styles.detail,{color:this.props.theme}]}>
+                                {i18n.t('Detail')}
+                            </Text>
+                            <Image style={styles.icon} source={i18n.locale==='zh'?require('../assets/zh/详情.png'):require('../assets/en/详细.png')}/>
+                        </View>
+                    </TouchableOpacity>
+                }
             </View>
             <View style={styles.infoBox}>
                 <View style={styles.titleView}>
@@ -71,23 +78,27 @@ class TaskBaseInfo extends Component {
                     </Text>
                 </View>
 
+
+
                 <View style={styles.titleView}>
                     <Text style={styles.key}>
-                        {i18n.t('Vehicles')}
+                        {this.props.showDetail?i18n.t('Vehicles'):i18n.t('dispatch')}
                     </Text>
-                    <Text style={styles.value}>
-                        粤B87K57
+                    <Text style={[styles.value,{color:this.props.showDetail?"#333":"#438DEF"}]}>
+                        深圳前海云途物流有限公司
                     </Text>
                 </View>
 
                 <View style={styles.titleView}>
                     <Text style={styles.key}>
-                        {i18n.t('totalSites')}
+                        {this.props.showDetail?i18n.t('totalSites'):i18n.t('remark')}
+
                     </Text>
                     <Text style={styles.value}>
                         8
                     </Text>
                 </View>
+
 
 
 

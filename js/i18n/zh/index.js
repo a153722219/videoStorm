@@ -160,6 +160,28 @@ export default {
 
     inputTips:'6-20位数字/字母/字符',
 
-    changePasswordSend:'提交'
+    changePasswordSend:'提交',
+    
+    TranDetail:"运输详情",
+
+    dispatch:"调度",
+
+    remark:"备注",
+
+    stationInfo:"站点信息",
+
+    LoadingDetail:"需要装货确认",
+
+    offLoadingDetail:"需要交货确认",
+
+    requireArrTime:"要求到达时间",
+
+    requireLeaveTime:"要求离开时间",
+
+    realArrTime:"实际到达时间",
+
+    realLeaveTime:"实际离开时间",
+
+
 
 };

@@ -147,7 +147,7 @@ class KaHangPage extends Component {
     }
 
     goDetail(){
-        NavigationUtil.goPage({},'TaskDetailsPage')
+        NavigationUtil.goPage({},'GoTransPage')
     }
 
     render() {
