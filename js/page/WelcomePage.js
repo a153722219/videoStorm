@@ -23,9 +23,9 @@ class WelcomePage extends Component{
     NavigationUtil.resetToHomePage({
       navigation:this.props.navigation
     })
-    setTimeout(()=>{
-      NavigationUtil.goPage({},'TaskDetailPage')
-    },500)
+    // setTimeout(()=>{
+    //   NavigationUtil.goPage({},'TaskDetailPage')
+    // },500)
     
   }
 

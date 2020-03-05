@@ -90,8 +90,8 @@ const MainNavigator = createStackNavigator({
             header:null,
         }
     },
-    TaskDetailsPage:{
-        screen:TaskDetailsPage,
+    TaskDetailPage:{
+        screen:TaskDetailPage,
             navigationOptions:{
             header:null,
         }

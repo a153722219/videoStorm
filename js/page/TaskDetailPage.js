@@ -26,7 +26,7 @@ import  setStatusBar from '../common/setStatusBar'
     translucent: true,
     backgroundColor:"#fff"
 })
-class GoTransPage extends Component {
+class TaskDetailPage extends Component {
 
     constructor(props) {
         super(props);
@@ -224,7 +224,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({});
 
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps, mapDispatchToProps)(GoTransPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskDetailPage);
 //样式
 const styles = StyleSheet.create({
     value:{
