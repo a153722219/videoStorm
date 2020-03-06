@@ -1,6 +1,11 @@
 export default class NavigationUtil{
-    static resetToHomePage(params){
-        const {navigation} = params;
+    static resetToHomePage(){
+        const navigation = NavigationUtil.RootNavigation;
+        if(!navigation){
+            console.log("NavigationUtil.RootNavigation can not be null!");
+            return
+        }
+
         navigation.navigate("Main");
     }
     static goBack(navigation){

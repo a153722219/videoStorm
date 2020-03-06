@@ -46,6 +46,11 @@ class settingPage extends Component {
         return true
     }
 
+    LogOut(){
+        // NavigationUtil.RootNavigation.navigate("Init");
+        NavigationUtil.goPage({},'WelcomePage');
+    }
+
 
     render() {
 
@@ -75,7 +80,7 @@ class settingPage extends Component {
                </TouchableOpacity>
            </View>
 
-           <TouchableOpacity activeOpacity={0.6} style={{marginTop:`100%`}}>
+           <TouchableOpacity activeOpacity={0.6} style={{marginTop:`100%`}} onPress={()=>{this.LogOut()}}>
              <View style={[styles.myBtn,{backgroundColor:this.props.theme}]}> 
                  <Text style={{color:'#fff',fontSize:34 * uW}}>{i18n.t('logout')}</Text>
              </View>

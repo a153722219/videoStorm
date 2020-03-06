@@ -20,12 +20,12 @@ import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
 class WelcomePage extends Component{
   componentDidMount(){
-    NavigationUtil.resetToHomePage({
-      navigation:this.props.navigation
-    })
-    // setTimeout(()=>{
-    //   NavigationUtil.goPage({},'TaskDetailPage')
-    // },500)
+
+    NavigationUtil.RootNavigation = this.props.navigation;
+    NavigationUtil.resetToHomePage()
+    setTimeout(()=>{
+      NavigationUtil.goPage({},'TaskDetailPage')
+    },500)
     
   }
 
@@ -105,9 +105,7 @@ class WelcomePage extends Component{
               underlineColorAndroid = "#E2E2E2"
             />
             <TouchableOpacity activeOpacity={0.8} style={{marginTop:240 * uW}} onPress={()=>{
-                NavigationUtil.resetToHomePage({
-                    navigation:this.props.navigation
-                })
+                NavigationUtil.resetToHomePage()
                }}>
               <Text style={[styles.myBtn,{backgroundColor:this.props.theme}]}>{i18n.t('login')}</Text>
               <Text style={styles.forget}>{i18n.t('forget')}</Text>
