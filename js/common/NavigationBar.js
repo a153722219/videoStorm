@@ -37,7 +37,7 @@ const StatusBarShape = {//状态栏所接受的属性
     constructor(props){
         super(props)
         //适配安卓低版本
-        this.STATUS_BAR_HEIGHT = Globals.Android_SDK_INT && Globals.Android_SDK_INT>19?StatusBar.currentHeight:0;
+        this.STATUS_BAR_HEIGHT = Globals.Android_SDK_INT && Globals.Android_SDK_INT<19?0:StatusBar.currentHeight;
         this.STATUS_BAR_HEIGHT = Platform.OS==="ios" ? (DeviceInfo.isIPhoneX_deprecated ? 34 : 20) : this.STATUS_BAR_HEIGHT;
     }
 

@@ -20,8 +20,8 @@ import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
-    barStyle: 'light-content',
-    translucent: true
+    barStyle:  'dark-content',
+    translucent: true,
 })
 class UserInfoPage extends Component {
 
@@ -55,15 +55,16 @@ class UserInfoPage extends Component {
         let navigationBar =
             <NavigationBar
                 title = {i18n.t('userInfoTitle')}
-                style={{backgroundColor:'#FFF'}}
+                style={{}}
+                statusBar={{}} //hidden:true
                 titleStyle = {{color:"#000",fontSize:20}}
                 // rightButton={this.getRightButton()}
                 leftButton={ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')}
             />
 
-        return <ScrollView style={{flex:1,backgroundColor:'#F9F9F9'}}>
+        return <View style={{flex:1}}>
             {navigationBar}
-            <View style={styles.topBox}>
+            <ScrollView style={styles.topBox}>
                 <View style={styles.item}>
                    <Text style={[styles.font32,{color:'#999'}]}>{i18n.t('userInfoName')}</Text>
                    <Text style={styles.font32}>孙云平</Text>
@@ -72,25 +73,28 @@ class UserInfoPage extends Component {
                    <Text style={[styles.font32,{color:'#999'}]}>{i18n.t('userInfoPhone')}</Text>
                    <Text style={styles.font32}>13800138000</Text>
                 </View>
-            </View>
 
-            <View style={[{flex:1,marginTop:20 * uW,backgroundColor:'#fff', paddingLeft:42 * uW, paddingRight: 42 * uW}]}>
-                <View style={styles.company}>
-                    <Text style={[styles.font32,{color:'#999',marginTop:44 * uW}]}>{i18n.t('userInfoCompany')}</Text>
-                    <Text style={[styles.font34,{marginTop:20 * uW}]}>深圳前海云途物流有限公司</Text>
-                </View>
-                <View style={{marginTop:43 * uW}}>
-                    {
-                        this.state.list.map(item=>{
-                            return <View style={styles.card}>
+
+                <View style={[{flex:1,marginTop:20 * uW,backgroundColor:'#fff', }]}>
+                    <View style={styles.company}>
+                        <Text style={[styles.font32,{color:'#999',marginTop:44 * uW}]}>{i18n.t('userInfoCompany')}</Text>
+                        <Text style={[styles.font34,{marginTop:20 * uW}]}>深圳前海云途物流有限公司</Text>
+                    </View>
+                    <View style={{marginTop:43 * uW}}>
+                        {
+                            this.state.list.map(item=>{
+                                return <View style={styles.card}>
                                     <Text style={[styles.font34,{color:'#fff'}]}>粤B87K90</Text>
                                     <Text style={{fontSize:22 * uW,color:'#fff',marginTop:6 * uW}}>({i18n.t('majorDriver')})</Text>
-                            </View>
-                        })
-                    }
+                                </View>
+                            })
+                        }
+                    </View>
                 </View>
-            </View>
-        </ScrollView>;
+            </ScrollView>
+
+
+        </View>;
     }
 
 }

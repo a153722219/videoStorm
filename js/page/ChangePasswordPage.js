@@ -20,8 +20,9 @@ import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
-    barStyle: 'light-content',
-    translucent: true
+    barStyle: 'dark-content',
+    translucent: true,
+    backgroundColor:"#fff"
 })
 class ChangePassWordPage extends Component {
 

@@ -20,7 +20,7 @@ import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
-    barStyle: 'light-content',
+    barStyle: 'dark-content',
     translucent: true
 })
 class settingPage extends Component {

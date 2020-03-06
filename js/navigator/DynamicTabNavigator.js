@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View,Image} from 'react-native';
 import {
     createAppContainer
 
@@ -19,8 +19,6 @@ import { createBottomTabNavigator,BottomTabBar} from 'react-navigation-tabs';
 import HomePage from '../page/HomePage'
 import ManagePage from '../page/ManagePage'
 import MySelfPage from '../page/MySelfPage'
-import Ionicons from "react-native-vector-icons/Ionicons"
-import Entypo from "react-native-vector-icons/Entypo"
 import NavigationUtil from '../navigator/NavigationUtil'
 import {connect} from 'react-redux';
 import EventBus from 'react-native-event-bus'
@@ -56,7 +54,6 @@ import {i18n} from '../i18n/index';
 
 
 
-
     _tabNavigator(){
         const Tabs = { //这里配置页面路由
             HomePage:{
@@ -64,26 +61,22 @@ import {i18n} from '../i18n/index';
                 navigationOptions:{
                     unmountOnBlur:true,
                     title:i18n.t('Home'),
-                    tabBarIcon:({tintColor,focused})=>(
-                        <Ionicons
-                            name={"ios-home"}
-                            size={26}
-                            style={{color:tintColor}}
-                        />
-                    )
+                    tabBarIcon:({tintColor,focused})=>{
+                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/首页/选中.png'):require('../assets/en/首页/选中.png')
+                        const unfocusedIcon = require('../assets/zh/首页/未选中.png');
+                        return <Image style={{width:26,height:26}} source={focused?focusedIcon:unfocusedIcon}/>
+                    }
                 }
             },
             ManagePage:{
                 screen:ManagePage,
                 navigationOptions:{
                     title:i18n.t('Management'),
-                    tabBarIcon:({tintColor,focused})=>(
-                        <Ionicons
-                            name={"ios-folder"}
-                            size={26}
-                            style={{color:tintColor}}
-                        />
-                    )
+                    tabBarIcon:({tintColor,focused})=>{
+                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/管理/选中.png'):require('../assets/en/管理/选中.png')
+                        const unfocusedIcon = require('../assets/zh/管理/未选中.png');
+                        return <Image style={{width:26,height:26}} source={focused?focusedIcon:unfocusedIcon}/>
+                    }
                 }
             },
             MySelfPage:{
@@ -91,11 +84,9 @@ import {i18n} from '../i18n/index';
                 navigationOptions:{
                     title:i18n.t('Me'),
                     tabBarIcon:({tintColor,focused})=>{
-                        return <Entypo
-                            name={"user"}
-                            size={26}
-                            style={{color:tintColor}}
-                        />
+                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/我的/选中.png'):require('../assets/en/我的/选中.png')
+                        const unfocusedIcon = require('../assets/zh/我的/未选中.png');
+                        return <Image style={{width:26,height:26}} source={focused?focusedIcon:unfocusedIcon}/>
                     }
                 }
             }
@@ -145,6 +136,7 @@ class TabBarComponent extends React.Component{
         //     }
         //
         // }
+
         return <BottomTabBar
             {...this.props}
             activeTintColor = {this.props.theme}

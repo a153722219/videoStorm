@@ -90,12 +90,7 @@ const MainNavigator = createStackNavigator({
             header:null,
         }
     },
-    TaskDetailPage:{
-        screen:TaskDetailPage,
-            navigationOptions:{
-            header:null,
-        }
-    },
+
     GoTransPage: {
         screen: GoTransPage,
         navigationOptions: {
