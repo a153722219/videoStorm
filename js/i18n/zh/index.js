@@ -182,6 +182,10 @@ export default {
 
     realLeaveTime:"实际离开时间",
 
+    PODList:"回单记录",
+
+    searchByOrder:"可通过订单号查询"
+
 
 
 };

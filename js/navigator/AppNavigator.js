@@ -11,7 +11,7 @@ import {
 import WelcomePage from '../page/WelcomePage'
 import RootPage from '../page/RootPage'
 import DetailPage from '../page/DetailPage'
-import WebViewPage from '../page/WebViewPage'
+import PODListPage from '../page/PODListPage'
 import TaskDetailPage from '../page/TaskDetailPage'
 import  GoTransPage from '../page/GoTransPage'
 import  KaHangPage from '../page/KaHangPage'
@@ -99,6 +99,13 @@ const MainNavigator = createStackNavigator({
     },
     TaskDetailPage:{
         screen:TaskDetailPage,
+        navigationOptions:{
+            header:null,
+        }
+    }
+    ,
+    PODListPage:{
+        screen:PODListPage,
         navigationOptions:{
             header:null,
         }
