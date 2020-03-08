@@ -182,10 +182,22 @@ export default {
 
     realLeaveTime:"实际离开时间",
 
-    PODList:"回单记录",
+    searchByOrder:"可通过订单号查询",
 
-    searchByOrder:"可通过订单号查询"
+    sheets:"张",
 
+    uploadPodTime:"回单时间",
 
+    uploadPOD:"上传回单",
+
+    comfirmUpload:"确认上传",
+
+    Yes:"确认",
+
+    No:"取消",
+
+    comfirmTips:"确认提示",
+
+    comfirmDelete:"确认删除吗?"
 
 };

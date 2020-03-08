@@ -24,7 +24,7 @@ class WelcomePage extends Component{
     NavigationUtil.RootNavigation = this.props.navigation;
     NavigationUtil.resetToHomePage()
     setTimeout(()=>{
-      NavigationUtil.goPage({},'PODListPage')
+      NavigationUtil.goPage({},'UploadPodPage')
     },500)
     
   }

@@ -10,7 +10,7 @@ import {
 } from 'react-navigation-tabs';
 import WelcomePage from '../page/WelcomePage'
 import RootPage from '../page/RootPage'
-import DetailPage from '../page/DetailPage'
+import UploadPodPage from '../page/UploadPodPage'
 import PODListPage from '../page/PODListPage'
 import TaskDetailPage from '../page/TaskDetailPage'
 import  GoTransPage from '../page/GoTransPage'
@@ -23,7 +23,6 @@ import  UserInfoPage from '../page/UserInfoPage'
 import  SettingPage from '../page/SettingPage'
 import  ChangePasswordPage from '../page/ChangePasswordPage'
 import {connect} from 'react-redux'
-import {Text} from 'react-native'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
 export const rootCom = 'Init';//设置根路由
 const InitNavigator = createStackNavigator({
@@ -106,6 +105,13 @@ const MainNavigator = createStackNavigator({
     ,
     PODListPage:{
         screen:PODListPage,
+        navigationOptions:{
+            header:null,
+        }
+    }
+    ,
+    UploadPodPage:{
+        screen:UploadPodPage,
         navigationOptions:{
             header:null,
         }

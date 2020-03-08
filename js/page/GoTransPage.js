@@ -50,7 +50,9 @@ class GoTransPage extends Component {
     }
 
     getRightButton(){
-        return <TouchableOpacity activeOpacity={0.7}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+            NavigationUtil.goPage({},'PODListPage')
+        }}>
             <View  style={styles.navBtnBox}>
                     <Image style={styles.navBtnIcon} source={i18n.locale==='zh'?require('../assets/zh/回单记录.png'):require('../assets/en/回单详细.png')}/>
                     <Text  style={styles.navBtnTitle}>{i18n.t('PODRecords')}</Text>

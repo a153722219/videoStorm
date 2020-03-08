@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, StyleSheet, View, Text,Image} from 'react-native'
+import { TouchableOpacity, StyleSheet, View, Text,Image,Alert} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {uW, width} from "../util/screenUtil";
 import {i18n} from '../i18n/index';
@@ -175,6 +175,24 @@ export default class ViewUtil{
         </TouchableOpacity>
     }
 
+
+    static showComfirm(onComfirm,title=i18n.t('comfirmTips'),content=i18n.t('comfirmDelete')){
+        Alert.alert(
+            title,
+            content,
+            [
+                {text: i18n.t('No'), onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+
+                {text: i18n.t('Yes'), onPress: onComfirm},
+            ],
+            {
+                cancelable: true,
+                onDismiss: () => {
+                    // ToastAndroid.show('点击了外面', ToastAndroid.SHORT)
+                }
+            }
+        )
+    }
 
 
 

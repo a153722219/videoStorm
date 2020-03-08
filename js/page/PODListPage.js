@@ -77,12 +77,12 @@ class PODListPage extends Component {
             <View style={styles.item}>
                 <View style={styles.ImgBox}>
                     <Image style={styles.ImgBox} source={require('../assets/Koala.jpg')}/>
-                    <Text style={styles.count}>共5张</Text>
+                    <Text style={styles.count}>{i18n.locale=='zh'?`共5张`:"5 Sheets"}</Text>
                 </View>
 
                 <View style={{marginLeft:40*uW}}>
-                    <Text style={styles.Title}>订单号：T20191128PKLX002</Text>
-                    <Text style={styles.Time}>回单时间：2019-12-08 16:54</Text>
+                    <Text style={styles.Title}>{i18n.t('orderNo')}：T20191128PKLX002</Text>
+                    <Text style={styles.Time}>{i18n.t('uploadPodTime')}：2019-12-08 16:54</Text>
 
                 </View>
             </View>
@@ -94,7 +94,7 @@ class PODListPage extends Component {
 
         let navigationBar =
             <NavigationBar
-                title={i18n.t('PODList')}
+                title={i18n.t('PODRecords')}
                 statusBar={{}}
                 titleStyle = {{color:"#000",fontSize:20}}
                 style={{backgroundColor: "white"}}
