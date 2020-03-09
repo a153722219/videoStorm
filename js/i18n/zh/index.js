@@ -198,6 +198,8 @@ export default {
 
     comfirmTips:"确认提示",
 
-    comfirmDelete:"确认删除吗?"
+    comfirmDelete:"确认删除吗?",
+
+    AboutMe:"个人信息"
 
 };

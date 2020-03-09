@@ -82,9 +82,9 @@ export default {
 
     PlanNumber:"Plan Number",
 
-    remain:"Remain",
+    remain:"Remain ",
 
-    sites:"Sites",
+    sites:" Sites",
 
     Vehicles:"Vehicles",
 
@@ -198,6 +198,8 @@ export default {
 
     comfirmTips:"确认提示",
 
-    comfirmDelete:"确认删除吗?"
+    comfirmDelete:"确认删除吗?",
+
+    AboutMe:"About Me"
 
 };

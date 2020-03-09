@@ -61,7 +61,7 @@ class SearchPage extends Component {
                 />
             </View>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this.onBackPress()}>
-                <Text style={styles.cancel}>{i18n.t('cancel')}</Text>
+                <Text style={[styles.cancel,{marginLeft:i18n.locale=="zh"?28*uW:15*uW}]}>{i18n.t('cancel')}</Text>
             </TouchableOpacity>
         </View>
     }
@@ -186,10 +186,11 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     cancel:{
-        marginLeft:28*uW,
+        // marginLeft:28*uW,
         fontSize:28*uW,
         fontWeight:"400",
-        color:'#fff'
+        color:'#fff',
+        
     }
 
 });

@@ -216,7 +216,8 @@ const styles = StyleSheet.create({
 
     },
     MenuItem:{
-        width:92*uW
+        width:118*uW,
+        alignItems:"center"
     },
     ItemImg:{
         width:92*uW,
@@ -226,7 +227,9 @@ const styles = StyleSheet.create({
         textAlign:'center',
         color:"#333",
         fontSize:24*uW,
-        fontWeight:"400"
+        fontWeight:"400",
+        textAlign:"center",
+        width:"100%"
     },
     ItemDisable:{
         opacity:0.2

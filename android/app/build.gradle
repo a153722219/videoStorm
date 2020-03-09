@@ -137,11 +137,11 @@ android {
         }
 
         release {
-                    //storeFile file(MYAPP_RELEASE_STORE_FILE)
-                    //storePassword MYAPP_RELEASE_STORE_PASSWORD
-                    //keyAlias MYAPP_RELEASE_KEY_ALIAS
-                    //keyPassword MYAPP_RELEASE_KEY_PASSWORD
-                }
+                keyAlias 'yingqi' //别名
+                keyPassword '123456' //密钥密码 之前设置秘钥口令
+                storeFile file('app.keystore') //my-release-key.keystore文件的绝对路径
+                storePassword '123456' //存储密码
+        }
     }
     buildTypes {
         debug {

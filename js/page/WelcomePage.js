@@ -22,10 +22,10 @@ class WelcomePage extends Component{
   componentDidMount(){
 
     NavigationUtil.RootNavigation = this.props.navigation;
-    NavigationUtil.resetToHomePage()
-    setTimeout(()=>{
-      NavigationUtil.goPage({},'CarListPage')
-    },500)
+    // NavigationUtil.resetToHomePage()
+    // setTimeout(()=>{
+    //   NavigationUtil.goPage({},'CarListPage')
+    // },500)
     
   }
 

@@ -24,24 +24,14 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import KaHangItem from '../common/KaHangItem'
+
 @setStatusBar({
     barStyle: 'dark-content',
     translucent: true
 })
 class KaHangPage extends Component {
 
-    static Keys = [
-        {
-            name:i18n.t('noFinished')
-        },
-        {
-            name:i18n.t('Pending')
-        },
-        {
-            name:i18n.t('Finished')
-        }
-
-    ];
+   
 
 
     constructor(props) {
@@ -75,15 +65,30 @@ class KaHangPage extends Component {
 
 
     getLeftBackButton(){
+
+
+        const Keys = [
+            {
+                name:i18n.t('noFinished')
+            },
+            {
+                name:i18n.t('Pending')
+            },
+            {
+                name:i18n.t('Finished')
+            }
+        
+        ];
+
         const leftButton =  ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')
         const RightButton =  ViewUtil.getIconButton(() => {
             NavigationUtil.goPage({},"SearchPage")
-        },require('../assets/zh/待执行-搜索.png'),{marginLeft:100*uW})
+        },require('../assets/zh/待执行-搜索.png'),{marginLeft:i18n.locale=='zh'?100*uW:38*uW})
         return  <View style={styles.navBox}>
                 {leftButton}
-                <View  style={[styles.navBox,styles.navInBox]}>
+                <View  style={[styles.navBox,{marginLeft:i18n.locale=='zh'?100*uW:57*uW}]}>
                     {
-                        KaHangPage.Keys.map((item,index)=>{
+                        Keys.map((item,index)=>{
                             return <TouchableOpacity key={index} activeOpacity={0.6} onPress={()=>{
                                 this.setState({
                                     navActive:index
@@ -395,9 +400,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
 
-    navInBox:{
-        marginLeft:100*uW
-    },
+
 
     navItem:{
         fontSize:30*uW,

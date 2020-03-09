@@ -10,14 +10,16 @@ import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, View,Image,TouchableOpacity,ImageBackground} from 'react-native';
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil'
-import {MORE_MENU} from '../common/MORE_MENU'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil';
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
 import {connect} from "react-redux"
-import  setStatusBar from '../common/setStatusBar'
+import  setStatusBar from '../common/setStatusBar';
+
+
+
 @setStatusBar({
     barStyle: 'light-content',
     translucent: true
@@ -30,19 +32,28 @@ class MySelfPage extends Component{
         }
     };
 
+    constructor(props){
+        super(props)
+        this.MORE_MENU = {
+            Info: { name: i18n.t('AboutMe'), icon: require('../assets/zh/个人信息.png') },
+            Setting: { name: i18n.t('settingPage'), icon: require('../assets/zh/设置.png')  },
+            ChangeLang: { name: i18n.t('ChangeLang'), icon: require('../assets/zh/语言切换.png') },
+        };
+    }
+
 
     onClick(menu){
         let RouteName,params={};
         switch (menu){
-            case MORE_MENU.Info:
+            case this.MORE_MENU.Info:
                 RouteName='UserInfoPage';
                 // params.title="教程";
                 // params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
                 break;
-            case MORE_MENU.Setting:
+            case this.MORE_MENU.Setting:
                 RouteName='SettingPage';
                 break;
-            case MORE_MENU.ChangeLang:
+            case this.MORE_MENU.ChangeLang:
                 RouteName='ChangeLangPage';
                 break;
         }
@@ -57,6 +68,7 @@ class MySelfPage extends Component{
 
 
   render() {
+  
 
   let navigationBar =
       <NavigationBar
@@ -88,13 +100,13 @@ class MySelfPage extends Component{
               >
 
                   <View style={GlobalStyles.line}/>
-                  {this.getItem(MORE_MENU.Info)}
+                  {this.getItem(this.MORE_MENU.Info)}
 
                   <View style={GlobalStyles.line}/>
-                  {this.getItem(MORE_MENU.Setting)}
+                  {this.getItem(this.MORE_MENU.Setting)}
 
                   <View style={GlobalStyles.line}/>
-                  {this.getItem(MORE_MENU.ChangeLang)}
+                  {this.getItem(this.MORE_MENU.ChangeLang)}
 
               </ScrollView>
 
