@@ -2,7 +2,7 @@
  * Created by Administrator on 2019/10/21.
  */
 import  AsyncStorage from "@react-native-community/async-storage"
-import Trending from 'GitHubTrending'
+// import Trending from 'GitHubTrending'
 const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
 export default  class  DataStorage{
 

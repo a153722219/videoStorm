@@ -1,4 +1,4 @@
-package com.videostorm;
+package com.YunTuApp;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import android.os.Bundle;

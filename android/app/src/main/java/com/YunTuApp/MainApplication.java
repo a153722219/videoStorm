@@ -1,4 +1,4 @@
-package com.videostorm;
+package com.YunTuApp;
 
 import android.app.Application;
 
@@ -15,7 +15,7 @@ public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+      return com.YunTuApp.BuildConfig.DEBUG;
     }
 
     @Override
