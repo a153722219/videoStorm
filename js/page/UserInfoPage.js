@@ -83,7 +83,7 @@ class UserInfoPage extends Component {
                     <View style={{marginTop:43 * uW}}>
                         {
                             this.state.list.map(item=>{
-                                return <View style={styles.card}>
+                                return <View style={[styles.card,{backgroundColor:this.props.theme}]}>
                                     <Text style={[styles.font34,{color:'#fff'}]}>粤B87K90</Text>
                                     <Text style={{fontSize:22 * uW,color:'#fff',marginTop:6 * uW}}>({i18n.t('majorDriver')})</Text>
                                 </View>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     card:{
         height:168 * uW,
         width:100 + '%',
-        backgroundColor:'#00BBB7',
+        // backgroundColor:'#00BBB7',
         borderRadius:6 * uW,
         marginBottom:34 * uW,
         paddingTop:30 * uW,

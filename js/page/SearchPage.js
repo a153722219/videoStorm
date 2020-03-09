@@ -23,7 +23,6 @@ import  setStatusBar from '../common/setStatusBar'
     barStyle: 'light-content',
     translucent: true
 })
-
 class SearchPage extends Component {
 
     constructor(props) {
@@ -56,6 +55,7 @@ class SearchPage extends Component {
                     placeholderTextColor="#CFCFCF"
                     style={styles.Ipt}
                     autoFocus={true}
+                    returnKeyType="search"
                     placeholder={i18n.t('searchPlaceHolder')}
                     ref={TextInput => this.TextInput = TextInput}
                 />
@@ -96,7 +96,7 @@ class SearchPage extends Component {
                     </TouchableOpacity>
 
                 </View>
-
+                
                 <TouchableOpacity activeOpacity={0.5}>
                     <Text style={styles.clearBtn}>
                         {i18n.t('clearBtn')}

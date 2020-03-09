@@ -87,7 +87,7 @@ class GoTransPage extends Component {
             </ScrollView>
 
             <View style={styles.fixContainer}>
-                 <TouchableOpacity activeOpacity={0.7}>
+                 {/* <TouchableOpacity activeOpacity={0.7}>
                         <View style={styles._finished}>
                             <Image style={styles._finishedIcon} source={require('../assets/zh/异常结束.png')}/>
                             <Text  style={styles._finishedText}>异常结束</Text>
@@ -97,13 +97,15 @@ class GoTransPage extends Component {
                     <Text style={[styles.comfirmbtn,{backgroundColor:this.props.theme}]}>
                         {i18n.t('goLoad')}
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                {/*<TouchableOpacity activeOpacity={0.7}>*/}
-                    {/*<Text style={[styles.comfirmbtn,styles.comfirmFullbtn,{backgroundColor:this.props.theme}]}>*/}
-                        {/*确认离开*/}
-                    {/*</Text>*/}
-                {/*</TouchableOpacity>*/}
+                <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+                    NavigationUtil.goPage({},'UploadPodPage')
+                }}>
+                    <Text style={[styles.comfirmbtn,styles.comfirmFullbtn,{backgroundColor:this.props.theme}]}>
+                        上传回单
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>;
     }
