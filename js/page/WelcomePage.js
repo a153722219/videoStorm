@@ -22,10 +22,10 @@ class WelcomePage extends Component{
   componentDidMount(){
 
     NavigationUtil.RootNavigation = this.props.navigation;
-    // NavigationUtil.resetToHomePage()
-    // setTimeout(()=>{
-    //   NavigationUtil.goPage({},'UploadPodPage')
-    // },500)
+    NavigationUtil.resetToHomePage()
+    setTimeout(()=>{
+      NavigationUtil.goPage({},'CarListPage')
+    },500)
     
   }
 
@@ -37,7 +37,7 @@ class WelcomePage extends Component{
       }else{
           i18n.locale = 'zh'
       }
-      console.log(i18n.locale)
+      console.log(i18n)
       EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
 
       this.state = {
