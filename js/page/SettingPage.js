@@ -18,6 +18,7 @@ import {uW, width} from "../util/screenUtil";
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
+import actions from '../action/index'
 import  setStatusBar from '../common/setStatusBar'
 @setStatusBar({
     barStyle: 'dark-content',
@@ -30,6 +31,9 @@ class settingPage extends Component {
         this.backPress = new BackPressComponent({
             backPress:()=>this.onBackPress()
         });
+
+        const userKey  = this.props.user.currentUserKey || "";
+        this.user = this.props.user[userKey] || {};
     }
 
     componentDidMount() {
@@ -47,12 +51,16 @@ class settingPage extends Component {
     }
 
     LogOut(){
-        // NavigationUtil.RootNavigation.navigate("Init");
-        NavigationUtil.goPage({},'WelcomePage');
+        this.props.onUserLogout();
+        setTimeout(()=>{
+            NavigationUtil.RootNavigation.navigate("Init");
+        },100)
+        
     }
 
 
     render() {
+        
 
         let navigationBar =
             <NavigationBar
@@ -68,7 +76,7 @@ class settingPage extends Component {
            <View style={styles.box}>
                <View style={styles.item}>
                    <Text style={[styles.font32,{color:'#BBB'}]}> {i18n.t('account')} </Text>
-                   <Text style={styles.font32}> 13800138000 </Text>
+                   <Text style={styles.font32}> {this.user.Phone} </Text>
                </View>
                <TouchableOpacity activeOpacity={0.6} onPress={()=>{
                    NavigationUtil.goPage({},'ChangePasswordPage')
@@ -93,10 +101,13 @@ class settingPage extends Component {
 
 const mapStateToProps = state => ({
     nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
+    user:state.user
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onUserLogout:()=>dispatch(actions.onUserLogout())
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(settingPage);

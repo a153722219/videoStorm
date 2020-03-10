@@ -5,7 +5,6 @@
  * @format
  * @flow
  */
-
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,ImageBackground,Image,TouchableOpacity,TextInput,ScrollView } from 'react-native';
 import {StatusBar} from 'react-native';
@@ -18,41 +17,84 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
+import api from '../api'
 class WelcomePage extends Component{
   componentDidMount(){
 
-    NavigationUtil.RootNavigation = this.props.navigation;
-    // NavigationUtil.resetToHomePage()
-    // setTimeout(()=>{
-    //   NavigationUtil.goPage({},'CarListPage')
-    // },500)
-    
   }
 
   constructor(props){
     super(props);
-
+      NavigationUtil.RootNavigation = this.props.navigation;
       if(this.props.theme=="#EF7622"){
           i18n.locale = 'en'
       }else{
           i18n.locale = 'zh'
       }
-      console.log(i18n)
       EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
 
       this.state = {
-        active:i18n.locale=="zh"?0:1
+        active:i18n.locale=="zh"?0:1,
+        userPhone:"18198823550",
+        password:""
       }
+      
+
   }
 
   componentWillUnmount(){
 
+  }
+
+
+  userLogin(){
+    if(!(/^1[3456789]\d{9}$/.test(this.state.userPhone))){ 
+      alert("手机号码有误，请重填");  
+      return false; 
+    } 
+
+    api.login(this.state.userPhone).then(user=>{
+        // console.log(res)
+        if(user.Phone){
+            this.props.onUserLogin(user);
+            NavigationUtil.resetToHomePage()
+            
+        }else{
+          alert("手机号码不存在");  
+        }
+
+    }).catch(err=>{
+        //网络错误的处理。。以及返回错误码的处理。。。。
+        if(err=="Error: Network Error"){
+            //先尝试本地登录
+            const key = "user_"+this.state.userPhone;
+            const user = this.props.user[key]
+            if(user){
+              //本地登录成功
+              this.props.onUserLogin(user);
+              NavigationUtil.resetToHomePage()
+            }else{
+              alert("网络连接错误");
+            }
+        }
+
+        //alert(err);
+    });
   }
   
   static language = ['中文','English']
 
 
   render() {
+
+    //是否已经登录判断
+    const userKey = this.props.user.currentUserKey;
+
+    if(userKey && this.props.user[userKey]){
+      //如果redux里面有信息 则直接跳转首页
+      NavigationUtil.resetToHomePage()
+      return null
+    }
 
     return (
       <ScrollView>
@@ -96,6 +138,8 @@ class WelcomePage extends Component{
               placeholder={i18n.t('userIpt')}
               placeholderTextColor="#CFCFCF"
               underlineColorAndroid = "#E2E2E2"
+              value={this.state.userPhone}
+              onChangeText={ipt=>this.setState({userPhone:ipt})}
             />
             <TextInput
               style={{marginTop:50 * uW}}
@@ -103,10 +147,9 @@ class WelcomePage extends Component{
               secureTextEntry={true}
               placeholderTextColor="#CFCFCF"
               underlineColorAndroid = "#E2E2E2"
+              onChangeText={ipt=>this.setState({password:ipt})}
             />
-            <TouchableOpacity activeOpacity={0.8} style={{marginTop:240 * uW}} onPress={()=>{
-                NavigationUtil.resetToHomePage()
-               }}>
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:240 * uW}} onPress={this.userLogin.bind(this)}>
               <Text style={[styles.myBtn,{backgroundColor:this.props.theme}]}>{i18n.t('login')}</Text>
               <Text style={styles.forget}>{i18n.t('forget')}</Text>
             </TouchableOpacity>
@@ -125,11 +168,13 @@ class WelcomePage extends Component{
 
 const mapStateToProps = state => ({
   nav: state.nav,
-  theme: state.theme.theme
+  theme: state.theme.theme,
+  user:state.user
 });
 
 const mapDispatchToProps = dispatch=>({
-  onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
+  onThemeChange:theme=>dispatch(actions.onThemeChange(theme)),
+  onUserLogin:user=>dispatch(actions.onUserLogin(user))
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

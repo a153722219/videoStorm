@@ -14,7 +14,8 @@ import store from './store'
 import { PersistGate } from 'redux-persist/es/integration/react';
 import ToastManager from './common/ToastManager'
 import Toast from 'react-native-easy-toast';
-import Globals from './util/Globals'
+import Globals from './util/Globals';
+
 export default class App extends Component {
 
     constructor(props) {

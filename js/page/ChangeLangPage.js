@@ -76,8 +76,8 @@ class ChangeLangPage extends Component {
                     </Text>
 
                     <Switch
-                        thumbTintColor={this.props.theme}
-                        onTintColor={this.props.theme}
+                        thumbColor={this.props.theme}
+                        trackColor={this.props.theme}
                         onValueChange={(value) =>{
                             if(value==true){
                                 i18n.locale="zh"
@@ -99,8 +99,8 @@ class ChangeLangPage extends Component {
                     </Text>
 
                     <Switch
-                        thumbTintColor={this.props.theme}
-                        onTintColor={this.props.theme}
+                        thumbColor={this.props.theme}
+                        trackColor={this.props.theme}
                         onValueChange={(value) =>{
                             if(value==false){
                                 i18n.locale="zh"

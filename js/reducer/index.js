@@ -3,6 +3,7 @@
  */
 import {combineReducers} from 'redux'
 import theme from './theme'
+import user from './user'
 import popular from './popular'
 import trending from './trending'
 import favorite from './favorite'
@@ -32,7 +33,8 @@ const index = combineReducers({
     popular,
     trending,
     favorite,
-    language
+    language,
+    user
 });
 
 export default index;

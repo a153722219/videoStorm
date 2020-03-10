@@ -52,6 +52,9 @@ class UserInfoPage extends Component {
 
     render() {
 
+        const userKey  = this.props.user.currentUserKey;
+        const user = this.props.user[userKey];
+
         let navigationBar =
             <NavigationBar
                 title = {i18n.t('userInfoTitle')}
@@ -67,24 +70,24 @@ class UserInfoPage extends Component {
             <ScrollView style={styles.topBox}>
                 <View style={styles.item}>
                    <Text style={[styles.font32,{color:'#999'}]}>{i18n.t('userInfoName')}</Text>
-                   <Text style={styles.font32}>孙云平</Text>
+                   <Text style={styles.font32}>{user.DriverName}</Text>
                 </View>
                 <View style={[styles.item,{borderBottomWidth:0}]}>
                    <Text style={[styles.font32,{color:'#999'}]}>{i18n.t('userInfoPhone')}</Text>
-                   <Text style={styles.font32}>13800138000</Text>
+                   <Text style={styles.font32}>{user.Phone}</Text>
                 </View>
 
 
                 <View style={[{flex:1,marginTop:20 * uW,backgroundColor:'#fff', }]}>
                     <View style={styles.company}>
                         <Text style={[styles.font32,{color:'#999',marginTop:44 * uW}]}>{i18n.t('userInfoCompany')}</Text>
-                        <Text style={[styles.font34,{marginTop:20 * uW}]}>深圳前海云途物流有限公司</Text>
+                        <Text style={[styles.font34,{marginTop:20 * uW}]}>{user.CorpName}</Text>
                     </View>
                     <View style={{marginTop:43 * uW}}>
                         {
-                            this.state.list.map(item=>{
-                                return <ImageBackground source={i18n.locale=="zh"?require('../assets/zh/mainDriver.png'):require('../assets/en/mainDriver.png')} style={styles.card}>
-                                    <Text style={[styles.font34,{color:'#fff',paddingLeft:35 * uW}]}>粤B87K90</Text>
+                            user.CustomVehicleNos.map((item,index)=>{
+                                return <ImageBackground key={index} source={i18n.locale=="zh"?require('../assets/zh/mainDriver.png'):require('../assets/en/mainDriver.png')} style={styles.card}>
+                                    <Text style={[styles.font34,{color:'#fff',paddingLeft:35 * uW}]}>{item}</Text>
                                     <Text style={{fontSize:22 * uW,color:'#fff',marginTop:6 * uW,paddingLeft:35 * uW}}>({i18n.t('majorDriver')})</Text>
                                 </ImageBackground>
                             })
@@ -100,11 +103,13 @@ class UserInfoPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
+    user:state.user
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+   
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(UserInfoPage);

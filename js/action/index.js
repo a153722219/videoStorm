@@ -2,6 +2,7 @@
  * Created by Administrator on 2019/10/17.
  */
 import {onThemeChange} from './theme'
+import {onUserLogin,onUserLogout} from './user'
 import {onRefreshPopular,onLoadMorePopular,onFlushPopularFavorite} from './popular'
 import {onLoadMoreTrending,onRefreshTrending,onFlushTrendingFavorite} from './trending'
 import {onLoadFavoriteData} from './favorite'
@@ -15,5 +16,7 @@ export default {
     onLoadFavoriteData,
     onFlushPopularFavorite,
     onFlushTrendingFavorite,
-    onLoadLanguage
+    onLoadLanguage,
+    onUserLogin,
+    onUserLogout
 }

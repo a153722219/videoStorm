@@ -33,7 +33,10 @@ class MySelfPage extends Component{
     };
 
     constructor(props){
-        super(props)
+        super(props);
+
+        const userKey  = this.props.user.currentUserKey || "";
+        this.user = this.props.user[userKey] || {};
     }
 
 
@@ -93,7 +96,7 @@ class MySelfPage extends Component{
           </ImageBackground>
 
           <View style={{marginTop:39*uW,paddingLeft:62*uW,paddingRight:62*uW}}>
-              <Text style={{fontSize:40*uW,fontWeight:'500',marginTop:20*uW,color:"#333333"}}>{i18n.t('welCome')}孙云平</Text>
+              <Text style={{fontSize:40*uW,fontWeight:'500',marginTop:20*uW,color:"#333333"}}>{i18n.t('welCome')}{this.user.DriverName}</Text>
     <Text style={{fontSize:26*uW,fontWeight:'400',marginTop:4*uW,color:"#B2B2B2"}}>{(i18n.locale=='zh'?'':'Welcome to') + i18n.t('welComeToXY')}</Text>
 
               <ScrollView
@@ -119,6 +122,8 @@ class MySelfPage extends Component{
 
 const mapStateToProps = state => ({
     theme: state.theme.theme,
+    user:state.user,
+    currentUserKey:state.user.currentUserKey
 });
 
 export default connect(mapStateToProps)(MySelfPage);
