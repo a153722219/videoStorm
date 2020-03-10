@@ -56,7 +56,7 @@ class KaHangItem extends Component {
                     </View>
 
                     <View style={styles.titleBox}>
-                        <Image style={[styles.timeIcon]} source={require('../assets/zh/待执行-时间.png')}/>
+                        <Image style={[styles.timeIcon]} source={require('../assets/zh/waitExecTime.png')}/>
                         <Text style={styles.time}>12-08 11:08</Text>
                     </View>
 
@@ -97,7 +97,7 @@ class KaHangItem extends Component {
                                 <Text style={[styles.remain,{color:this.props.theme}]}>{i18n.t('remain')}8{i18n.t('sites')}</Text>
                                 <Image
                                     style={styles.remainIcon}
-                                    source={i18n.locale==='zh'?require('../assets/zh/剩余站数.png'):require('../assets/en/共8站.png')}
+                                    source={i18n.locale==='zh'?require('../assets/zh/remainSite.png'):require('../assets/en/remainSite.png')}
                                 />
                             </View>
                         </TouchableOpacity>
@@ -135,8 +135,8 @@ class KaHangItem extends Component {
                     </View>
 
                     {/*完成，未完成图标*/}
-                    {/*<Image style={styles.finishIcon} source={i18n.locale==='zh'?require('../assets/zh/已完成.png'):require('../assets/en/Finished.png')}/>*/}
-
+                    {/*<Image style={styles.finishIcon} source={i18n.locale==='zh'?require('../assets/zh/haveFinished.png'):require('../assets/en/Finished.png')}/>*/}
+                    {/* _FinishedStatus.png */}
                 </View>
 
 

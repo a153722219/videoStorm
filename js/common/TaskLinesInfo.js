@@ -86,7 +86,7 @@ class TaskLinesInfo extends Component {
 
                 <TouchableOpacity activeOpacity={0.7}>
                     <View style={styles.previewAdr}>
-                        <Image style={styles.routeIcon} source={require('../assets/zh/路线.png')}/>
+                        <Image style={styles.routeIcon} source={require('../assets/zh/Route.png')}/>
                         <Text style={styles.route} >
                             {i18n.t('Route')}
                         </Text>
@@ -121,7 +121,7 @@ class TaskLinesInfo extends Component {
                             <Text style={styles.Phone} >
                                 138000138000
                             </Text>
-                            <Image  style={styles.PhoneIcon} source={require('../assets/zh/联系方式.png')}/>
+                            <Image  style={styles.PhoneIcon} source={require('../assets/zh/phone.png')}/>
                         </View>
                     </TouchableOpacity>
 
@@ -140,7 +140,7 @@ class TaskLinesInfo extends Component {
                             <Text style={[styles.Phone,{color:"#333"}]} >
                                 T20191118PKTX0002
                             </Text>
-                            <Image  style={styles.copyIcon} source={require('../assets/zh/订单号.png')}/>
+                            <Image  style={styles.copyIcon} source={require('../assets/zh/orderNo.png')}/>
                         </View>
                     </TouchableOpacity>
 

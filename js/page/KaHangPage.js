@@ -83,7 +83,7 @@ class KaHangPage extends Component {
         const leftButton =  ViewUtil.getLeftBackButton(() => NavigationUtil.goBack(this.props.navigation),'#000000')
         const RightButton =  ViewUtil.getIconButton(() => {
             NavigationUtil.goPage({},"SearchPage")
-        },require('../assets/zh/待执行-搜索.png'),{marginLeft:i18n.locale=='zh'?100*uW:38*uW})
+        },require('../assets/zh/waitExecSearch.png'),{marginLeft:i18n.locale=='zh'?100*uW:38*uW})
         return  <View style={styles.navBox}>
                 {leftButton}
                 <View  style={[styles.navBox,{marginLeft:i18n.locale=='zh'?100*uW:57*uW}]}>
@@ -226,7 +226,7 @@ class KaHangPage extends Component {
                     <View>
                         <View style={styles.modalBox}>
                             <View style={[{backgroundColor:this.props.theme},styles.headBox]} >
-                                <Image style={styles.smallogo} source={i18n.locale=="zh"?require('../assets/zh/路线预览-logo.png'):require('../assets/en/路线预览-logo.png')}/>
+                                <Image style={styles.smallogo} source={i18n.locale=="zh"?require('../assets/zh/Routelogo.png'):require('../assets/en/Routelogo.png')}/>
                                 <Text style={styles.PlanNO}>{i18n.t('PlanNumber')}:T20191128PKLX002</Text>
                                 <Text style={styles.Info}>{i18n.t('total')}8{i18n.t('sites')}，{i18n.t('Finished')}2{i18n.t('sites')}，{i18n.t('remain')}6{i18n.t('sites')}</Text>
                             </View>
@@ -255,7 +255,7 @@ class KaHangPage extends Component {
                             </View>
                         </View>
                         <TouchableOpacity activeOpacity={0.8} onPress={()=>{  this.setState({ modalVisible: false }); }}>
-                            <Image style={styles.Close} source={require('../assets/zh/路线预览-关闭.png')}/>
+                            <Image style={styles.Close} source={require('../assets/zh/RouteClose.png')}/>
                         </TouchableOpacity>
                     </View>
 

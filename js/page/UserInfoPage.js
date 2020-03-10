@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,ScrollView} from 'react-native';
+import {StyleSheet, View, Text,ScrollView,ImageBackground} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -83,10 +83,10 @@ class UserInfoPage extends Component {
                     <View style={{marginTop:43 * uW}}>
                         {
                             this.state.list.map(item=>{
-                                return <View style={[styles.card,{backgroundColor:this.props.theme}]}>
-                                    <Text style={[styles.font34,{color:'#fff'}]}>粤B87K90</Text>
-                                    <Text style={{fontSize:22 * uW,color:'#fff',marginTop:6 * uW}}>({i18n.t('majorDriver')})</Text>
-                                </View>
+                                return <ImageBackground source={i18n.locale=="zh"?require('../assets/zh/mainDriver.png'):require('../assets/en/mainDriver.png')} style={styles.card}>
+                                    <Text style={[styles.font34,{color:'#fff',paddingLeft:35 * uW}]}>粤B87K90</Text>
+                                    <Text style={{fontSize:22 * uW,color:'#fff',marginTop:6 * uW,paddingLeft:35 * uW}}>({i18n.t('majorDriver')})</Text>
+                                </ImageBackground>
                             })
                         }
                     </View>
@@ -141,11 +141,12 @@ const styles = StyleSheet.create({
     },
     card:{
         height:168 * uW,
-        width:100 + '%',
+        width:'100%',
         // backgroundColor:'#00BBB7',
         borderRadius:6 * uW,
         marginBottom:34 * uW,
         paddingTop:30 * uW,
-        paddingLeft:35 * uW
+
+    
     }
 });

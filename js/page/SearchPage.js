@@ -50,7 +50,7 @@ class SearchPage extends Component {
     getSearchIpt(){
         return <View style={styles.IptBox}>
             <View style={styles.searchIpt}>
-                <Image style={styles.icon} source={require('../assets/zh/搜索-计划号、订单号.png')}></Image>
+                <Image style={styles.icon} source={require('../assets/zh/searchOrder.png')}></Image>
                 <TextInput
                     placeholderTextColor="#CFCFCF"
                     style={styles.Ipt}

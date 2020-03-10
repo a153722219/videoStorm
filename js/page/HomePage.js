@@ -42,12 +42,12 @@ import  setStatusBar from '../common/setStatusBar'
 
      static HomeMenus = [
          {
-             src:require('../assets/zh/卡航.png'),
+             src:require('../assets/zh/KaHang.png'),
              label:'kahang',
              disabled:false
          },
          {
-             src:require('../assets/zh/海外仓.png'),
+             src:require('../assets/zh/haiwaicang.png'),
              label:'haiwaicang',
              disabled:true
          },
@@ -101,7 +101,7 @@ import  setStatusBar from '../common/setStatusBar'
                 <View style={styles.searchBar}>
                     <Image
                         style={styles.smallIcon}
-                        source={require('../assets/zh/home-搜索.png')}
+                        source={require('../assets/zh/homesearch.png')}
                     />
                     <Text style={styles.searchText}>
                         {i18n.t('searchText')}
@@ -109,7 +109,7 @@ import  setStatusBar from '../common/setStatusBar'
 
                     <Image
                         style={styles.smallIcon}
-                        source={require('../assets/zh/home-扫描.png')}
+                        source={require('../assets/zh/homescan.png')}
                     />
 
                 </View>

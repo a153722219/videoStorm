@@ -54,7 +54,7 @@ class TaskDetailPage extends Component {
             NavigationUtil.goPage({},'PODListPage')
         }}>
             <View  style={styles.navBtnBox}>
-                    <Image style={styles.navBtnIcon} source={i18n.locale==='zh'?require('../assets/zh/回单记录.png'):require('../assets/en/回单详细.png')}/>
+                    <Image style={styles.navBtnIcon} source={i18n.locale==='zh'?require('../assets/zh/PODs.png'):require('../assets/en/PODs.png')}/>
                     <Text  style={styles.navBtnTitle}>{i18n.t('PODRecords')}</Text>
             </View>
         </TouchableOpacity>
@@ -90,10 +90,10 @@ class TaskDetailPage extends Component {
             </View>
 
             <View style={styles.descBox}>
-                <Image style={styles.Icon} source={require("../assets/zh/装.png")}/>
+                <Image style={styles.Icon} source={require("../assets/zh/Load.png")}/>
                 <Text style={styles.value}>{i18n.t('LoadingDetail')}</Text>
 
-                {/*<Image style={styles.Icon} source={require("../assets/zh/交.png")}/>*/}
+                {/*<Image style={styles.Icon} source={require("../assets/zh/offLoad.png")}/>*/}
                 {/*<Text style={styles.value}>{i18n.t('offLoadingDetail')}</Text>*/}
             </View>
 

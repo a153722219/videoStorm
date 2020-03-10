@@ -5,15 +5,15 @@ import {uW, width} from "../util/screenUtil";
 import {i18n} from '../i18n/index';
 import Globals from '../util/Globals'
 const zhIcon = {
-    selected:require('../assets/zh/执行中.png'),
-    finished:require('../assets/zh/去运输-执行完毕.png'),
-    _finished:require('../assets/zh/去运输-异常完成.png'),
+    selected:require('../assets/zh/noFinished.png'),
+    finished:require('../assets/zh/finished.png'),
+    _finished:require('../assets/zh/_finish.png'),
 };
 
 const enIcon = {
-    selected:require('../assets/en/执行中.png'),
-    finished:require('../assets/en/已完成.png'),
-    _finished:require('../assets/en/异常完成.png'),
+    selected:require('../assets/en/noFinished.png'),
+    finished:require('../assets/en/haveFinished.png'),
+    _finished:require('../assets/en/_finish.png'),
 };
 
 

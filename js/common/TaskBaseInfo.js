@@ -54,7 +54,7 @@ class TaskBaseInfo extends Component {
                             <Text style={[styles.detail,{color:this.props.theme}]}>
                                 {i18n.t('Detail')}
                             </Text>
-                            <Image style={styles.icon} source={i18n.locale==='zh'?require('../assets/zh/详情.png'):require('../assets/en/详细.png')}/>
+                            <Image style={styles.icon} source={i18n.locale==='zh'?require('../assets/zh/details.png'):require('../assets/en/details.png')}/>
                         </View>
                     </TouchableOpacity>
                 }

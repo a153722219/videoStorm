@@ -3,11 +3,11 @@ import React,{Component} from 'react'
 import {ViewPropTypes,Text,StatusBar,View,StyleSheet,Platform,DeviceInfo} from 'react-native'
 import {PropTypes} from 'prop-types'
 const BAR_HEIGHT = 20;
-import {connect} from 'react-redux';
+
 import Globals from '../util/Globals'
 const IOS_STATUSBAR_HEIGHT = 44;
 const ANDROID_STATUSBAR_HEIGHT = 50;
-
+import {uW} from "../util/screenUtil";
 
 const StatusBarShape = {//状态栏所接受的属性
     barStyle:PropTypes.oneOf(['light-content','default','dark-content']),
@@ -48,7 +48,7 @@ const StatusBarShape = {//状态栏所接受的属性
         </View>:null
 
         let titleView = this.props.titleView?this.props.titleView :
-            <Text ellipsizeMode="head" numberOfLines={1} style={this.props.titleStyle?this.props.titleStyle:styles.title}>{this.props.title}</Text>;
+            <Text ellipsizeMode="head" numberOfLines={1} style={[this.props.titleStyle?this.props.titleStyle:styles.title,{fontSize:36*uW}]}>{this.props.title}</Text>;
 
         let content = this.props.hide?null:
             <View style={styles.navBar}>

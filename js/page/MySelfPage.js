@@ -34,11 +34,6 @@ class MySelfPage extends Component{
 
     constructor(props){
         super(props)
-        this.MORE_MENU = {
-            Info: { name: i18n.t('AboutMe'), icon: require('../assets/zh/个人信息.png') },
-            Setting: { name: i18n.t('settingPage'), icon: require('../assets/zh/设置.png')  },
-            ChangeLang: { name: i18n.t('ChangeLang'), icon: require('../assets/zh/语言切换.png') },
-        };
     }
 
 
@@ -68,7 +63,12 @@ class MySelfPage extends Component{
 
 
   render() {
-  
+    this.MORE_MENU = {
+        Info: { name: i18n.t('AboutMe'), icon: require('../assets/zh/userInfo.png') },
+        Setting: { name: i18n.t('settingPage'), icon: require('../assets/zh/settings.png')  },
+        ChangeLang: { name: i18n.t('ChangeLang'), icon: require('../assets/zh/changLang.png') },
+    };
+
 
   let navigationBar =
       <NavigationBar
@@ -80,12 +80,13 @@ class MySelfPage extends Component{
       />
 
     return (
+        
       <View style={GlobalStyles.root_container}>
           {navigationBar}
-          <ImageBackground style={styles.bgBox} source={i18n.locale=='zh'?require('../assets/zh/我的-bg.png'):require('../assets/en/bg.png')}>
+          <ImageBackground style={styles.bgBox} source={i18n.locale=='zh'?require('../assets/zh/myBg.png'):require('../assets/en/bg.png')}>
               {/*<View style={styles.boxFix}>*/}
               {/*</View>*/}
-              <Image  style={styles.avatar} source={require('../assets/zh/路线预览-logo.png')}>
+              <Image  style={styles.avatar} source={require('../assets/zh/Routelogo.png')}>
 
               </Image>
 
@@ -111,16 +112,6 @@ class MySelfPage extends Component{
               </ScrollView>
 
           </View>
-
-
-
-        {/*<Button*/}
-            {/*title="跳转到DataStorageDemoPage页"*/}
-            {/*onPress={()=>{*/}
-                {/*NavigationUtil.goPage({*/}
-                    {/*navigation:this.props.navigation*/}
-                {/*},"DataStorageDemoPage")*/}
-            {/*}}/>*/}
       </View>
     );
   }

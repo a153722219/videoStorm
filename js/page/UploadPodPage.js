@@ -137,7 +137,7 @@ class UploadPodPage extends Component {
                         <TouchableOpacity  activeOpacity={0.8} style={styles.removeIcon} onPress={()=>{
                             ViewUtil.showComfirm(this.deleteImg.bind(this,index))
                         }}>
-                            <Image style={[styles.removeIcon,styles.IconPosition]} source={i18n.locale=='zh'?require('../assets/zh/删除.png'):require('../assets/en/删除.png')}/>
+                            <Image style={[styles.removeIcon,styles.IconPosition]} source={i18n.locale=='zh'?require('../assets/zh/delete.png'):require('../assets/en/delete.png')}/>
                         </TouchableOpacity>
                     </View>
                 })}
@@ -147,7 +147,7 @@ class UploadPodPage extends Component {
                     this.state.ImgList.length<5 &&
                         <View style={[styles.ImgBox,{marginLeft:this.state.ImgList.length%3===0?0:16*uW,marginTop:this.state.ImgList.length<=2?0:16*uW}]}>
                             <TouchableOpacity activeOpacity={0.8} onPress={this.choosePic.bind(this)}>
-                                <Image style={styles.Img} source={require('../assets/zh/上传回单.png')}/>
+                                <Image style={styles.Img} source={require('../assets/zh/add.png')}/>
                             </TouchableOpacity>
                         </View>
                 }

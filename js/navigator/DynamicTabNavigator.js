@@ -62,8 +62,8 @@ import {i18n} from '../i18n/index';
                     unmountOnBlur:true,
                     title:i18n.t('Home'),
                     tabBarIcon:({tintColor,focused})=>{
-                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/首页/选中.png'):require('../assets/en/首页/选中.png')
-                        const unfocusedIcon = require('../assets/zh/首页/未选中.png');
+                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/home/focused.png'):require('../assets/en/home/focused.png')
+                        const unfocusedIcon = require('../assets/zh/home/unfocused.png');
                         return <Image style={{width:26,height:26}} source={focused?focusedIcon:unfocusedIcon}/>
                     }
                 }
@@ -73,8 +73,8 @@ import {i18n} from '../i18n/index';
                 navigationOptions:{
                     title:i18n.t('Management'),
                     tabBarIcon:({tintColor,focused})=>{
-                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/管理/选中.png'):require('../assets/en/管理/选中.png')
-                        const unfocusedIcon = require('../assets/zh/管理/未选中.png');
+                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/manage/focused.png'):require('../assets/en/manage/focused.png')
+                        const unfocusedIcon = require('../assets/zh/manage/unfocused.png');
                         return <Image style={{width:26,height:26}} source={focused?focusedIcon:unfocusedIcon}/>
                     }
                 }
@@ -84,8 +84,8 @@ import {i18n} from '../i18n/index';
                 navigationOptions:{
                     title:i18n.t('Me'),
                     tabBarIcon:({tintColor,focused})=>{
-                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/我的/选中.png'):require('../assets/en/我的/选中.png')
-                        const unfocusedIcon = require('../assets/zh/我的/未选中.png');
+                        const focusedIcon = i18n.locale === 'zh'?require('../assets/zh/my/focused.png'):require('../assets/en/my/focused.png')
+                        const unfocusedIcon = require('../assets/zh/my/unfocused.png');
                         return <Image style={{width:26,height:26}} source={focused?focusedIcon:unfocusedIcon}/>
                     }
                 }

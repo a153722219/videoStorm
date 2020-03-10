@@ -54,7 +54,7 @@ class GoTransPage extends Component {
             NavigationUtil.goPage({},'PODListPage')
         }}>
             <View  style={styles.navBtnBox}>
-                    <Image style={styles.navBtnIcon} source={i18n.locale==='zh'?require('../assets/zh/回单记录.png'):require('../assets/en/回单详细.png')}/>
+                    <Image style={styles.navBtnIcon} source={i18n.locale==='zh'?require('../assets/zh/PODs.png'):require('../assets/en/PODs.png')}/>
                     <Text  style={styles.navBtnTitle}>{i18n.t('PODRecords')}</Text>
             </View>
         </TouchableOpacity>
@@ -89,7 +89,7 @@ class GoTransPage extends Component {
             <View style={styles.fixContainer}>
                  {/* <TouchableOpacity activeOpacity={0.7}>
                         <View style={styles._finished}>
-                            <Image style={styles._finishedIcon} source={require('../assets/zh/异常结束.png')}/>
+                            <Image style={styles._finishedIcon} source={require('../assets/zh/_haveFinished.png')}/>
                             <Text  style={styles._finishedText}>异常结束</Text>
                      </View>
                  </TouchableOpacity>
