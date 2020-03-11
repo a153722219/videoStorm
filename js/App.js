@@ -7,12 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Provider} from 'react-redux';
 import AppNavigator from './navigator/AppNavigator';
 import store from './store'
 import { PersistGate } from 'redux-persist/es/integration/react';
 import ToastManager from './common/ToastManager'
+import LoadingManager from './common/LoadingManager'
+import LoadingComponent from './common/LoadingComponent'
 import Toast from 'react-native-easy-toast';
 import Globals from './util/Globals';
 
@@ -28,6 +29,7 @@ export default class App extends Component {
       <PersistGate persistor={store.persistor}>
         <AppNavigator />
         <ToastComponent/>
+        <LoadingComponent ref={e => LoadingManager.loading = e}/>
       </PersistGate>
     </Provider>
   }

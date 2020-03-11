@@ -12,7 +12,7 @@ import {StatusBar} from 'react-native';
 import {connect} from "react-redux";
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
-import NavigationBar from '../common/NavigationBar';
+import LoadingManager from '../common/LoadingManager';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
@@ -52,9 +52,9 @@ class WelcomePage extends Component{
       alert("手机号码有误，请重填");  
       return false; 
     } 
-
+    LoadingManager.show();
     api.login(this.state.userPhone).then(user=>{
-        // console.log(res)
+        LoadingManager.close();
         if(user.Phone){
             this.props.onUserLogin(user);
             NavigationUtil.resetToHomePage()
@@ -64,6 +64,7 @@ class WelcomePage extends Component{
         }
 
     }).catch(err=>{
+        LoadingManager.close();
         //网络错误的处理。。以及返回错误码的处理。。。。
         if(err=="Error: Network Error"){
             //先尝试本地登录
@@ -76,10 +77,11 @@ class WelcomePage extends Component{
             }else{
               alert("网络连接错误");
             }
+            return 
         }
 
-        //alert(err);
-    });
+        alert(err);
+    })
   }
   
   static language = ['中文','English']

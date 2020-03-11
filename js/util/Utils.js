@@ -59,5 +59,9 @@ export default class Utils{
         };
         return fmt;
     }
+    //更新数组里面指定长度的数据
+    static updateArr(offset=0,length=10,arr=[],otherData){
+        return arr.splice(offset,length,...otherData)
+    }
 
 }

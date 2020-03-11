@@ -84,7 +84,7 @@ class MySelfPage extends Component{
 
     return (
         
-      <View style={GlobalStyles.root_container}>
+      <View style={[GlobalStyles.root_container,{backgroundColor:"#fff"}]}>
           {navigationBar}
           <ImageBackground style={styles.bgBox} source={i18n.locale=='zh'?require('../assets/zh/myBg.png'):require('../assets/en/bg.png')}>
               {/*<View style={styles.boxFix}>*/}

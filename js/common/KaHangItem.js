@@ -10,6 +10,7 @@ import {PropTypes} from 'prop-types'
 //国际化和适配
 import {i18n} from '../i18n/index';
 import {uW} from "../util/screenUtil";
+
 //可选导入
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
@@ -92,7 +93,7 @@ class KaHangItem extends Component {
                         </View>
 
 
-                        <TouchableOpacity activeOpacity={0.8} onPress={this.props.onClickRemainBtn}>
+                        <TouchableOpacity activeOpacity={0.8} onPress={this.props.onClickRemainBtn.bind(this,5)}>
                             <View style={[styles.remainBox,{borderColor:this.props.theme}]}>
                                 <Text style={[styles.remain,{color:this.props.theme}]}>{i18n.t('remain')}8{i18n.t('sites')}</Text>
                                 <Image

@@ -1,8 +1,5 @@
 /**
  * Created by XiaoBai on 2020/2/28.
- */
-/**
- * Created by XiaoBai on 2020/2/28.
  * 屏幕工具类
  * ui设计基准
  * width:750

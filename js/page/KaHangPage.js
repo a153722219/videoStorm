@@ -3,8 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,TouchableOpacity,FlatList,
-    RefreshControl,ActivityIndicator,Image,ScrollView
+import {StyleSheet, View, Text,TouchableOpacity,Image,ScrollView
 } from 'react-native';
 //redux
 import {connect} from "react-redux";
@@ -23,15 +22,14 @@ import  setStatusBar from '../common/setStatusBar'
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
-import KaHangItem from '../common/KaHangItem'
-
+import KaHangPageItem from '../common/KaHangPageItem'
+import ViewPager from '@react-native-community/viewpager';
+import LinearGradient from 'react-native-linear-gradient';
 @setStatusBar({
     barStyle: 'dark-content',
     translucent: true
 })
 class KaHangPage extends Component {
-
-   
 
 
     constructor(props) {
@@ -42,10 +40,9 @@ class KaHangPage extends Component {
 
         this.state = {
             navActive:0,
-            isLoading:false,
-            hideLoadingMore:true,
             modalVisible: false
         }
+        this.viewPager = React.createRef();
     }
 
     componentDidMount() {
@@ -92,7 +89,8 @@ class KaHangPage extends Component {
                             return <TouchableOpacity key={index} activeOpacity={0.6} onPress={()=>{
                                 this.setState({
                                     navActive:index
-                                })
+                                });
+                                this.goPage(index)
                             }}>
                                 <Text style={this.state.navActive==index?[styles.navItem,styles.active,index===0?{marginLeft:0}:{}]:[styles.navItem,index===0?{marginLeft:0}:{}]}>
                                     {item.name}
@@ -108,54 +106,21 @@ class KaHangPage extends Component {
 
     }
 
-
-    renderItem(){
-        return <KaHangItem onClickRemainBtn={()=>{
-            this.setState({ modalVisible: true });
-        }}  onItemClick={()=>{this.goDetail()}}>
-
-        </KaHangItem>
+    goPage(index){
+        this.viewPager.current.setPage(index)
     }
 
 
-    genIndicator(){
-        return this.state.hideLoadingMore?null:
-            <View style={styles.indicatorContainer}>
-                <ActivityIndicator
-                    style={{color:'red',margin:10}}
-                />
-                <Text>加载更多</Text>
-            </View>
-    }
 
-    loadData(loadMore){
-        if(!loadMore){
-            this.setState({
-                isLoading:true
-            });
-            setTimeout(()=>{
-                this.setState({
-                    isLoading:false
-                })
-            },2000)
-        }else{
-            this.setState({
-                hideLoadingMore:false
-            });
-            setTimeout(()=>{
-                this.setState({
-                    hideLoadingMore:true
-                })
-            },2000)
-        }
 
-    }
+
 
     goDetail(){
         NavigationUtil.goPage({},'GoTransPage')
     }
 
     render() {
+        const modelTopColor = i18n.locale=="zh"?['#18C1BD', '#008680']:['#F7B322', '#EE7622']
 
         let navigationBar =
             <NavigationBar
@@ -171,65 +136,52 @@ class KaHangPage extends Component {
             <View style={{
                 flex:1
             }}>
-                <FlatList
-                    style={{
-                        flex:1,
-                        minWidth:"100%",
-                        minHeight: "100%",
-                    }}
-                    data={[{id:1},{id:2},{id:3},{id:4}]}
-                    renderItem={data=>this.renderItem(data)}
-                    keyExtractor={item=>""+item.id}
-                    //下拉刷新
-                    refreshControl={
-                        <RefreshControl
-                            title="loading"
-                            titleColor="red"
-                            colors={["red"]}
-                            refreshing={this.state.isLoading}
-                            onRefresh={()=>{this.loadData()}}
-                            tintColor="red"
-                        />
-                    }
-
-                    ListFooterComponent={()=>this.genIndicator()}
-                    onEndReached={() => {
-
-                        setTimeout(() => {
-                            if (this.canLoadMore) {
-                                this.loadData(true);
-                                this.canLoadMore = false;
-                            }}, 100)
-                    }}
-                    onScrollBeginDrag={() => {
-                        this.canLoadMore = true;
-                    }}
-                    onMomentumScrollBegin={()=>{
-                        this.canLoadMore=true;
-                    }
-                    }
-                    onEndReachedThreshold={0.5}
-                />
+                    <ViewPager style={{flex:1}} ref={this.viewPager} initialPage={0} onPageSelected={e=>{
+                        
+                        this.setState({
+                            navActive:e.nativeEvent.position
+                        })
+                    }}>
+                        <View key="1">
+                            <KaHangPageItem onClickRemainBtn={(id)=>{
+                                console.log(id)
+                                this.setState({ modalVisible: true });
+                            }}/>
+                        </View>
+                        <View key="2">
+                            <KaHangPageItem  onClickRemainBtn={(id)=>{
+                                this.setState({ modalVisible: true });
+                            }}/>
+                        </View>
+                        <View key="3">
+                            <KaHangPageItem  onClickRemainBtn={(id)=>{
+                                this.setState({ modalVisible: true });
+                            }}/>
+                        </View>
+                    </ViewPager>
+               
             </View>
-
 
 
             <Modal
                 animationType="fade"
                 transparent={true}
                 visible={this.state.modalVisible}
-                 onRequestClose={() => {
+                onRequestClose={() => {
                      this.setState({ modalVisible: false });
                 }}
             >
                 <View style={{ backgroundColor: "rgba(0,0,0,0.6)",flex:1,justifyContent:"space-around",alignItems:"center"}}>
                     <View>
                         <View style={styles.modalBox}>
-                            <View style={[{backgroundColor:this.props.theme},styles.headBox]} >
-                                <Image style={styles.smallogo} source={i18n.locale=="zh"?require('../assets/zh/Routelogo.png'):require('../assets/en/Routelogo.png')}/>
+
+                        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={modelTopColor} style={styles.headBox}>
+                                 <Image style={styles.smallogo} source={i18n.locale=="zh"?require('../assets/zh/Routelogo.png'):require('../assets/en/Routelogo.png')}/>
                                 <Text style={styles.PlanNO}>{i18n.t('PlanNumber')}:T20191128PKLX002</Text>
                                 <Text style={styles.Info}>{i18n.t('total')}8{i18n.t('sites')}，{i18n.t('Finished')}2{i18n.t('sites')}，{i18n.t('remain')}6{i18n.t('sites')}</Text>
-                            </View>
+                          </LinearGradient>
+
+                    
 
                             <View style={styles.bottomContainer}>
                                 <ScrollView style={{maxHeight:600*uW}} showsVerticalScrollIndicator={false}>
@@ -263,6 +215,7 @@ class KaHangPage extends Component {
 
 
             </Modal>
+
 
         </View>;
     }

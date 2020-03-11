@@ -73,7 +73,8 @@ import  setStatusBar from '../common/setStatusBar'
      componentDidMount(){
 
          const unsubscribe = NetInfo.addEventListener(state=> {
-             ToastManager.show('type='+ state.type +' isConnected = '+ state.isConnected);
+             this.props.onNetWorkChange(state.isConnected)
+            //  ToastManager.show('type='+ state.type +' isConnected = '+ state.isConnected);
          });
 
      }
@@ -160,7 +161,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch=>({
-    onThemeChange:theme=>dispatch(actions.onThemeChange(theme))
+    onThemeChange:theme=>dispatch(actions.onThemeChange(theme)),
+    onNetWorkChange:e=>dispatch(actions.onNetWorkChange(e))
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

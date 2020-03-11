@@ -8,6 +8,9 @@ import popular from './popular'
 import trending from './trending'
 import favorite from './favorite'
 import language from './language'
+import cars from './cars'
+import network from './network'
+
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 
 
@@ -23,18 +26,22 @@ const navReducer = (state = navState, action) => {
     return nextState || state;
 };
 
+
+
 /**
  * 3.合并reducer
  * @type {Reducer<any> | Reducer<any, AnyAction>}
  */
-const index = combineReducers({
+const rootReducers = combineReducers({
     nav: navReducer,
     theme: theme,
     popular,
     trending,
     favorite,
     language,
-    user
+    user,
+    cars,
+    network
 });
 
-export default index;
+export default rootReducers;

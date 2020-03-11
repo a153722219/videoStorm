@@ -5,10 +5,8 @@ import {applyMiddleware, createStore,compose} from 'redux'
 import thunk from 'redux-thunk'
 import reducers from '../reducer'
 import {middleware} from '../navigator/AppNavigator'
-
 //redux持久化
-import {persistStore, persistCombineReducers,persistReducer} from 'redux-persist';
-import { PersistGate } from 'redux-persist/es/integration/react';
+import {persistStore,persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import autoMergeLevel1  from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 //autoMergeLevel2
@@ -17,7 +15,7 @@ const config = {
     key: 'root',
     storage:AsyncStorage,
     stateReconciler:autoMergeLevel1,
-    blacklist:['nav']
+    blacklist:['nav','network']
 };
 
 
