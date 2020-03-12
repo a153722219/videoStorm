@@ -33,6 +33,9 @@ class CarListPage extends Component {
         this.backPress = new BackPressComponent({
             backPress:()=>this.onBackPress()
         });
+        const Phone = props.user.currentUserKey.split("_")[1];
+        let items = props.carList["items_"+Phone];
+        this.items = items?items:[];
     }
 
     componentDidMount() {
@@ -61,14 +64,12 @@ class CarListPage extends Component {
     }
 
     loadData(loadMore){
-        const Phone = this.props.user.currentUserKey.split("_")[1];
-        const items = this.props.carList["items_"+Phone]
         const {PageIndex,showItems,hideLoadingMore} = this.props.carList;
         if(!loadMore){
-            this.props.onRefreshCars(items)
+            this.props.onRefreshCars(this.items)
             
         }else if(hideLoadingMore){
-            this.props.onLoadMoreCars(PageIndex+1,items,showItems);
+            this.props.onLoadMoreCars(PageIndex+1,this.items,showItems);
         }
 
     }
@@ -84,11 +85,24 @@ class CarListPage extends Component {
         }
     }
 
+    goDetail(index){
+        
+        // console.log(index)
+        this.props.onLoadCarDetails(this.items[index].VehicleID,this.props.carList.details,(res)=>{
+            // console.log(res)
+            if(res.code==600){
+                NavigationUtil.goPage({
+                    model:res.data
+                },'CarDetailsPage')
+            }else{
+                alert(res.msg || "加载失败")
+            }
+        })
+    }
+
 
     render() {
-        const Phone = this.props.user.currentUserKey.split("_")[1];
-        let items = this.props.carList["items_"+Phone]
-        items = items?items:[];
+      
         let navigationBar =
             <NavigationBar
                 title={i18n.t('driving')}
@@ -116,10 +130,7 @@ class CarListPage extends Component {
                         ListEmptyComponent={()=>this.renderListEmptyComponent()}
                         renderItem={({item,index})=> {
                             return <View>
-                                <TouchableOpacity activeOpacity={0.6} onPress={(()=>{
-                                    
-                                    NavigationUtil.goPage({},'CarDetailsPage')
-                                })}>
+                                <TouchableOpacity activeOpacity={0.6} onPress={this.goDetail.bind(this,index)}>
                                     <View style={styles.item}>
                                         <Text style={{fontSize:32 * uW,marginTop:42 * uW}}>{item.VehicleNo}</Text>
                                         <View style={styles.km}>
@@ -183,6 +194,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onRefreshCars:(items)=>dispatch(actions.onRefreshCars(items)),
+    onLoadCarDetails:(index,items,showItems,callback)=>dispatch(actions.onLoadCarDetails(index,items,showItems,callback)),
     onLoadMoreCars:(newPageIndex,items,showItems)=>dispatch(actions.onLoadMoreCars(newPageIndex,items,showItems)),
 });
 

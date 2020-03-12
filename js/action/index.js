@@ -7,7 +7,7 @@ import {onRefreshPopular,onLoadMorePopular,onFlushPopularFavorite} from './popul
 import {onLoadMoreTrending,onRefreshTrending,onFlushTrendingFavorite} from './trending'
 import {onLoadFavoriteData} from './favorite'
 import {onLoadLanguage} from './language'
-import {onRefreshCars,onLoadMoreCars} from './cars'
+import {onRefreshCars,onLoadMoreCars,onLoadCarDetails} from './cars'
 import {onNetWorkChange} from './network'
 export default {
     onThemeChange,
@@ -23,5 +23,6 @@ export default {
     onUserLogout,
     onRefreshCars,
     onLoadMoreCars,
-    onNetWorkChange
+    onNetWorkChange,
+    onLoadCarDetails
 }

@@ -6,8 +6,8 @@ const defaultState = {
     isLoading:false,
     hideLoadingMore:true,
     items:[],//原始数据,
-    showItems:[]//页面显示的数据
-
+    showItems:[],//页面显示的数据
+    details:{}//详情
 };
 
 export  default function onAction(state=defaultState,action) {
@@ -61,6 +61,11 @@ export  default function onAction(state=defaultState,action) {
             return{
                 ...state,
                 hideLoadingMore:true
+            }
+        case Types.CAR_LOAD_DETAIL:
+            return{
+                ...state,
+                details:action.details
             }
         default:return state;
     }

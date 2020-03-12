@@ -53,34 +53,27 @@ class WelcomePage extends Component{
       return false; 
     } 
     LoadingManager.show();
-    api.login(this.state.userPhone).then(user=>{
+    api.login(this.state.userPhone).then(res=>{
         LoadingManager.close();
-        if(user.Phone){
+        if(res.code<0){
+          //先尝试本地登录
+          const key = "user_"+this.state.userPhone;
+          const user = this.props.user[key]
+          if(user){
+            //本地登录成功
             this.props.onUserLogin(user);
             NavigationUtil.resetToHomePage()
-            
-        }else{
-          alert("手机号码不存在");  
-        }
+          }else{
+            alert("网络连接错误");
+          }
+          return 
+       }else if(res.code==600){
+            this.props.onUserLogin(res.data);
+            NavigationUtil.resetToHomePage()   
+       }else{
+            alert(res.msg);  
+       }
 
-    }).catch(err=>{
-        LoadingManager.close();
-        //网络错误的处理。。以及返回错误码的处理。。。。
-        if(err=="Error: Network Error"){
-            //先尝试本地登录
-            const key = "user_"+this.state.userPhone;
-            const user = this.props.user[key]
-            if(user){
-              //本地登录成功
-              this.props.onUserLogin(user);
-              NavigationUtil.resetToHomePage()
-            }else{
-              alert("网络连接错误");
-            }
-            return 
-        }
-
-        alert(err);
     })
   }
   

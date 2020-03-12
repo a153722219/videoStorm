@@ -8,13 +8,13 @@ import {middleware} from '../navigator/AppNavigator'
 //redux持久化
 import {persistStore,persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
-import autoMergeLevel1  from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
-//autoMergeLevel2
+import autoMergeLevel2  from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
+//autoMergeLevel1
 
 const config = {
     key: 'root',
     storage:AsyncStorage,
-    stateReconciler:autoMergeLevel1,
+    stateReconciler:autoMergeLevel2,
     blacklist:['nav','network']
 };
 

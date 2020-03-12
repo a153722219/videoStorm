@@ -23,7 +23,8 @@ instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // 对响应错误做点什么
-    return Promise.reject(error);
+    // return Promise.reject(error);
+    return Promise.resolve(error);
 });
 
 
@@ -35,20 +36,40 @@ export const httpPost = async (api, params,needReSet=false) => {
     api = api+"?data="+JSON.stringify(params);
 
     console.log("请求地址:",api,"参数:",params)
-
+    
     return new Promise((resolve, reject) => {
         instance.post(api, {})
             .then(res => {
-                console.log("请求地址:",api,"结果:",res.data)
-                if(res.data.ReturnCode==600){
-                    resolve(res.data.ReturnData)
+                let ret = {};
+                if(res=="Error: Network Error"){
+                    ret = {
+                        code:-1,
+                        data:{},
+                        msg:"Network Error"
+                    }
+                }else if(res.toString().indexOf('timeout')!=-1){
+                    // Error: timeout of 5000ms exceeded
+                    ret = {
+                        code:-2,
+                        data:{},
+                        msg:"timeout"
+                    }
+                }else if(res.data && res.data.ReturnCode==600){
+                    ret = {
+                        code:600,
+                        data:res.data.ReturnData,
+                        msg:"success"
+                    }
                 }else{
-                    reject(NetStatusMap[res.data.ReturnCode])
+                    ret = {
+                        code:res.data.ReturnCode,
+                        data:{},
+                        msg:NetStatusMap[res.data.ReturnCode]
+                    }
                 }
+                console.log("请求地址:",api,"结果:",ret)
+                resolve(ret)
             })
-            .catch(error => {
-                console.log("请求地址错误:",api,"错误:",error)
-                reject(error)
-            })
+
     })
 }

@@ -31,6 +31,9 @@ class CarDetailsPage extends Component {
         this.backPress = new BackPressComponent({
             backPress:()=>this.onBackPress()
         });
+        this.params = this.props.navigation.state.params;
+        const {model} = this.params;
+        this.model = model;
     }
 
     componentDidMount() {
@@ -62,27 +65,27 @@ class CarDetailsPage extends Component {
         return <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
             {navigationBar}
            <View style={{backgroundColor:'#fff',height:500 * uW,marginTop:24 * uW,paddingLeft:46 * uW,paddingRight:37 * uW ,}}>
-                <Text style={{marginTop:38 * uW,fontSize:36 * uW}}>粤B87K90</Text>
-                <Text style={{marginTop:12 * uW,fontSize:28 * uW,color:'#B2B2B2'}}>其它/0吨/5.8米</Text>
-                <Text style={{marginTop:30 * uW,fontSize:28 * uW,color:'#B2B2B2',height:175 * uW}}>深圳市前海云途物流有限公司，华强北揽件部，上海云途物流，坂田揽件部</Text>
+                <Text style={{marginTop:38 * uW,fontSize:36 * uW}}>{this.model.VehicleNo}</Text>
+                <Text style={{marginTop:12 * uW,fontSize:28 * uW,color:'#B2B2B2'}}>{this.model.VehicleType || "其他"}/{this.model.ApprovedLoad}/{this.model.OverallLength}</Text>
+                <Text style={{marginTop:30 * uW,fontSize:28 * uW,color:'#B2B2B2',height:175 * uW}}>{this.model.CorpName}，{this.model.OrgName}</Text>
                 <View style={styles.numberBox}>
                     <View >
                         <View style={styles.numberSmallBox}>
-                            <Text style={[{color:this.props.theme},styles.bigTxt]}>36479</Text>
+                            <Text style={[{color:this.props.theme},styles.bigTxt]}>{this.model.Odometer || 0}</Text>
                             <Text style={[{color:this.props.theme},styles.smallTxt]}>Km</Text>
                         </View>
                         <Text style={styles.unit}>{i18n.t('VehicleMileage')}</Text>
                     </View>
                     <View >
                         <View style={styles.numberSmallBox}>
-                            <Text style={[{color:this.props.theme},styles.bigTxt]}>0</Text>
+                            <Text style={[{color:this.props.theme},styles.bigTxt]}>{this.model.Speed || 0}</Text>
                             <Text style={[{color:this.props.theme},styles.smallTxt]}>Km</Text>
                         </View>
                         <Text style={styles.unit}>{i18n.t('VehicleSpeed')}</Text>
                     </View>
                     <View >
                         <View style={styles.numberSmallBox}>
-                            <Text style={[{color:this.props.theme},styles.bigTxt]}>50</Text>
+                            <Text style={[{color:this.props.theme},styles.bigTxt]}>{this.model.Oil || 0}</Text>
                             <Text style={[{color:this.props.theme},styles.smallTxt]}>L</Text>
                         </View>
                         <Text style={styles.unit}>{i18n.t('OilAmount')}</Text>
@@ -93,14 +96,14 @@ class CarDetailsPage extends Component {
                 <View style={[styles.numberBox,{width:80+'%',marginLeft:10+'%',marginTop:53 * uW}]}>
                     <View >
                         <View style={styles.numberSmallBox}>
-                            <Text style={[{color:'#333333'},styles.bigTxt]}>125.80</Text>
+                            <Text style={[{color:'#333333'},styles.bigTxt]}>{this.model.TodayMileage || 0}</Text>
                             <Text style={[{color:'#B2B2B2'},styles.smallTxt]}>Km</Text>
                         </View>
                         <Text style={styles.unit}>{i18n.t('TodayRoute')}</Text>
                     </View>
                     <View >
                         <View style={styles.numberSmallBox}>
-                            <Text style={[{color:'#333333'},styles.bigTxt]}>249</Text>
+                            <Text style={[{color:'#333333'},styles.bigTxt]}>{this.model.TodayRunTime || 0}</Text>
                             <Text style={[{color:'#B2B2B2'},styles.smallTxt]}>min</Text>
                         </View>
                         <Text style={styles.unit}>{i18n.t('TodayRunningTime')}</Text>
@@ -110,7 +113,7 @@ class CarDetailsPage extends Component {
            <View style={{height:104*uW,backgroundColor:'#fff',marginTop:24 * uW,paddingTop:30 * uW}}>
                 <View style={{flexDirection:'row',justifyContent:'space-between',paddingLeft:46 * uW,paddingRight:37 * uW}}>
                     <Text style={{fontSize:32 * uW}}>{i18n.t('CarDetailsTime')}</Text>
-                    <Text style={{fontSize:32 * uW}}>2019/12/10 08:00</Text>
+                    <Text style={{fontSize:32 * uW}}>{this.model.GPSTime}</Text>
                 </View>
            </View>
         </View>
