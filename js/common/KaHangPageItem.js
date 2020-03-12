@@ -16,7 +16,6 @@ import {uW, width} from "../util/screenUtil";
 //import ToastManager from '../common/ToastManager'
 import actions from '../action'
 import NavigationUtil from '../navigator/NavigationUtil';
-import BackPressComponent from '../common/BackPressComponent';
 import KaHangItem from '../common/KaHangItem'
 import DefaultPage from '../common/DefaultPage'
 class KaHangPageItem extends Component {
@@ -24,9 +23,7 @@ class KaHangPageItem extends Component {
 
     constructor(props) {
         super(props);
-        this.backPress = new BackPressComponent({
-            backPress: () => this.onBackPress()
-        });
+ 
 
         this.state = {
             isLoading:false,
@@ -40,19 +37,13 @@ class KaHangPageItem extends Component {
 
     }
 
-    componentDidMount() {
-        this.backPress.componentDidMount();
-        // console.log("init")
-        // 
-    }
+
 
     onRefreshKaHang(){
         this.props.onRefreshKaHang(this.statusFlag,this.items)
     }
 
-    componentWillUnmount() {
-        this.backPress.componentWillUnmount();
-    };
+  
 
     //物理返回键
     onBackPress() {

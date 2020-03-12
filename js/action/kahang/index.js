@@ -6,11 +6,12 @@ import Utils from '../../util/Utils'
 export function onRefreshKaHang(statusFlag,items=[]){
     const store = Globals.store;
     return dispatch=>{
+        dispatch({
+            type:Types.KAHANG_REFRESH
+        })
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         api.selTaskList(userName,1,5,statusFlag).then(res=>{
-            dispatch({
-                type:Types.KAHANG_REFRESH
-            })
+           
             if(res.code<0){
                 //net error
             }else if(res.code==600){
