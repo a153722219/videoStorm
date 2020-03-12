@@ -43,11 +43,14 @@ class KaHangPage extends Component {
             modalVisible: false
         }
         this.viewPager = React.createRef();
+        this.page1 = React.createRef();
+        this.page2 = React.createRef();
+        this.page3 = React.createRef();
     }
 
     componentDidMount() {
         this.backPress.componentDidMount();
-
+        // this.page1.current.onRefreshKaHang();
     }
 
     componentWillUnmount() {
@@ -107,12 +110,10 @@ class KaHangPage extends Component {
     }
 
     goPage(index){
-        this.viewPager.current.setPage(index)
+        this.viewPager.current.setPage(index);
+        // const key = ["page"+(index+1)]
+        // this[key].current.onRefreshKaHang();
     }
-
-
-
-
 
 
     goDetail(){
@@ -136,25 +137,36 @@ class KaHangPage extends Component {
             <View style={{
                 flex:1
             }}>
-                    <ViewPager style={{flex:1}} ref={this.viewPager} initialPage={0} onPageSelected={e=>{
-                        
-                        this.setState({
-                            navActive:e.nativeEvent.position
-                        })
-                    }}>
+                    <ViewPager style={{flex:1}} ref={this.viewPager} initialPage={0} 
+                        onPageSelected={e=>{
+                            this.scrolled = true;
+                            // const key = ["page"+(e.nativeEvent.position+1)]
+                            // this[key].current.onRefreshKaHang();
+                            // this.setState({
+                            //     navActive:e.nativeEvent.position
+                            // });
+                        }}
+                        onPageScroll={e=>{
+                            if(this.scrolled){
+                                console.log(e.nativeEvent.position)
+                            }
+
+                            this.scrolled = false;
+                            // console.log(e.nativeEvent.position)
+                        }}
+                        >
                         <View key="1">
-                            <KaHangPageItem onClickRemainBtn={(id)=>{
-                                console.log(id)
+                            <KaHangPageItem  ref={this.page1} statusFlag="0" onClickRemainBtn={(id)=>{
                                 this.setState({ modalVisible: true });
                             }}/>
                         </View>
                         <View key="2">
-                            <KaHangPageItem  onClickRemainBtn={(id)=>{
+                            <KaHangPageItem ref={this.page2}  statusFlag="1"  onClickRemainBtn={(id)=>{
                                 this.setState({ modalVisible: true });
                             }}/>
                         </View>
                         <View key="3">
-                            <KaHangPageItem  onClickRemainBtn={(id)=>{
+                            <KaHangPageItem ref={this.page3} statusFlag="2"  onClickRemainBtn={(id)=>{
                                 this.setState({ modalVisible: true });
                             }}/>
                         </View>

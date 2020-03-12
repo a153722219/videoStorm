@@ -4,13 +4,9 @@
 import {combineReducers} from 'redux'
 import theme from './theme'
 import user from './user'
-import popular from './popular'
-import trending from './trending'
-import favorite from './favorite'
-import language from './language'
 import cars from './cars'
 import network from './network'
-
+import kahang from './kahang'
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 
 
@@ -35,13 +31,10 @@ const navReducer = (state = navState, action) => {
 const rootReducers = combineReducers({
     nav: navReducer,
     theme: theme,
-    popular,
-    trending,
-    favorite,
-    language,
     user,
     cars,
-    network
+    network,
+    kahang
 });
 
 export default rootReducers;

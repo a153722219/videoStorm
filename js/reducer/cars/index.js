@@ -1,11 +1,9 @@
 import  Types from '../../action/types'
-import { act } from 'react-test-renderer';
 
 const defaultState = {
     PageIndex:1,
     isLoading:false,
     hideLoadingMore:true,
-    items:[],//原始数据,
     showItems:[],//页面显示的数据
     details:{}//详情
 };

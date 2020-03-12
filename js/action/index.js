@@ -3,26 +3,16 @@
  */
 import {onThemeChange} from './theme'
 import {onUserLogin,onUserLogout} from './user'
-import {onRefreshPopular,onLoadMorePopular,onFlushPopularFavorite} from './popular'
-import {onLoadMoreTrending,onRefreshTrending,onFlushTrendingFavorite} from './trending'
-import {onLoadFavoriteData} from './favorite'
-import {onLoadLanguage} from './language'
 import {onRefreshCars,onLoadMoreCars,onLoadCarDetails} from './cars'
 import {onNetWorkChange} from './network'
+import {onRefreshKaHang} from './kahang'
 export default {
     onThemeChange,
-    onRefreshPopular,
-    onLoadMorePopular,
-    onLoadMoreTrending,
-    onRefreshTrending,
-    onLoadFavoriteData,
-    onFlushPopularFavorite,
-    onFlushTrendingFavorite,
-    onLoadLanguage,
     onUserLogin,
     onUserLogout,
     onRefreshCars,
     onLoadMoreCars,
     onNetWorkChange,
-    onLoadCarDetails
+    onLoadCarDetails,
+    onRefreshKaHang
 }

@@ -14,11 +14,11 @@ import {uW, width} from "../util/screenUtil";
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
-
+import actions from '../action'
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import KaHangItem from '../common/KaHangItem'
-
+import DefaultPage from '../common/DefaultPage'
 class KaHangPageItem extends Component {
 
 
@@ -32,11 +32,22 @@ class KaHangPageItem extends Component {
             isLoading:false,
             hideLoadingMore:true
         }
+        this.statusFlag = props.statusFlag;
+        const Phone = props.user.currentUserKey.split("_")[1];
+        this.storeKey = "items_"+Phone+"_"+this.statusFlag;
+        this.items = props.kahang[this.storeKey];
+        this.items = this.items?this.items:[];
+
     }
 
     componentDidMount() {
         this.backPress.componentDidMount();
+        // console.log("init")
+        // 
+    }
 
+    onRefreshKaHang(){
+        this.props.onRefreshKaHang(this.statusFlag,this.items)
     }
 
     componentWillUnmount() {
@@ -60,9 +71,20 @@ class KaHangPageItem extends Component {
         </KaHangItem>
     }
 
+    renderListEmptyComponent(){
+        if(!this.props.network.haveNet){
+            return <DefaultPage mode="noNet"/>;
+        }else if(!this.props.kahang.isLoading){
+            return <DefaultPage mode="noRec"/>;
+        }else{
+            return null
+        }
+    }
+
+
 
     genIndicator(){
-        return this.state.hideLoadingMore?null:
+        return this.props.kahang.hideLoadingMore?null:
             <View style={styles.indicatorContainer}>
                 <ActivityIndicator
                     style={{color:'red',margin:10}}
@@ -72,24 +94,12 @@ class KaHangPageItem extends Component {
     }
 
     loadData(loadMore){
+        const {PageIndex,showItems,hideLoadingMore} = this.props.kahang;
         if(!loadMore){
-            this.setState({
-                isLoading:true
-            });
-            setTimeout(()=>{
-                this.setState({
-                    isLoading:false
-                })
-            },2000)
-        }else{
-            this.setState({
-                hideLoadingMore:false
-            });
-            setTimeout(()=>{
-                this.setState({
-                    hideLoadingMore:true
-                })
-            },2000)
+            this.props.onRefreshKaHang(this.statusFlag,this.items)
+            
+        }else if(hideLoadingMore){
+            // this.props.onLoadMoreCars(PageIndex+1,this.items,showItems);
         }
 
     }
@@ -110,16 +120,17 @@ class KaHangPageItem extends Component {
                         minWidth:"100%",
                         minHeight: "100%",
                     }}
-                    data={[{id:1},{id:2},{id:3},{id:4}]}
+                    data={this.props.kahang.showItems}
                     renderItem={data=>this.renderItem(data)}
-                    keyExtractor={item=>""+item.id}
+                    keyExtractor={(item,index)=>""+index}
+                    ListEmptyComponent={()=>this.renderListEmptyComponent()}
                     //下拉刷新
                     refreshControl={
                         <RefreshControl
                             title="loading"
                             titleColor="red"
                             colors={["red"]}
-                            refreshing={this.state.isLoading}
+                            refreshing={this.props.kahang.isLoading}
                             onRefresh={()=>{this.loadData()}}
                             tintColor="red"
                         />
@@ -151,14 +162,18 @@ class KaHangPageItem extends Component {
 }
 
 const mapStateToProps = state => ({
-    nav: state.nav,
-    theme: state.theme.theme
+    user: state.user,
+    theme: state.theme.theme,
+    network:state.network,
+    kahang:state.kahang
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onRefreshKaHang:(items)=>dispatch(actions.onRefreshKaHang(items)),
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
-export default connect(mapStateToProps, mapDispatchToProps)(KaHangPageItem);
+export default connect(mapStateToProps, mapDispatchToProps,null,{forwardRef:true})(KaHangPageItem);
 //样式
 const styles = StyleSheet.create({
     lineItemBox:{

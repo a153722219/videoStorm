@@ -54,11 +54,6 @@ export function onLoadCarDetails(VehicleID,details,callback){
 
 
 
-
-
-
-
-
 //获取车辆数据action
 export function onRefreshCars(items=[]) {
     const store = Globals.store;
@@ -67,20 +62,6 @@ export function onRefreshCars(items=[]) {
         const userName =  store.getState().user.currentUserKey.split('_')[1];
 
         api.selVehicleList(userName,1).then(res=>{
-                    //Hook 假数据 data.Records
-                    // let arr = [{
-                    //     VehicleID: 1662663,
-                    //     VehicleNo: "粤BD92729",
-                    //     PlaceName: "广东省深圳市宝安区福围中路(普通路)深圳市下十围小学东北99米",
-                    //     Lon: 113.827561,
-                    //     Lat: 22.657331,
-                    //     Odo: 0,
-                    // }];
-                    // let i = 0;
-                    // while(i<9){
-                    //     arr.push(JSON.parse(JSON.stringify(arr[0])))
-                    //     i++;
-                    // }
 
                 if(res.code<0){
                     //网络错误的情况
