@@ -200,6 +200,10 @@ export default {
 
     comfirmDelete:"确认删除吗?",
 
-    AboutMe:"About Me"
+    AboutMe:"About Me",
+
+    Tons:'T',
+    
+    Mi:'M'
 
 };

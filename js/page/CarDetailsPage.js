@@ -66,7 +66,7 @@ class CarDetailsPage extends Component {
             {navigationBar}
            <View style={{backgroundColor:'#fff',height:500 * uW,marginTop:24 * uW,paddingLeft:46 * uW,paddingRight:37 * uW ,}}>
                 <Text style={{marginTop:38 * uW,fontSize:36 * uW}}>{this.model.VehicleNo}</Text>
-                <Text style={{marginTop:12 * uW,fontSize:28 * uW,color:'#B2B2B2'}}>{this.model.VehicleType || "其他"}/{this.model.ApprovedLoad}/{this.model.OverallLength}</Text>
+                <Text style={{marginTop:12 * uW,fontSize:28 * uW,color:'#B2B2B2'}}>{this.model.VehicleType || "其他"}/{this.model.ApprovedLoad+i18n.t('Tons')}/{this.model.OverallLength + i18n.t('Mi')}</Text>
                 <Text style={{marginTop:30 * uW,fontSize:28 * uW,color:'#B2B2B2',height:175 * uW}}>{this.model.CorpName}，{this.model.OrgName}</Text>
                 <View style={styles.numberBox}>
                     <View >

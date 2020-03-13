@@ -83,7 +83,7 @@ class TaskDetailPage extends Component {
                     <Text style={styles.Bigtitle}>
                         麦迪小学
                     </Text>
-                    <Text style={styles.desc} numberOfLines={3}>
+                    <Text style={[styles.desc,{width:`80%`}]} numberOfLines={3}>
                         广东省惠州市惠阳区一环北路与惠南大道交叉口东南50米
                     </Text>
                 </View>
@@ -261,7 +261,8 @@ const styles = StyleSheet.create({
         height:78*uW,
         flexDirection:"row",
         alignItems:"center",
-        borderColor:"#e5e5e5"
+        borderColor:"#e5e5e5",
+
     },
 
     addressBox:{
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
         fontSize:28*uW,
         fontWeight:"400",
         color:"#666",
-        marginTop:8*uW
+        marginTop:8*uW,
     },
 
     DotIndex:{

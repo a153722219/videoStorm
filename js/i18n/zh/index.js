@@ -200,6 +200,10 @@ export default {
 
     comfirmDelete:"确认删除吗?",
 
-    AboutMe:"个人信息"
+    AboutMe:"个人信息",
+
+    Tons:'吨',
+    
+    Mi:'米'
 
 };

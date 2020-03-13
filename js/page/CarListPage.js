@@ -126,6 +126,7 @@ class CarListPage extends Component {
                             minHeight: "100%"
 
                         }}
+    
                         data={this.props.carList.showItems}
                         ListEmptyComponent={()=>this.renderListEmptyComponent()}
                         renderItem={({item,index})=> {
