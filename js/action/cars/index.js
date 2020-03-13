@@ -2,7 +2,9 @@ import Types from "../types";
 import api from '../../api';
 import Globals from '../../util/Globals'
 import Utils from '../../util/Utils'
+import {_handleRefreshData,_handleLoadMoreData,_handleLoadDetails} from '../ActionUtil'
 //加载车辆详情
+const PageSize = 10;
 export function onLoadCarDetails(VehicleID,details,callback){
     const store = Globals.store;
     return dispatch=>{
@@ -10,43 +12,15 @@ export function onLoadCarDetails(VehicleID,details,callback){
         // const item = showItems[index];
         // const sourceItem = items[index];
         api.selVehicleDetails(userName,VehicleID).then(res=>{
-            if(res.code<0){
-                //无网络 返回本地数据
-                if(details[VehicleID]){
-                    dispatch({
-                        type:Types.CAR_LOAD_DETAIL,
-                        details
-                    });
-                    callback({
-                        code:600,
-                        data:details[VehicleID]
-                    })
-                }else{
-                    callback({
-                        code:-1,
-                        data:"网络错误"
-                    })
-                }
-            }else if(res.code==600){
-                //更新本地数据
-                details[VehicleID] = res.data;
-
-                dispatch({
-                    type:Types.CAR_LOAD_DETAIL,
-                    details
-                });
-
-                callback({
-                    code:600,
-                    data:details[VehicleID]
-                })
-
-            }else{
-                callback({
-                    code:res.code,
-                    data:res.msg
-                })
-            }
+            _handleLoadDetails(
+                dispatch,
+                VehicleID,
+                details,
+                Types.CAR_LOAD_DETAIL,
+                res,
+                callback
+            );
+           
         })
     }
 }
@@ -60,23 +34,18 @@ export function onRefreshCars(items=[]) {
     return dispatch=>{
         dispatch({type:Types.CAR_REFRESH});
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-
         api.selVehicleList(userName,1).then(res=>{
 
-                if(res.code<0){
-                    //网络错误的情况
-                    //获取老的数据
-                    const oldArr = items.slice(0,10);
-                    dispatch({type:Types.CAR_REFRESH_SUCCESS,items:items,showItems:oldArr,Phone:userName});
-                    return 
-                }else if(res.code==600){
-                    Utils.updateArr(0,10,items,res.data.Records);
-                    dispatch({type:Types.CAR_REFRESH_SUCCESS,items:items,showItems:res.data.Records,Phone:userName});
+                 _handleRefreshData(
+                     dispatch,
+                     PageSize,
+                     res,
+                     Types.CAR_REFRESH_SUCCESS,
+                     Types.CAR_REFRESH_FAIL,
+                     items,
+                     userName
+                );
 
-                }else{
-                    dispatch({type:Types.CAR_REFRESH_FAIL});
-                    console.log(res);
-                }
         })
     }
 }
@@ -87,26 +56,17 @@ export function onLoadMoreCars(newPageIndex,items=[],showItems=[]){
         dispatch({type:Types.CAR_LOAD_MORE});
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         api.selVehicleList(userName,newPageIndex).then(res=>{
-           
-            if(res.code<0){
-                //获取老的数据
-                const oldArr = items.slice((newPageIndex-1)*10,newPageIndex*10);
-                Utils.updateArr((newPageIndex-1)*10,10,showItems,oldArr);
-                setTimeout(()=>{
-                    dispatch({type:Types.CAR_LOAD_MORE_SUCCESS,items:items,showItems:showItems,PageIndex:newPageIndex,Phone:userName});
-                },500);
-                return 
-            }else if(res.code==600){
-                Utils.updateArr((newPageIndex-1)*10,10,items,res.data.Records);
-                Utils.updateArr((newPageIndex-1)*10,10,showItems,res.data.Records);
-    
-                setTimeout(()=>{
-                    dispatch({type:Types.CAR_LOAD_MORE_SUCCESS,items:items,showItems:showItems,PageIndex:newPageIndex,Phone:userName});
-                },500);
-            }else{
-                dispatch({type:Types.CAR_LOAD_MORE_FAIL});
-                console.log(res);
-            }
+            _handleLoadMoreData(
+                dispatch,
+                PageSize,
+                newPageIndex,
+                res,
+                Types.CAR_LOAD_MORE_SUCCESS,
+                Types.CAR_LOAD_MORE_FAIL,
+                items,
+                showItems,
+                userName
+            );
 
         })
     }

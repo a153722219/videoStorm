@@ -5,7 +5,7 @@ import {onThemeChange} from './theme'
 import {onUserLogin,onUserLogout} from './user'
 import {onRefreshCars,onLoadMoreCars,onLoadCarDetails} from './cars'
 import {onNetWorkChange} from './network'
-import {onRefreshKaHang} from './kahang'
+import {onRefreshKaHang,onLoadMoreKaHang,onLoadKaHangPreView} from './kahang'
 export default {
     onThemeChange,
     onUserLogin,
@@ -14,5 +14,7 @@ export default {
     onLoadMoreCars,
     onNetWorkChange,
     onLoadCarDetails,
-    onRefreshKaHang
+    onRefreshKaHang,
+    onLoadMoreKaHang,
+    onLoadKaHangPreView
 }

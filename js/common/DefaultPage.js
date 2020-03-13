@@ -36,7 +36,7 @@ class DefaultPage extends Component {
 
 }
 
-//注意：connect只是个function，并不应定非要放在export后面
+
 export default DefaultPage
 //样式
 const styles = StyleSheet.create({

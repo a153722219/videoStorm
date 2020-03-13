@@ -63,7 +63,7 @@ export  default function onAction(state=defaultState,action) {
         case Types.CAR_LOAD_DETAIL:
             return{
                 ...state,
-                details:action.details
+                details:action.contents
             }
         default:return state;
     }

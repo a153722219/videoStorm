@@ -19,8 +19,6 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import KaHangItem from '../common/KaHangItem'
 import DefaultPage from '../common/DefaultPage'
 class KaHangPageItem extends Component {
-
-
     constructor(props) {
         super(props);
  
@@ -34,14 +32,13 @@ class KaHangPageItem extends Component {
         this.storeKey = "items_"+Phone+"_"+this.statusFlag;
         this.items = props.kahang[this.storeKey];
         this.items = this.items?this.items:[];
-
-    }
-
-
-
-    onRefreshKaHang(){
+        // console.log(this.items)
         this.props.onRefreshKaHang(this.statusFlag,this.items)
+
     }
+
+
+
 
   
 
@@ -53,9 +50,10 @@ class KaHangPageItem extends Component {
 
 
 
-    renderItem(){
-        return <KaHangItem onClickRemainBtn={(id)=>{
-            this.props.onClickRemainBtn(id)
+    renderItem(data){
+        // console.log(data)
+        return <KaHangItem model={data.item} onClickRemainBtn={(PlanNO)=>{
+            this.props.onClickRemainBtn(PlanNO)
         
         }}  onItemClick={()=>{this.goDetail()}}>
 
@@ -63,7 +61,7 @@ class KaHangPageItem extends Component {
     }
 
     renderListEmptyComponent(){
-        if(!this.props.network.haveNet){
+        if(!this.props.network.haveNet && !this.props.kahang.isLoading){
             return <DefaultPage mode="noNet"/>;
         }else if(!this.props.kahang.isLoading){
             return <DefaultPage mode="noRec"/>;
@@ -90,7 +88,7 @@ class KaHangPageItem extends Component {
             this.props.onRefreshKaHang(this.statusFlag,this.items)
             
         }else if(hideLoadingMore){
-            // this.props.onLoadMoreCars(PageIndex+1,this.items,showItems);
+           this.props.onLoadMoreKaHang(this.statusFlag,PageIndex+1,this.items,showItems);
         }
 
     }
@@ -160,7 +158,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onRefreshKaHang:(items)=>dispatch(actions.onRefreshKaHang(items)),
+    onRefreshKaHang:(statusFlag,items)=>dispatch(actions.onRefreshKaHang(statusFlag,items)),
+    onLoadMoreKaHang:(statusFlag,newPageIndex,items,showItems)=>dispatch(actions.onLoadMoreKaHang(statusFlag,newPageIndex,items,showItems))
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

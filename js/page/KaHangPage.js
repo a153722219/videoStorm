@@ -17,7 +17,8 @@ import Modal from 'react-native-translucent-modal';
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
-
+import LoadingManager from '../common/LoadingManager';
+import actions from '../action'
 import  setStatusBar from '../common/setStatusBar'
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
@@ -40,17 +41,18 @@ class KaHangPage extends Component {
 
         this.state = {
             navActive:0,
-            modalVisible: false
+            modalVisible: false,
+            modalData:{
+                LineList:[]
+            }
         }
         this.viewPager = React.createRef();
-        this.page1 = React.createRef();
-        this.page2 = React.createRef();
-        this.page3 = React.createRef();
+      
     }
 
     componentDidMount() {
         this.backPress.componentDidMount();
-        // this.page1.current.onRefreshKaHang();
+    
     }
 
     componentWillUnmount() {
@@ -111,8 +113,45 @@ class KaHangPage extends Component {
 
     goPage(index){
         this.viewPager.current.setPage(index);
-        // const key = ["page"+(index+1)]
-        // this[key].current.onRefreshKaHang();
+        
+    }
+
+    loadPreview(PlanNO){
+        LoadingManager.show()
+        this.props.onLoadKaHangPreView(PlanNO,this.props.previews,(res)=>{
+            LoadingManager.close();
+        
+            if(res.code==600){
+
+                this.setState({ 
+                    modalData:res.data,
+                    modalVisible: true
+                 });
+            }else{
+                alert(res.msg || "加载失败")
+            }
+            
+        })
+       
+    }
+    getPriviewColor(status){
+        if(status==1){
+            return "#9F9F9F"
+        }else if(status==2){
+            return this.props.theme
+        }else{
+            return "#F8B422"
+        }
+    }
+
+    getPriviewText(status){
+        if(status==1){
+            return ""
+        }else if(status==2){
+            return i18n.t('Finished')
+        }else{
+            return i18n.t('Pending2')
+        }
     }
 
 
@@ -143,27 +182,25 @@ class KaHangPage extends Component {
                             this.setState({
                                 navActive:e.nativeEvent.position
                             });
-                            const key = ["page"+(e.nativeEvent.position+1)]
-                            this[key].current.onRefreshKaHang();
-                     
+                        
                             
                         }}
                         
                         >
                         <View key="1">
-                                <KaHangPageItem  ref={this.page1} statusFlag="0" onClickRemainBtn={(id)=>{
-                                    this.setState({ modalVisible: true });
-                                }}/>
+                                {   this.state.navActive == 0 &&
+                                    <KaHangPageItem   statusFlag="0" onClickRemainBtn={(PlanNO)=>this.loadPreview(PlanNO)}/>
+                                }
                         </View>
                         <View key="2">
-                                <KaHangPageItem  ref={this.page2} statusFlag="1" onClickRemainBtn={(id)=>{
-                                    this.setState({ modalVisible: true });
-                                }}/>
+                        {   this.state.navActive == 1 &&
+                                    <KaHangPageItem   statusFlag="1" onClickRemainBtn={(PlanNO)=>this.loadPreview(PlanNO)}/>
+                                }
                         </View>
                         <View key="3">
-                                <KaHangPageItem  ref={this.page3} statusFlag="2" onClickRemainBtn={(id)=>{
-                                    this.setState({ modalVisible: true });
-                                }}/>
+                        {   this.state.navActive == 2 &&
+                                    <KaHangPageItem  statusFlag="2"  onClickRemainBtn={(PlanNO)=>this.loadPreview(PlanNO)}/>
+                                }
                         </View>
                     </ViewPager>
                
@@ -184,8 +221,8 @@ class KaHangPage extends Component {
 
                         <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={modelTopColor} style={styles.headBox}>
                                  <Image style={styles.smallogo} source={i18n.locale=="zh"?require('../assets/zh/Routelogo.png'):require('../assets/en/Routelogo.png')}/>
-                                <Text style={styles.PlanNO}>{i18n.t('PlanNumber')}:T20191128PKLX002</Text>
-                                <Text style={styles.Info}>{i18n.t('total')}8{i18n.t('sites')}，{i18n.t('Finished')}2{i18n.t('sites')}，{i18n.t('remain')}6{i18n.t('sites')}</Text>
+                                <Text style={styles.PlanNO}>{i18n.t('PlanNumber')}:{this.state.modalData.PlanNO}</Text>
+                                <Text style={styles.Info}>{i18n.t('total')} {this.state.modalData.LineCount}{i18n.t('sites')}，{i18n.t('Finished')} {this.state.modalData.FinishedCount}{i18n.t('sites')}，{i18n.t('remain')}{this.state.modalData.SurplusCount}{i18n.t('sites')}</Text>
                           </LinearGradient>
 
                     
@@ -193,16 +230,16 @@ class KaHangPage extends Component {
                             <View style={styles.bottomContainer}>
                                 <ScrollView style={{maxHeight:600*uW}} showsVerticalScrollIndicator={false}>
 
-                                    {[1,2,3,4,5].map((item,index)=>(
+                                {this.state.modalData.LineList.map((item,index)=>(
                                         <View style={styles.lineItemBox} key={index}>
-                                            <Text style={[styles.ItemText,{color:this.props.theme}]}>{i18n.t('Finished')}</Text>
-                                            <View  style={[styles.ItemDot,{backgroundColor:this.props.theme}]}>
-                                                <Text style={styles.ItemDotText}>1</Text>
-                                                {index<4 && <View style={styles.ItemLine}/>}
+                                            <Text style={[styles.ItemText,{color:this.getPriviewColor(item.Status)}]}>{this.getPriviewText(item.Status)}</Text>
+                                            <View  style={[styles.ItemDot,{backgroundColor:this.getPriviewColor(item.Status)}]}>
+                                                <Text style={styles.ItemDotText}>{index+1}</Text>
+                                                {index<this.state.modalData.LineList.length-1 && <View style={styles.ItemLine}/>}
                                             </View>
                                             <View>
-                                                <Text numberOfLines={1} style={styles.lineTitle}>华盛辉综合楼</Text>
-                                                <Text numberOfLines={3} style={styles.lineSubTitle}>广东省深圳市宝安区西乡街道盐田社区盐田街106号</Text>
+                                                <Text numberOfLines={1} style={styles.lineTitle}>{item.AreaName}</Text>
+                                                <Text numberOfLines={3} style={styles.lineSubTitle}>{item.Address}</Text>
                                             </View>
 
                                         </View>
@@ -231,10 +268,13 @@ class KaHangPage extends Component {
 
 const mapStateToProps = state => ({
     nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
+    previews:state.kahang.previews
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onLoadKaHangPreView:(PlanNo,previews,callback)=>dispatch(actions.onLoadKaHangPreView(PlanNo,previews,callback))
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(KaHangPage);

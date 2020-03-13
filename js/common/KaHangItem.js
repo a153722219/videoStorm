@@ -10,7 +10,7 @@ import {PropTypes} from 'prop-types'
 //国际化和适配
 import {i18n} from '../i18n/index';
 import {uW} from "../util/screenUtil";
-
+import Utils from '../util/Utils'
 //可选导入
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
@@ -53,12 +53,12 @@ class KaHangItem extends Component {
 
 
                         </View>
-                        <Text style={styles.title}>{i18n.t('PlanNumber')}:T20191128PKLX002</Text>
+                        <Text style={styles.title}>{i18n.t('PlanNumber')}:{this.props.model.ViewPlanNO}</Text>
                     </View>
 
                     <View style={styles.titleBox}>
                         <Image style={[styles.timeIcon]} source={require('../assets/zh/waitExecTime.png')}/>
-                        <Text style={styles.time}>12-08 11:08</Text>
+                        <Text style={styles.time}>{Utils.parseTime('mm-dd HH:MM',new Date(this.props.model.CreatedTime))}</Text>
                     </View>
 
                 </View>
@@ -71,8 +71,8 @@ class KaHangItem extends Component {
                         </View>
 
                         <View style={styles.right}>
-                            <Text numberOfLines={1} style={styles.title}>紫元轩-F座</Text>
-                            <Text numberOfLines={1} style={[styles.title,{fontSize:24*uW,color:"#999"}]}>广东省深圳市龙岗区布龙路</Text>
+                            <Text numberOfLines={1} style={styles.title}>{this.props.model.StartName}</Text>
+                            <Text numberOfLines={1} style={[styles.title,{fontSize:24*uW,color:"#999"}]}>{this.props.model.StartAddress}</Text>
                         </View>
 
                     </View>
@@ -82,20 +82,20 @@ class KaHangItem extends Component {
                     <View style={[styles.fxContaner,{marginTop:15*uW}]}>
                         <View style={[styles.fxContaner,styles.addressItem]}>
                             <View>
-                                <Text style={[styles.dot,{backgroundColor:"#9f9f9f"}]}>8</Text>
+                                <Text style={[styles.dot,{backgroundColor:"#9f9f9f"}]}>{this.props.model.StationCount}</Text>
                             </View>
 
                             <View style={styles.right}>
-                                <Text numberOfLines={1} style={styles.title}>华盛辉综合楼</Text>
-                                <Text numberOfLines={1} style={[styles.title,{fontSize:24*uW,color:"#999"}]}>广东省深圳市宝安区西乡街道盐田…</Text>
+                                <Text numberOfLines={1} style={styles.title}>{this.props.model.EndName}</Text>
+                                <Text numberOfLines={1} style={[styles.title,{fontSize:24*uW,color:"#999"}]}>{this.props.model.EndAddress}</Text>
                             </View>
 
                         </View>
 
 
-                        <TouchableOpacity activeOpacity={0.8} onPress={this.props.onClickRemainBtn.bind(this,5)}>
+                        <TouchableOpacity activeOpacity={0.8} onPress={this.props.onClickRemainBtn.bind(this,this.props.model.PlanNO)}>
                             <View style={[styles.remainBox,{borderColor:this.props.theme}]}>
-                                <Text style={[styles.remain,{color:this.props.theme}]}>{i18n.t('remain')}8{i18n.t('sites')}</Text>
+                                <Text style={[styles.remain,{color:this.props.theme}]}>{i18n.t('remain')}{this.props.model.StationCount}{i18n.t('sites')}</Text>
                                 <Image
                                     style={styles.remainIcon}
                                     source={i18n.locale==='zh'?require('../assets/zh/remainSite.png'):require('../assets/en/remainSite.png')}
@@ -114,11 +114,11 @@ class KaHangItem extends Component {
                         <View>
                             <View style={{flexDirection:"row"}}>
                                 <Text style={[styles.blTitleCommom,styles.blTitle]}>{i18n.t('Vehicles')}:</Text>
-                                <Text style={[styles.blTitleCommom,styles.blContext]}>粤B89K34</Text>
+                                <Text style={[styles.blTitleCommom,styles.blContext]}>{this.props.model.VehicleNo}</Text>
                             </View>
                             <View  style={{flexDirection:"row",marginTop:5*uW}}>
                                 <Text style={[styles.blTitleCommom,styles.blTitle]}>{i18n.t('DepartureTime')}:</Text>
-                                <Text style={[styles.blTitleCommom,styles.blContext]}>2019-12-20  12:00</Text>
+                                <Text style={[styles.blTitleCommom,styles.blContext]}>{Utils.parseTime('YY-mm-dd HH:MM',new Date(this.props.model.ExpectSendCarTime))}</Text>
                             </View>
                             {/*异常原因*/}
                             {/*<View  style={{flexDirection:"row",marginTop:5*uW}}>*/}

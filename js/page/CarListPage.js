@@ -76,7 +76,7 @@ class CarListPage extends Component {
 
 
     renderListEmptyComponent(){
-        if(!this.props.network.haveNet){
+        if(!this.props.network.haveNet && !this.props.carList.isLoading){
             return <DefaultPage mode="noNet"/>;
         }else if(!this.props.carList.isLoading){
             return <DefaultPage mode="noRec"/>;

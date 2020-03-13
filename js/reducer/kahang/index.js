@@ -5,7 +5,8 @@ const defaultState = {
     isLoading:false,
     hideLoadingMore:true,
     showItems:[],//页面显示的数据
-    details:{}//详情
+    details:{},//详情
+    previews:{}//预览
 };
 
 export  default function onAction(state=defaultState,action) {
@@ -18,7 +19,7 @@ export  default function onAction(state=defaultState,action) {
                 PageIndex:1,     
                 isLoading:false,
                 hideLoadingMore:true,
-                // showItems:[]
+                showItems:[]
             }
         case Types.KAHANG_REFRESH:
             return{
@@ -42,6 +43,29 @@ export  default function onAction(state=defaultState,action) {
                 ...state,
                 isLoading:false,
                 hideLoadingMore:true
+            }
+        case Types.KAHANG_LOAD_MORE:
+            return{
+                ...state,
+                hideLoadingMore:false
+            }
+        case Types.KAHANG_LOAD_MORE_SUCCESS:
+            return{
+                ...state,
+                [key]:action.items,
+                showItems:action.showItems,
+                PageIndex:action.PageIndex,
+                hideLoadingMore:true
+            }
+        case Types.KAHANG_LOAD_MORE_FAIL:
+            return{
+                ...state,
+                hideLoadingMore:true
+            }
+        case Types.KAHANG_LOAD_PREVIEW:
+            return{
+                ...state,
+                previews:action.contents
             }
         default:return state;
     }
