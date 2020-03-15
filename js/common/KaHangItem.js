@@ -45,7 +45,7 @@ class KaHangItem extends Component {
 
     render() {
 
-        return <TouchableOpacity activeOpacity={0.85} onPress={this.props.onItemClick}>
+        return <TouchableOpacity activeOpacity={0.85} onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO)}>
             <View style={styles.container}>
                 <View style={styles.titleBox}>
                     <View style={styles.titleBox}>

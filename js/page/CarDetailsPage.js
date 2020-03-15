@@ -31,8 +31,7 @@ class CarDetailsPage extends Component {
         this.backPress = new BackPressComponent({
             backPress:()=>this.onBackPress()
         });
-        this.params = this.props.navigation.state.params;
-        const {model} = this.params;
+        const {model} = this.props.navigation.state.params;
         this.model = model;
     }
 

@@ -33,6 +33,8 @@ class TaskDetailPage extends Component {
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
+        const {model} = this.props.navigation.state.params;
+        this.model = model;
     }
 
     componentDidMount() {
@@ -109,7 +111,7 @@ class TaskDetailPage extends Component {
                     </View>
 
                     <Text style={styles.value}>
-                        T20191128PKLX002
+                        {this.model.ViewPlanNo}
                     </Text>
                 </View>
 
@@ -201,7 +203,7 @@ class TaskDetailPage extends Component {
             {navigationBar}
 
             <ScrollView style={{flex:1}}>
-                <TaskBaseInfo showDetail={false}/>
+                <TaskBaseInfo showDetail={false} model={this.model}/>
 
                 <FlatList
 

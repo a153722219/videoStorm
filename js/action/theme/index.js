@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2019/10/17.
+ * Created by Administrator
  */
 import Types from "../types"
 export function onThemeChange(theme) {

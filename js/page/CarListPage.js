@@ -36,6 +36,7 @@ class CarListPage extends Component {
         const Phone = props.user.currentUserKey.split("_")[1];
         let items = props.carList["items_"+Phone];
         this.items = items?items:[];
+       
     }
 
     componentDidMount() {

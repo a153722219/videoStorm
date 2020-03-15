@@ -24,7 +24,11 @@ import {i18n} from '../i18n/index';
 import ToastManager from '../common/ToastManager'
 import {uW, width} from "../util/screenUtil";
 import Ionicons from "react-native-vector-icons/Ionicons"
-import  setStatusBar from '../common/setStatusBar'
+import  setStatusBar from '../common/setStatusBar';
+
+import { PermissionsAndroid } from "react-native";
+import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocode,addLocationListener, start, stop} from "react-native-amap-geolocation";
+
 @setStatusBar({
     barStyle: 'light-content',
     translucent: true
@@ -67,21 +71,52 @@ import  setStatusBar from '../common/setStatusBar'
 
      constructor(props){
         super(props);
-
+        
      }
 
-     componentDidMount(){
+     async componentDidMount(){
 
          const unsubscribe = NetInfo.addEventListener(state=> {
              this.props.onNetWorkChange(state.isConnected)
             //  ToastManager.show('type='+ state.type +' isConnected = '+ state.isConnected);
          });
 
+         // 对于 Android 需要自行根据需要申请权限
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
+
+        // 使用高德 App Key 进行初始化
+        await init({
+            // ios: "9bd6c82e77583020a73ef1af59d0c759",
+            android: "779798e9f0f37e0286bb03022683b2b1"
+        });
+        //android
+        setNeedAddress(true);
+        //ios
+        // setLocatingWithReGeocode(true)
+        // 添加定位监听函数
+        addLocationListener(location =>{
+            // console.log(location);
+            //GCJ02
+            if(location.errorCode==0){
+                let address = {}
+                address.Lat = location.latitude;
+                address.Lon = location.longitude;
+                address.Address = location.address;
+                this.props.onGeoChange(address);
+            }
+        });
+        //安卓每10秒定位一次请求
+        setInterval(10000);
+        // 开始连续定位
+        start();
+
      }
 
      componentWillUnmount() {
 
          unsubscribe()
+           // 在不需要的时候停止定位
+         stop();
      };
 
     render() {
@@ -162,7 +197,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch=>({
     onThemeChange:theme=>dispatch(actions.onThemeChange(theme)),
-    onNetWorkChange:e=>dispatch(actions.onNetWorkChange(e))
+    onNetWorkChange:e=>dispatch(actions.onNetWorkChange(e)),
+    onGeoChange:e=>dispatch(actions.onGeoChange(e))
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

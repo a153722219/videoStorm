@@ -5,7 +5,13 @@ import {onThemeChange} from './theme'
 import {onUserLogin,onUserLogout} from './user'
 import {onRefreshCars,onLoadMoreCars,onLoadCarDetails} from './cars'
 import {onNetWorkChange} from './network'
-import {onRefreshKaHang,onLoadMoreKaHang,onLoadKaHangPreView} from './kahang'
+import {
+    onRefreshKaHang,
+    onLoadMoreKaHang,
+    onLoadKaHangPreView,
+    onLoadKaHangDetail
+} from './kahang'
+import {onGeoChange} from './geo'
 export default {
     onThemeChange,
     onUserLogin,
@@ -16,5 +22,7 @@ export default {
     onLoadCarDetails,
     onRefreshKaHang,
     onLoadMoreKaHang,
-    onLoadKaHangPreView
+    onLoadKaHangPreView,
+    onGeoChange,
+    onLoadKaHangDetail
 }

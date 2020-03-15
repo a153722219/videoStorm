@@ -15,13 +15,16 @@ import {uW} from "../util/screenUtil";
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
+import actions from '../action'
 import NavigationUtil from '../navigator/NavigationUtil';
-
+import LoadingManager from '../common/LoadingManager'
 class TaskBaseInfo extends Component {
 
     constructor(props) {
         super(props);
         console.log(props)
+        this.model = props.model
+        
     }
 
     componentDidMount() {
@@ -32,8 +35,21 @@ class TaskBaseInfo extends Component {
 
     };
 
-    goDetails(){
-        NavigationUtil.goPage({},'TaskDetailPage')
+    goFullDetails(){
+        // NavigationUtil.goPage({
+
+        // },'TaskDetailPage')
+        LoadingManager.show();
+        this.props.onLoadKaHangDetail(this.model.PlanNO,this.props.kahang.fullDetails,res=>{
+            LoadingManager.close();
+            if(res.code==600){
+                // res.data.PlanNO = PlanNO;
+                NavigationUtil.goPage({model:res.data},'TaskDetailPage')
+           
+            }else{
+                alert(res.msg || "加载失败")
+            }
+        },1)
     }
 
     render() {
@@ -49,7 +65,7 @@ class TaskBaseInfo extends Component {
                 </View>
                 {
                     this.props.showDetail &&
-                    <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.goDetails()}}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={()=>{this.goFullDetails()}}>
                         <View style={styles.detailBtn}>
                             <Text style={[styles.detail,{color:this.props.theme}]}>
                                 {i18n.t('Detail')}
@@ -65,7 +81,7 @@ class TaskBaseInfo extends Component {
                         {i18n.t('PlanNumber')}
                     </Text>
                     <Text style={styles.value}>
-                        T20191128PKLX002
+                        {this.model.ViewPlanNO}
                     </Text>
                 </View>
 
@@ -74,7 +90,7 @@ class TaskBaseInfo extends Component {
                         {i18n.t('requireCarTime')}
                     </Text>
                     <Text style={styles.value}>
-                        2019-11-30 12:00
+                        {this.model.DispatchTime}
                     </Text>
                 </View>
 
@@ -85,7 +101,8 @@ class TaskBaseInfo extends Component {
                         {this.props.showDetail?i18n.t('Vehicles'):i18n.t('dispatch')}
                     </Text>
                     <Text style={[styles.value,{color:this.props.showDetail?"#333":"#438DEF"}]}>
-                        深圳前海云途物流有限公司
+                            {this.props.showDetail?i18n.t('Vehicles'):this.model.DispatchCorp}
+                          
                     </Text>
                 </View>
 
@@ -95,7 +112,7 @@ class TaskBaseInfo extends Component {
 
                     </Text>
                     <Text style={styles.value}>
-                        8
+                        {this.props.showDetail?i18n.t('totalSites'):this.model.Remark}
                     </Text>
                 </View>
 
@@ -110,10 +127,12 @@ class TaskBaseInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-    theme: state.theme.theme
+    kahang:state.kahang
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onLoadKaHangDetail:(PlanNO,details,callback)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback)),
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(TaskBaseInfo);

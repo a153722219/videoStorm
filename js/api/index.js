@@ -11,4 +11,8 @@ api.selVehicleDetails = (Phone,VehicleID)=>httpPost('Api/TmsAppWebApi/SelVehicle
 api.selTaskList = (Phone,PageIndex,PageSize=10,Type=0)=>httpPost('Api/TmsAppWebApi/SelTaskList',{Phone,PageIndex,PageSize,Type})
 //查询路线预览接口
 api.selTransportScheduleLine  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelTransportScheduleLine',{Phone,PlanNO})
+//查询运输中详情接口
+api.selRunningTask  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelRunningTask',{Phone,PlanNO})
+//查询运输详情接口
+api.selTransportDetails  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelTransportDetails',{Phone,PlanNO})
 export default api;

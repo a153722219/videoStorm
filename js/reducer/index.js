@@ -7,6 +7,7 @@ import user from './user'
 import cars from './cars'
 import network from './network'
 import kahang from './kahang'
+import geo from './geo'
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 
 
@@ -34,7 +35,8 @@ const rootReducers = combineReducers({
     user,
     cars,
     network,
-    kahang
+    kahang,
+    geo
 });
 
 export default rootReducers;

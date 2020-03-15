@@ -16,8 +16,9 @@ import {uW, width} from "../util/screenUtil";
 //import ToastManager from '../common/ToastManager'
 import actions from '../action'
 import NavigationUtil from '../navigator/NavigationUtil';
-import KaHangItem from '../common/KaHangItem'
-import DefaultPage from '../common/DefaultPage'
+import KaHangItem from '../common/KaHangItem';
+import DefaultPage from '../common/DefaultPage';
+import LoadingManager from '../common/LoadingManager'
 class KaHangPageItem extends Component {
     constructor(props) {
         super(props);
@@ -38,10 +39,6 @@ class KaHangPageItem extends Component {
     }
 
 
-
-
-  
-
     //物理返回键
     onBackPress() {
         NavigationUtil.goBack(this.props.navigation)
@@ -55,7 +52,7 @@ class KaHangPageItem extends Component {
         return <KaHangItem model={data.item} onClickRemainBtn={(PlanNO)=>{
             this.props.onClickRemainBtn(PlanNO)
         
-        }}  onItemClick={()=>{this.goDetail()}}>
+        }}  onItemClick={(PlanNO)=>{this.goDetail(PlanNO)}}>
 
         </KaHangItem>
     }
@@ -93,8 +90,20 @@ class KaHangPageItem extends Component {
 
     }
 
-    goDetail(){
-        NavigationUtil.goPage({},'GoTransPage')
+    goDetail(PlanNO){
+        LoadingManager.show();
+        this.props.onLoadKaHangDetail(PlanNO,this.props.kahang.details,res=>{
+            LoadingManager.close();
+            if(res.code==600){
+                res.data.PlanNO = PlanNO;
+                res.data.ViewPlanNO = PlanNO;
+                NavigationUtil.goPage({model:res.data},'GoTransPage')
+           
+            }else{
+                alert(res.msg || "加载失败")
+            }
+        })
+      
     }
 
     render() {
@@ -159,6 +168,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onRefreshKaHang:(statusFlag,items)=>dispatch(actions.onRefreshKaHang(statusFlag,items)),
+    onLoadKaHangDetail:(PlanNO,details,callback)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback)),
     onLoadMoreKaHang:(statusFlag,newPageIndex,items,showItems)=>dispatch(actions.onLoadMoreKaHang(statusFlag,newPageIndex,items,showItems))
 });
 

@@ -49,6 +49,7 @@ import com.android.build.OutputFile
  *   // where to put the JS bundle asset in debug mode
  *   jsBundleDirDebug: "$buildDir/intermediates/assets/debug",
  *
+ *
  *   // where to put the JS bundle asset in release mode
  *   jsBundleDirRelease: "$buildDir/intermediates/assets/release",
  *
@@ -175,6 +176,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation project(path: ':clocationlib')
     // JSC from node_modules
     if (useIntlJsc) {
         implementation 'org.webkit:android-jsc-intl:+'

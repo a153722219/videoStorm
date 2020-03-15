@@ -72,3 +72,25 @@ export function onLoadKaHangPreView(PlanNo,previews,callback){
         })
     }
 }
+//加载卡航运输中详情 或者运输详情
+
+export function onLoadKaHangDetail(PlanNo,details,callback,type=0){
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        const type = type==0?Types.KAHANG_LOAD_DETAIL:Types.KAHANG_LOAD_FULL_DETAIL
+        // const item = showItems[index];
+        // const sourceItem = items[index];
+        const action = type==0?api.selRunningTask:api.selTransportDetails;
+        action(userName,PlanNo).then(res=>{
+            _handleLoadDetails(
+                dispatch,
+                PlanNo,
+                details,
+                type,
+                res,
+                callback
+            );
+        });
+    }
+}

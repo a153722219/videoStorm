@@ -6,6 +6,7 @@ const defaultState = {
     hideLoadingMore:true,
     showItems:[],//页面显示的数据
     details:{},//详情
+    fullDetails:{},//完整的详情
     previews:{}//预览
 };
 
@@ -66,6 +67,16 @@ export  default function onAction(state=defaultState,action) {
             return{
                 ...state,
                 previews:action.contents
+            }
+        case Types.KAHANG_LOAD_DETAIL:
+                return{
+                    ...state,
+                    details:action.contents
+            }
+        case Types.KAHANG_LOAD_FULL_DETAIL:
+                return{
+                    ...state,
+                    fullDetails:action.contents
             }
         default:return state;
     }

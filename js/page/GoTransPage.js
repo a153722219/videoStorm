@@ -33,6 +33,10 @@ class GoTransPage extends Component {
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
+
+        const {model} = this.props.navigation.state.params;
+        this.model = model;
+
     }
 
     componentDidMount() {
@@ -79,7 +83,7 @@ class GoTransPage extends Component {
             {navigationBar}
 
             <ScrollView style={{flex:1}}>
-                <TaskBaseInfo showDetail={true}/>
+                <TaskBaseInfo showDetail={true} model={this.model}/>
 
                 <TaskLinesInfo />
 
