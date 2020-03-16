@@ -4,22 +4,10 @@
 
 
 import {  Linking, Alert,Clipboard} from 'react-native';
-import ToastManager from '../common/ToastManager'
+import ToastManager from '../common/ToastManager';
+import GoogleGeo from '../util/GoogleGeo';
+import {Google_API_KEY,proxyUrl} from './constant'
 export default class Utils{
-    /**
-     * 检查item是否被收藏
-     */
-
-    static checkFavorite(item,items=[]){
-        if(!items) return false;
-        for(let i=0,len=items.length;i<len;i++){
-            let id = item.id?item.id : item.fullName;
-            if(id.toString()===items[i]){
-                return true
-            }
-        }
-        return false
-    }
 
     static callPhone (phone) {
         const url = `tel:${phone}`;
@@ -62,6 +50,52 @@ export default class Utils{
     //更新数组里面指定长度的数据
     static updateArr(offset=0,length=10,arr=[],otherData){
         return arr.splice(offset,length,...otherData)
+    }
+
+    static getLocation(callback){
+        GoogleGeo.startGetLocation().then(data=>{
+            if(!data.msg){
+                const url = proxyUrl + 'maps/api/geocode/json?latlng='+data.latitude+","+data.longitude+"&key="+Google_API_KEY;
+                console.log(url)
+                //&language=en/zh
+                fetch(url).then((response) => response.json()).then(res=>{
+                    console.log(res)
+                    const formatAddress = (res.results && res.results[0])?res.results[0].formatted_address:""
+
+                    const address = {}
+                        address.Lat = data.latitude;
+                        address.Lon = data.longitude;
+                        address.Address = formatAddress;
+                        address.multiaccuracy = data.multiaccuracy
+                        address.date = data.date
+                      
+                        callback(
+                            {
+                                errorCode:"0000",
+                                msg:address
+                            }
+                        );
+    
+                    }).catch(err=>{
+                        console.log(err)
+                        callback(
+                            {
+                                errorCode:"-1",
+                                msg:"网络错误,逆地理编码失败"
+                            }
+                        );
+                    });
+
+                  
+            }else{
+                console.log(data)
+                callback(data);
+            }
+        }).catch(err=>{
+            //发生错误 不做任何操作
+            callback(err)
+            console.log(err);
+        })
     }
 
 }

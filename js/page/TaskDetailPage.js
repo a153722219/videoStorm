@@ -63,7 +63,7 @@ class TaskDetailPage extends Component {
     }
 
     _genLinesInfoItem(data){
-        // console.log(index)
+         console.log(data.item)
         return <View style={styles.LinesInfoBox}>
             {data.index===0 && <View style={styles.titleView}>
                 <View style={styles.titleInfo}>
@@ -77,27 +77,43 @@ class TaskDetailPage extends Component {
             </View>}
             <View style={styles.addressBox}>
                  {/*#F8B422  另一种颜色*/}
-                <View style={[styles.DotBox,{backgroundColor:this.props.theme}]}>
+                <View style={[styles.DotBox,{backgroundColor:data.item.LoadingConfirmStr?this.props.theme:"#F8B422"}]}>
                     <Text style={styles.DotIndex}>{data.index+1}</Text>
                 </View>
 
                 <View style={styles.addressInlineBox}>
                     <Text style={styles.Bigtitle}>
-                        麦迪小学
+                        {data.item.PointName}
                     </Text>
                     <Text style={[styles.desc,{width:`80%`}]} numberOfLines={3}>
-                        广东省惠州市惠阳区一环北路与惠南大道交叉口东南50米
+                        {data.item.PointAddress}
                     </Text>
                 </View>
             </View>
 
-            <View style={styles.descBox}>
-                <Image style={styles.Icon} source={require("../assets/zh/Load.png")}/>
-                <Text style={styles.value}>{i18n.t('LoadingDetail')}</Text>
+            
+                
+                {
+                    data.item.LoadingConfirmStr &&
+                    <View style={styles.descBox}>
+                        <Image style={styles.Icon} source={require("../assets/zh/Load.png")}/>
+                        <Text style={styles.value}>{data.item.LoadingConfirmStr}</Text>
+                    </View>
+                }
 
-                {/*<Image style={styles.Icon} source={require("../assets/zh/offLoad.png")}/>*/}
-                {/*<Text style={styles.value}>{i18n.t('offLoadingDetail')}</Text>*/}
-            </View>
+                {
+                !data.item.LoadingConfirmStr &&
+                    <View style={styles.descBox}>
+                        <Image style={styles.Icon} source={require("../assets/zh/offLoad.png")}/>
+                        <Text style={styles.value}>{data.item.CheckInConfirmStr}</Text>
+                    </View>
+                }
+                    
+                
+                
+
+               
+            
 
             <View style={{marginTop:14*uW,height:312*uW,justifyContent:"space-between"}}>
                 <View style={styles.titleView}>
@@ -111,7 +127,7 @@ class TaskDetailPage extends Component {
                     </View>
 
                     <Text style={styles.value}>
-                        {this.model.ViewPlanNo}
+                        {data.item.WaybillNOs}
                     </Text>
                 </View>
 
@@ -126,7 +142,7 @@ class TaskDetailPage extends Component {
                     </View>
 
                     <Text style={styles.value}>
-                        2019-11-30 16:00
+                            {data.item.ExpectArriveTimeStart}
                     </Text>
                 </View>
 
@@ -141,7 +157,7 @@ class TaskDetailPage extends Component {
                     </View>
 
                     <Text style={styles.value}>
-                        2019-11-30 16:00
+                        {data.item.ExpectLeaveTimeStart}
                     </Text>
                 </View>
 
@@ -156,7 +172,7 @@ class TaskDetailPage extends Component {
                     </View>
 
                     <Text style={styles.value}>
-                        2019-11-30 16:00
+                        {data.item.RealArriveTime || "-"}
                     </Text>
                 </View>
 
@@ -171,7 +187,7 @@ class TaskDetailPage extends Component {
                     </View>
 
                     <Text style={styles.value}>
-                        -
+                        {data.item.RealLeaveTime || "-"}
                     </Text>
                 </View>
 
@@ -207,9 +223,9 @@ class TaskDetailPage extends Component {
 
                 <FlatList
 
-                    data={[{id:1},{id:2},{id:3},{id:4}]}
+                    data={this.model.LineList}
                     renderItem={data=>this._genLinesInfoItem(data)}
-                    keyExtractor={item=>""+item.id}
+                    keyExtractor={(item,index)=>""+index}
                 />
 
 

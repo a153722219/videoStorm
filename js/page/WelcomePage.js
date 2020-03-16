@@ -18,10 +18,11 @@ import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
 import api from '../api';
-import GoogleGeo from '../util/GoogleGeo';
+
+
 class WelcomePage extends Component{
   componentDidMount(){
-
+      
   }
 
   constructor(props){
@@ -39,26 +40,18 @@ class WelcomePage extends Component{
         userPhone:"18198823550",
         password:""
       }
- 
      
   }
 
   componentWillUnmount(){
     // GoogleGeo.stopGetLocation();
+     
   }
 
 
   userLogin(){
 
 
-    GoogleGeo.setNetworkLocationUrl('https://www.baidream.top/');
-    GoogleGeo.startGetLocation().then(res=>{
-      console.log(res)
-    }).catch(err=>{
-      console.log(err)
-    })
-
-    return 
     if(!(/^1[3456789]\d{9}$/.test(this.state.userPhone))){ 
       alert("手机号码有误，请重填");  
       return false; 

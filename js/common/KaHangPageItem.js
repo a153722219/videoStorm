@@ -97,12 +97,13 @@ class KaHangPageItem extends Component {
             if(res.code==600){
                 res.data.PlanNO = PlanNO;
                 res.data.ViewPlanNO = PlanNO;
+                res.data.LineList = [];
                 NavigationUtil.goPage({model:res.data},'GoTransPage')
            
             }else{
                 alert(res.msg || "加载失败")
             }
-        })
+        },0)
       
     }
 
@@ -168,7 +169,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onRefreshKaHang:(statusFlag,items)=>dispatch(actions.onRefreshKaHang(statusFlag,items)),
-    onLoadKaHangDetail:(PlanNO,details,callback)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback)),
+    onLoadKaHangDetail:(PlanNO,details,callback,type)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback,type)),
     onLoadMoreKaHang:(statusFlag,newPageIndex,items,showItems)=>dispatch(actions.onLoadMoreKaHang(statusFlag,newPageIndex,items,showItems))
 });
 

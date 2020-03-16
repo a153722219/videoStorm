@@ -101,7 +101,7 @@ class TaskBaseInfo extends Component {
                         {this.props.showDetail?i18n.t('Vehicles'):i18n.t('dispatch')}
                     </Text>
                     <Text style={[styles.value,{color:this.props.showDetail?"#333":"#438DEF"}]}>
-                            {this.props.showDetail?i18n.t('Vehicles'):this.model.DispatchCorp}
+                            {this.props.showDetail?this.model.VehicleNO || "暂无车辆信息":this.model.DispatchCorp}
                           
                     </Text>
                 </View>
@@ -112,7 +112,7 @@ class TaskBaseInfo extends Component {
 
                     </Text>
                     <Text style={styles.value}>
-                        {this.props.showDetail?i18n.t('totalSites'):this.model.Remark}
+                        {this.props.showDetail?this.model.LineList.length || 0:this.model.Remark}
                     </Text>
                 </View>
 
@@ -131,7 +131,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLoadKaHangDetail:(PlanNO,details,callback)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback)),
+    onLoadKaHangDetail:(PlanNO,details,callback,type)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback,type)),
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

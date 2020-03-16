@@ -27,6 +27,7 @@
     "react-native-i18n": "^2.0.15",
     "react-native-image-picker": "^2.3.1",
     "react-native-image-zoom-viewer": "^2.2.27",
+    "react-native-kalman-location": "^0.3.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.3.0",
     "react-native-screens": "^1.0.0-alpha.23",

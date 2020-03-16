@@ -24,8 +24,6 @@ import top.madev.clocationlib.utils.CoordinateConversion;
 import javax.annotation.Nullable;
 
 public class GoogleGeo  extends ReactContextBaseJavaModule {
-    private static final String DURATION_SHORT_KEY = "SHORT";
-    private static final String DURATION_LONG_KEY = "LONG";
     private   static ReactApplicationContext  mReactApplicationContext;
     public GoogleGeo(ReactApplicationContext reactContext) {
         super(reactContext);

@@ -5523,6 +5523,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-amap-geolocation@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-amap-geolocation/-/react-native-amap-geolocation-1.0.4.tgz#f855532e7ba0e7859affc314e5631c8ca5d87926"
+  integrity sha512-JWMa09GmyzDDJRjSyzoV5Khsqb7/bdWBRkTi4H7D0P+ubaXlOmNqSBzY6UFLNiaFLaC9oCrTyh0Ihm9sNG9MgQ==
+
 react-native-easy-toast@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-easy-toast/-/react-native-easy-toast-1.2.0.tgz#0f70bcb99e3306cda4800c244bfb4a67d42276ed"
@@ -5570,6 +5575,11 @@ react-native-image-zoom-viewer@^2.2.27:
   integrity sha512-BMA8ZGe6dub9mPbGhFn14eAnq8H5ig32nY9vPqTjsJluLTcwjkMjupu47dha1ikK7vFo0zpGDFKlv2WHbtf+EQ==
   dependencies:
     react-native-image-pan-zoom "^2.1.9"
+
+react-native-kalman-location@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-kalman-location/-/react-native-kalman-location-0.3.0.tgz#cf101388072092e7096ed231c635bac56f7c0ba8"
+  integrity sha1-zxATiAcgkucJbtIxxjW6xW98C6g=
 
 react-native-linear-gradient@^2.5.6:
   version "2.5.6"

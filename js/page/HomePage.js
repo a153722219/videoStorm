@@ -7,28 +7,20 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, View,Image,Text,TouchableOpacity} from 'react-native';
+import {StyleSheet, View,Image,Text,TouchableOpacity,DeviceEventEmitter} from 'react-native';
 import {connect} from "react-redux"
 import NetInfo from "@react-native-community/netinfo";
 import actions from '../action/index'
 import NavigationUtil from '../navigator/NavigationUtil';
-import FavoriteDao from '../expand/dao/FavoriteDao';
 import NavigationBar from '../common/NavigationBar';
-const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
-import  FavoriteUtil from '../util/FavoriteUtil';
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
-import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
-import EventBus from 'react-native-event-bus'
-import EventTypes from '../util/EventTypes'
 import {i18n} from '../i18n/index';
 import ToastManager from '../common/ToastManager'
-import {uW, width} from "../util/screenUtil";
-import Ionicons from "react-native-vector-icons/Ionicons"
+import {uW} from "../util/screenUtil";
 import  setStatusBar from '../common/setStatusBar';
-
 import { PermissionsAndroid } from "react-native";
-import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocode,addLocationListener, start, stop} from "react-native-amap-geolocation";
-
+//import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocode,addLocationListener, start, stop} from "react-native-amap-geolocation";
+import GoogleGeo from '../util/GoogleGeo';
+import Utils from '../util/Utils'
 @setStatusBar({
     barStyle: 'light-content',
     translucent: true
@@ -83,40 +75,24 @@ import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocod
 
          // 对于 Android 需要自行根据需要申请权限
         await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
-
-        // 使用高德 App Key 进行初始化
-        await init({
-            // ios: "9bd6c82e77583020a73ef1af59d0c759",
-            android: "779798e9f0f37e0286bb03022683b2b1"
-        });
-        //android
-        setNeedAddress(true);
-        //ios
-        // setLocatingWithReGeocode(true)
-        // 添加定位监听函数
-        addLocationListener(location =>{
-            // console.log(location);
-            //GCJ02
-            if(location.errorCode==0){
-                let address = {}
-                address.Lat = location.latitude;
-                address.Lon = location.longitude;
-                address.Address = location.address;
-                this.props.onGeoChange(address);
-            }
-        });
-        //安卓每10秒定位一次请求
-        setInterval(10000);
-        // 开始连续定位
-        start();
-
+        GoogleGeo.setNetworkLocationUrl('https://www.baidream.top/'); //设置位置反代域名
      }
 
-     componentWillUnmount() {
 
-         unsubscribe()
-           // 在不需要的时候停止定位
-         stop();
+     getLocation(){
+        Utils.getLocation((data)=>{
+            if(data.errorCode=="0000"){
+                // console.log(data.msg)
+                this.props.onGeoChange(data.msg);
+            }
+        })
+     }
+
+
+     componentWillUnmount() {
+         this.geoTimer && clearInterval(this.geoTimer);
+         GoogleGeo.stopGetLocation();
+         unsubscribe();
      };
 
     render() {
@@ -166,7 +142,11 @@ import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocod
                                 ToastManager.show(i18n.t('building'))
                             }else if(index==0){
                                 //do something
+
+                                this.getLocation();
+                                this.geoTimer = setInterval(this.getLocation,50000);
                                 NavigationUtil.goPage({},"KaHangPage")
+
                             }
                         }}>
                             <View style={item.disabled?[styles.MenuItem,styles.ItemDisable]:styles.MenuItem}>

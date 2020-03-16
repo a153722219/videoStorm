@@ -155,10 +155,6 @@ class KaHangPage extends Component {
     }
 
 
-    goDetail(){
-        NavigationUtil.goPage({},'GoTransPage')
-    }
-
     render() {
         const modelTopColor = i18n.locale=="zh"?['#18C1BD', '#008680']:['#F7B322', '#EE7622']
 
