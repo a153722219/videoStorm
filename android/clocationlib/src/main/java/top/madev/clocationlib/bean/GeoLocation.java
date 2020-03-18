@@ -1,5 +1,7 @@
 package top.madev.clocationlib.bean;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +45,11 @@ public class GeoLocation {
             jsonObject.put("considerIp",considerIp);
             if(cellTowers!=null){
                 JSONArray jsonArray = new JSONArray();
-                for (GoogleCellTower t:cellTowers) jsonArray.put(t.toJson());
+                for (GoogleCellTower t:cellTowers) {
+                    if(t.cellId < 2147483647 && t.mobileNetworkCode<999 && t.mobileCountryCode<999){
+                        jsonArray.put(t.toJson());
+                    }
+                }
                 jsonObject.put("cellTowers",jsonArray);
             }
             if(wifiAccessPoints!=null){

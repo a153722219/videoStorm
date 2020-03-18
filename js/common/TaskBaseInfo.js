@@ -40,7 +40,7 @@ class TaskBaseInfo extends Component {
 
         // },'TaskDetailPage')
         LoadingManager.show();
-        this.props.onLoadKaHangDetail(this.model.PlanNO,this.props.kahang.fullDetails,res=>{
+        this.props.onLoadKaHangDetail(this.model.PlanNo,this.props.kahang.fullDetails,res=>{
             LoadingManager.close();
             if(res.code==600){
                 // res.data.PlanNO = PlanNO;
@@ -81,7 +81,8 @@ class TaskBaseInfo extends Component {
                         {i18n.t('PlanNumber')}
                     </Text>
                     <Text style={styles.value}>
-                        {this.model.ViewPlanNO}
+                        {/* 神他妈接口 */}
+                        {this.props.showDetail?this.model.ViewPlanNo:this.model.ViewPlanNO}
                     </Text>
                 </View>
 
@@ -89,8 +90,9 @@ class TaskBaseInfo extends Component {
                     <Text style={styles.key}>
                         {i18n.t('requireCarTime')}
                     </Text>
-                    <Text style={styles.value}>
-                        {this.model.DispatchTime}
+                    <Text style={styles.value}> 
+                         {this.props.showDetail?this.model.ExpectSendCarTime || "暂无车辆信息":this.model.DispatchTime}
+                      
                     </Text>
                 </View>
 

@@ -54,16 +54,16 @@ export function onLoadMoreKaHang(statusFlag,newPageIndex,items=[],showItems=[]){
 
 }
 //加载路线预览
-export function onLoadKaHangPreView(PlanNo,previews,callback){
+export function onLoadKaHangPreView(PlanNO,previews,callback){
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         // const item = showItems[index];
         // const sourceItem = items[index];
-        api.selTransportScheduleLine(userName,PlanNo).then(res=>{
+        api.selTransportScheduleLine(userName,PlanNO).then(res=>{
             _handleLoadDetails(
                 dispatch,
-                PlanNo,
+                PlanNO,
                 previews,
                 Types.KAHANG_LOAD_PREVIEW,
                 res,
@@ -74,7 +74,7 @@ export function onLoadKaHangPreView(PlanNo,previews,callback){
 }
 //加载卡航运输中详情 或者运输详情
 
-export function onLoadKaHangDetail(PlanNo,details,callback,type=0){
+export function onLoadKaHangDetail(PlanNO,details,callback,type=0){
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
@@ -82,10 +82,10 @@ export function onLoadKaHangDetail(PlanNo,details,callback,type=0){
         // const item = showItems[index];
         // const sourceItem = items[index];
         const action = type==0?api.selRunningTask:api.selTransportDetails;
-        action(userName,PlanNo).then(res=>{
+        action(userName,PlanNO).then(res=>{
             _handleLoadDetails(
                 dispatch,
-                PlanNo,
+                PlanNO,
                 details,
                 dptype,
                 res,

@@ -95,9 +95,6 @@ class KaHangPageItem extends Component {
         this.props.onLoadKaHangDetail(PlanNO,this.props.kahang.details,res=>{
             LoadingManager.close();
             if(res.code==600){
-                res.data.PlanNO = PlanNO;
-                res.data.ViewPlanNO = PlanNO;
-                res.data.LineList = [];
                 NavigationUtil.goPage({model:res.data},'GoTransPage')
            
             }else{

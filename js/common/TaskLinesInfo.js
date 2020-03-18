@@ -18,7 +18,7 @@ import Utils from  '../util/Utils'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
 
-
+import openMap from 'react-native-open-maps';
 
 
 
@@ -26,7 +26,9 @@ class TaskLinesInfo extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state={
+            currentLine:0
+        }
     }
 
     componentDidMount() {
@@ -37,8 +39,20 @@ class TaskLinesInfo extends Component {
 
     }
 
+    _goToYosemite(lat,lon) {
+        openMap({ 
+            latitude: lat, 
+            longitude:lon,
+            navigate_mode:"priview",
+            // query:address,
+            // end:"中国广东省广州市白云区侨德街"
+         });
+      }
+
 
     render() {
+        const currentItem = this.props.LineList[this.state.currentLine];
+        // currentItem = currentItem?currentItem:{}
         return <View style={styles.container}>
             <View style={styles.titleView}>
                 <View style={styles.titleInfo}>
@@ -50,7 +64,7 @@ class TaskLinesInfo extends Component {
                     </Text>
 
                     <Text style={styles.subtitle}>
-                        ({i18n.t('total2')}8{i18n.t('Dots')})
+                                ({i18n.t('total2')}{this.props.LineList.length}{i18n.t('Dots')})
                     </Text>
                 </View>
 
@@ -58,13 +72,25 @@ class TaskLinesInfo extends Component {
 
             <ScrollView style={{height:239*uW}} horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={styles.dotContainer}>
-                    {ViewUtil._genFinishedItem(1)}
+                   { this.props.LineList.map((item,index)=>{
+
+                        const noLine = index==this.props.LineList.length-1;
+                        if(index==this.state.currentLine){
+                            return ViewUtil._genSelectedItem(index+1,noLine)
+                        }
+                        return ViewUtil._genItem.call(this,index+1,noLine)
+                   })} 
+
+                
+
+
+                    {/* {ViewUtil._genFinishedItem(1)}
                     {ViewUtil._genOddFinishedItem(2)}
                     {ViewUtil._genItem(3)}
                     {ViewUtil._genSelectedItem(4)}
                     {ViewUtil._genItem(5)}
                     {ViewUtil._genItem(6)}
-                    {ViewUtil._genItem(7,true)}
+                    {ViewUtil._genItem(7,true)} */}
 
                 </View>
 
@@ -72,19 +98,21 @@ class TaskLinesInfo extends Component {
             </ScrollView>
 
             <Text style={styles.tips}>
-                {i18n.t('total2')}4{i18n.t('sites')} （{i18n.t('LoadOrder')}T20191118KTX0002）:
+                {i18n.t('total2')}{this.props.LineList.length}{i18n.t('sites')} （{i18n.t('LoadOrder')}{currentItem.WaybillNOs}）:
             </Text>
             <View style={styles.addressBox}>
                 <View style={{width:460*uW}}>
                     <Text style={styles.addressTitle} numberOfLines={2}>
-                        华盛辉综合楼
+                        {currentItem.AreaName}
                     </Text>
                     <Text style={styles.addressSubTitle} numberOfLines={3}>
-                        广东省深圳市宝安区西乡街道盐田社区盐田街106号交叉口东南50米
+                        {currentItem.FullAddress}
                     </Text>
                 </View>
 
-                <TouchableOpacity activeOpacity={0.7}>
+                <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+                    this._goToYosemite(currentItem.Lat,currentItem.Lon)
+                }}>
                     <View style={styles.previewAdr}>
                         <Image style={styles.routeIcon} source={require('../assets/zh/Route.png')}/>
                         <Text style={styles.route} >
@@ -133,12 +161,12 @@ class TaskLinesInfo extends Component {
                         {i18n.t('orderNo')}：
                     </Text>
                     <TouchableOpacity activeOpacity={0.7} onPress={()=>{
-                        Utils.copyToClipboard('T20191118PKTX0002')
+                        Utils.copyToClipboard(currentItem.WaybillNOs)
                         }
                     }>
                         <View style={{flexDirection:'row',alignItems:"center"}}>
                             <Text style={[styles.Phone,{color:"#333"}]} >
-                                T20191118PKTX0002
+                                {currentItem.WaybillNOs}
                             </Text>
                             <Image  style={styles.copyIcon} source={require('../assets/zh/orderNo.png')}/>
                         </View>

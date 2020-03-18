@@ -53,28 +53,48 @@ export default class Utils{
     }
 
     static getLocation(callback){
-        GoogleGeo.startGetLocation().then(data=>{
+        GoogleGeo.startGetLocation().then(async data=>{
             if(!data.msg){
-                const url = proxyUrl + 'maps/api/geocode/json?latlng='+data.latitude+","+data.longitude+"&key="+Google_API_KEY;
-                console.log(url)
-                //&language=en/zh
-                fetch(url).then((response) => response.json()).then(res=>{
-                    console.log(res)
-                    const formatAddress = (res.results && res.results[0])?res.results[0].formatted_address:""
 
-                    const address = {}
-                        address.Lat = data.latitude;
-                        address.Lon = data.longitude;
-                        address.Address = formatAddress;
-                        address.multiaccuracy = data.multiaccuracy
-                        address.date = data.date
-                      
+                let language = await GoogleGeo.getSystemLanguage();
+                if(language.indexOf('zh')!=-1){
+                    language = "zh";
+                }else language = "en";
+                const url = proxyUrl + 'maps/api/geocode/json?latlng='+data.latitude+","+data.longitude+"&key="+Google_API_KEY+"&language="+language;
+                console.log(url)
+                
+                fetch(url).then((response) => response.json()).then(res=>{
+                    console.log(res);
+
+                    if(data.multiaccuracy>300){
                         callback(
                             {
-                                errorCode:"0000",
-                                msg:address
+                                errorCode:"-1",
+                                msg:{
+                                    Lat:0,
+                                    Lon:0,
+                                    multiaccuracy:2000,
+                                    Address:"can no get location",
+                                    date:""
+                                }
                             }
                         );
+                        return 
+                    }
+                    const formatAddress = (res.results && res.results[0])?res.results[0].formatted_address:""
+                    const address = {}
+                    address.Lat = data.latitude;
+                    address.Lon = data.longitude;
+                    address.Address = formatAddress;
+                    address.multiaccuracy = data.multiaccuracy
+                    address.date = data.date
+                    
+                    callback(
+                        {
+                            errorCode:"0000",
+                            msg:address
+                        }
+                    );
     
                     }).catch(err=>{
                         console.log(err)

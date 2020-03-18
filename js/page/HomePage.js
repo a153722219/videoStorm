@@ -80,12 +80,13 @@ import Utils from '../util/Utils'
 
 
      getLocation(){
-        Utils.getLocation((data)=>{
-            if(data.errorCode=="0000"){
-                // console.log(data.msg)
-                this.props.onGeoChange(data.msg);
-            }
-        })
+        
+        // Utils.getLocation((data)=>{
+        //     if(data.errorCode=="0000"){
+        //         // console.log(data.msg)
+        //         this.props.onGeoChange(data.msg);
+        //     }
+        // })
      }
 
 

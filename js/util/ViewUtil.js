@@ -98,14 +98,18 @@ export default class ViewUtil{
 
 
 
-    static _genItem(index,noline=false,callback){
+    static _genItem(index,noline=false){
         //普通状态的点
 
-        return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+            this.setState({
+                currentLine:index-1
+            })
+        }} key={index}>
             <View style={[styles.dotItem,{width:noline?48*uW:163*uW}]}>
                 <View style={styles.dotItemTop}>
                     {!noline && <View style={styles.dotItemLine}/>}
-                    <View style={[styles.dotItemIconBox,styles.dotItemFinshed]}>
+                    <View style={[styles.dotItemIconBox,styles.dotItemFinshed,{left:-8*uW}]}>
                         <View style={[styles.dotItemIcon,{marginTop:9*uW}]}>
 
                         </View>
@@ -121,7 +125,7 @@ export default class ViewUtil{
 
     static _genFinishedItem(index,noline=false,callback){
         //完成状态的点
-        return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={callback} key={index}>
             <View style={[styles.dotItem,{width:noline?48*uW:163*uW}]}>
                 <View style={styles.dotItemTop}>
                     {!noline && <View style={styles.dotItemLine}/>}
@@ -142,7 +146,7 @@ export default class ViewUtil{
 
     static _genSelectedItem(index,noline=false,callback){
         //选中状态的点
-        return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={callback} key={index}>
             <View style={[styles.dotItem,{width:noline?48*uW:163*uW}]}>
                 <View style={styles.dotItemTop}>
                     {!noline && <View style={styles.dotItemLine}/>}
@@ -159,7 +163,7 @@ export default class ViewUtil{
     }
     static _genOddFinishedItem(index,noline=false,callback){
         //完成状态的点
-        return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={callback} key={index}>
             <View style={[styles.dotItem,{width:noline?61*uW:163*uW}]}>
                 <View style={styles.dotItemTop}>
                     {!noline && <View style={styles.dotItemLine}/>}
@@ -212,7 +216,8 @@ const styles = StyleSheet.create({
     },
     dotItem:{
         width:163*uW,
-        marginTop:73*uW
+        marginTop:73*uW,
+        height:100*uW
     },
     dotItemTop:{
         flexDirection:"row",

@@ -85,7 +85,10 @@ class GoTransPage extends Component {
             <ScrollView style={{flex:1}}>
                 <TaskBaseInfo showDetail={true} model={this.model}/>
 
-                <TaskLinesInfo />
+                <TaskLinesInfo 
+                    LineList={this.model.LineList}
+                    currentLine={0}
+                 />
 
 
             </ScrollView>

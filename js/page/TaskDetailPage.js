@@ -63,7 +63,7 @@ class TaskDetailPage extends Component {
     }
 
     _genLinesInfoItem(data){
-         console.log(data.item)
+        //  console.log(data.item)
         return <View style={styles.LinesInfoBox}>
             {data.index===0 && <View style={styles.titleView}>
                 <View style={styles.titleInfo}>
@@ -85,7 +85,7 @@ class TaskDetailPage extends Component {
                     <Text style={styles.Bigtitle}>
                         {data.item.PointName}
                     </Text>
-                    <Text style={[styles.desc,{width:`80%`}]} numberOfLines={3}>
+                    <Text style={[styles.desc,{width:550*uW}]} numberOfLines={3}>
                         {data.item.PointAddress}
                     </Text>
                 </View>

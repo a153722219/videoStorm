@@ -2,6 +2,8 @@ package com.googlegeo;
 
 
 
+import android.os.Build;
+import android.os.LocaleList;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -13,6 +15,7 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import top.madev.clocationlib.GetLocation;
 import top.madev.clocationlib.bean.MyLocation;
@@ -109,8 +112,21 @@ public class GoogleGeo  extends ReactContextBaseJavaModule {
         GetLocation.getInstance().setNetworkLocationUrl(url);
     }
 
+    @ReactMethod
+    public void getSystemLanguage(Promise promise) {
+        try {
+            Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = LocaleList.getDefault().get(0);
+            } else {
+                locale = Locale.getDefault();
+            }
+            String language = locale.getLanguage() + "-" + locale.getCountry();
+            promise.resolve(language);
+        } catch (IllegalViewOperationException e) {
+            promise.reject(e);
+        }
 
-
-
+    }
 
 }

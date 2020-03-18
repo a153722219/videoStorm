@@ -269,7 +269,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLoadKaHangPreView:(PlanNo,previews,callback)=>dispatch(actions.onLoadKaHangPreView(PlanNo,previews,callback))
+    onLoadKaHangPreView:(PlanNO,previews,callback)=>dispatch(actions.onLoadKaHangPreView(PlanNO,previews,callback))
 });
 
 //注意：connect只是个function，并不应定非要放在export后面
