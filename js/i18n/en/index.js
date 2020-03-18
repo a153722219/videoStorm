@@ -196,14 +196,20 @@ export default {
 
     No:"Cancel",
 
-    comfirmTips:"确认提示",
+    comfirmTips:"comfirmTips",
 
-    comfirmDelete:"确认删除吗?",
+    comfirmDelete:"comfirmDelete?",
 
     AboutMe:"About Me",
 
     Tons:'T',
     
-    Mi:'M'
+    Mi:'M',
+
+    NoNetwor:'No network, please try again ',
+    
+    NoRecord:'No Record ~',
+
+    NoOrder:' No order information'
 
 };

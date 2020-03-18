@@ -4,6 +4,7 @@
 import {onThemeChange} from './theme'
 import {onUserLogin,onUserLogout} from './user'
 import {onRefreshCars,onLoadMoreCars,onLoadCarDetails} from './cars'
+import {onLoadPOD} from './PODs'
 import {onNetWorkChange} from './network'
 import {
     onRefreshKaHang,
@@ -24,5 +25,6 @@ export default {
     onLoadMoreKaHang,
     onLoadKaHangPreView,
     onGeoChange,
-    onLoadKaHangDetail
+    onLoadKaHangDetail,
+    onLoadPOD
 }

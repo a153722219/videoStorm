@@ -15,6 +15,7 @@ import {uW, width} from "../util/screenUtil";
 //import EventBus from 'react-native-event-bus'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
+import actions from '../action'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import Modal from 'react-native-translucent-modal';
 import NavigationUtil from '../navigator/NavigationUtil';
@@ -53,12 +54,18 @@ class PODListPage extends Component {
         });
         this.state = {
             index: 0,
-            modalVisible: false
+            modalVisible: false,
+            order:1111,
+            imageList:[]
         };
     }
 
     componentDidMount() {
-        this.backPress.componentDidMount();
+        this.props.onLoadPOD(this.state.order,this.props.podList.details,res=>{
+         
+        })
+        this.backPress.componentDidMount()
+
     }
 
     componentWillUnmount() {
@@ -70,19 +77,20 @@ class PODListPage extends Component {
         NavigationUtil.goBack(this.props.navigation)
         return true
     }
-    _renderItem(){
+    _renderItem(data,index){
+        const item = data.item
         return  <TouchableOpacity activeOpacity={0.7} onPress={()=>{
             this.setState({modalVisible: true})}
         }>
             <View style={styles.item}>
                 <View style={styles.ImgBox}>
-                    <Image style={styles.ImgBox} source={require('../assets/Koala.jpg')}/>
-                    <Text style={styles.count}>{i18n.locale=='zh'?`共5张`:"5 Sheets"}</Text>
+                    <Image style={styles.ImgBox} source={{uri:item.ImgURL}}/>
+                    <Text style={styles.count}>{i18n.locale=='zh'?`共${item.PictureCount}张`:`${item.PictureCount} Sheets`}</Text>
                 </View>
 
                 <View style={{marginLeft:40*uW}}>
-                    <Text style={styles.Title}>{i18n.t('orderNo')}：T20191128PKLX002</Text>
-                    <Text style={styles.Time}>{i18n.t('uploadPodTime')}：2019-12-08 16:54</Text>
+                    <Text style={styles.Title}>{i18n.t('orderNo')}：{item.WaybillNO}</Text>
+                    <Text style={styles.Time}>{i18n.t('uploadPodTime')}：{item.ReceiptTime}</Text>
 
                 </View>
             </View>
@@ -110,16 +118,18 @@ class PODListPage extends Component {
 
             <FlatList
 
-                data={[{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8}]}
-                renderItem={data=>this._renderItem(data)}
-                keyExtractor={item=>""+item.id}
+                data={this.props.podList.details[this.state.order]}
+                renderItem={(item,index)=>this._renderItem(item,index)}
+                keyExtractor={(item,index)=>""+index}
             />
 
             <Modal
                 visible={this.state.modalVisible}
                 transparent={true}
                 onRequestClose={() => this.setState({modalVisible: false,index:0})}>
-                <ImageViewer saveToLocalByLongPress={false} imageUrls={images} index={this.state.index}/>
+                <ImageViewer saveToLocalByLongPress={false} imageUrls={(this.props.podList.details[this.state.order]).map(val=>{
+                    return { props:{uri:val.ImgURL}}
+                })} index={this.state.index}/>
             </Modal>
 
         </View>;
@@ -129,10 +139,13 @@ class PODListPage extends Component {
 
 const mapStateToProps = state => ({
     nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
+    podList: state.pods
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onLoadPOD:(WaybillNO,details,callback)=>dispatch(actions.onLoadPOD(WaybillNO,details,callback)),
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(PODListPage);
