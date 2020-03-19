@@ -21,6 +21,8 @@ import ViewUtil from '../util/ViewUtil'
 import TaskBaseInfo from '../common/TaskBaseInfo'
 import TaskLinesInfo from '../common/TaskLinesInfo'
 import  setStatusBar from '../common/setStatusBar'
+import LoadingManager from '../common/LoadingManager';
+import actions from '../action'
 @setStatusBar({
     barStyle: 'dark-content',
     translucent: true,
@@ -33,14 +35,24 @@ class GoTransPage extends Component {
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
-
+        this.state={
+            statusFlag:0
+        }
+        const Phone = props.user.currentUserKey.split("_")[1];
+        this.storeKey = "items_"+Phone+"_";
         const {model} = this.props.navigation.state.params;
+       
         this.model = model;
-
+       
+    
     }
 
     componentDidMount() {
         this.backPress.componentDidMount();
+        const {statusFlag} = this.props.navigation.state.params;
+        this.setState({
+            statusFlag:statusFlag
+        });
     }
 
     componentWillUnmount() {
@@ -62,6 +74,35 @@ class GoTransPage extends Component {
                     <Text  style={styles.navBtnTitle}>{i18n.t('PODRecords')}</Text>
             </View>
         </TouchableOpacity>
+    }
+
+    goTrans(){
+        // console.log(this.props.statusFlag)
+            if(this.state.statusFlag==0){
+                if(this.props.geo.Lat && this.props.geo.Lon){
+                    LoadingManager.show();
+                    const {Lat,Lon,Address} = this.props.geo;
+                    const sourceItems = this.props.kahang[this.storeKey+"0"];
+                    const targetItems = this.props.kahang[this.storeKey+"1"];
+                    this.props.onStartTranPort(this.model.PlanNo,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+                        LoadingManager.close();
+                        console.log(res);
+                        if(res.code==600){
+                            this.setState({
+                                statusFlag:1
+                            })
+                        }else{
+                            alert(res.data || "加载失败")
+                        }
+                        
+                    })
+
+                }else{
+                    alert("地址获取失败,请打开网络定位")
+                }
+
+                return
+            }
     }
 
 
@@ -93,7 +134,7 @@ class GoTransPage extends Component {
 
             </ScrollView>
 
-            <View style={styles.fixContainer}>
+            {this.state.statusFlag!=2 && <View style={styles.fixContainer}>
                  {/* <TouchableOpacity activeOpacity={0.7}>
                         <View style={styles._finished}>
                             <Image style={styles._finishedIcon} source={require('../assets/zh/_haveFinished.png')}/>
@@ -106,25 +147,41 @@ class GoTransPage extends Component {
                     </Text>
                 </TouchableOpacity> */}
 
-                <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+                {/* <TouchableOpacity activeOpacity={0.7} onPress={()=>{
                     NavigationUtil.goPage({},'UploadPodPage')
                 }}>
                     <Text style={[styles.comfirmbtn,styles.comfirmFullbtn,{backgroundColor:this.props.theme}]}>
                         上传回单
                     </Text>
-                </TouchableOpacity>
-            </View>
+                </TouchableOpacity> */}
+
+                {
+                    this.state.statusFlag==0 &&
+                    <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+                        this.goTrans();
+                    }}>
+                        <Text style={[styles.comfirmbtn,styles.comfirmFullbtn,{backgroundColor:this.props.theme}]}>
+                            {i18n.t('goTran')}
+                        </Text>
+                    </TouchableOpacity>
+                }
+
+            </View>}
         </View>;
     }
 
 }
 
 const mapStateToProps = state => ({
-    nav: state.nav,
-    theme: state.theme.theme
+    user: state.user,
+    theme: state.theme.theme,
+    geo:state.geo.location,
+    kahang:state.kahang
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(GoTransPage);

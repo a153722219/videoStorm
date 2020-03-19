@@ -39,13 +39,13 @@ class TaskLinesInfo extends Component {
 
     }
 
-    _goToYosemite(lat,lon) {
+    _goToYosemite(FullAddress) {
         openMap({ 
-            latitude: lat, 
-            longitude:lon,
-            navigate_mode:"priview",
-            // query:address,
-            // end:"中国广东省广州市白云区侨德街"
+            // latitude: lat, 
+            // longitude:lon,
+            navigate_mode:"navigate",
+            query:FullAddress,
+            // end:"中国广东省广州市白云区天天来生活超市"
          });
       }
 
@@ -81,9 +81,6 @@ class TaskLinesInfo extends Component {
                         return ViewUtil._genItem.call(this,index+1,noLine)
                    })} 
 
-                
-
-
                     {/* {ViewUtil._genFinishedItem(1)}
                     {ViewUtil._genOddFinishedItem(2)}
                     {ViewUtil._genItem(3)}
@@ -94,11 +91,10 @@ class TaskLinesInfo extends Component {
 
                 </View>
 
-
             </ScrollView>
 
-            <Text style={styles.tips}>
-                {i18n.t('total2')}{this.props.LineList.length}{i18n.t('sites')} （{i18n.t('LoadOrder')}{currentItem.WaybillNOs}）:
+            <Text style={styles.tips} numberOfLines={2}>
+                {i18n.t('total2')}{this.props.LineList.length}{i18n.t('sites')} （{currentItem.NeedLoadOrdCount>0?i18n.t('LoadOrder'):i18n.t('OffLoadOrder')}{currentItem.WaybillNOs}）:
             </Text>
             <View style={styles.addressBox}>
                 <View style={{width:460*uW}}>
@@ -111,7 +107,7 @@ class TaskLinesInfo extends Component {
                 </View>
 
                 <TouchableOpacity activeOpacity={0.7} onPress={()=>{
-                    this._goToYosemite(currentItem.Lat,currentItem.Lon)
+                    this._goToYosemite(currentItem.FullAddress)
                 }}>
                     <View style={styles.previewAdr}>
                         <Image style={styles.routeIcon} source={require('../assets/zh/Route.png')}/>
@@ -131,7 +127,7 @@ class TaskLinesInfo extends Component {
                     </Text>
 
                     <Text style={styles.InfoValue} >
-                        周小川
+                        {currentItem.NeedLoadOrdCount>0?currentItem.ShipperName:currentItem.ReceiverName}
                     </Text>
 
                 </View>
@@ -147,7 +143,7 @@ class TaskLinesInfo extends Component {
                     }>
                         <View style={{flexDirection:'row',alignItems:"center"}}>
                             <Text style={styles.Phone} >
-                                138000138000
+                                {currentItem.NeedLoadOrdCount>0?currentItem.ShipperPhone:currentItem.ReceiverPhone}
                             </Text>
                             <Image  style={styles.PhoneIcon} source={require('../assets/zh/phone.png')}/>
                         </View>

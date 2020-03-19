@@ -101,9 +101,10 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         api.startTransportPlan(userName,PlanNo,Lat,Lon,Address)
         .then(httpResult=>{
-            httpResult.code=600;
+            // httpResult.code=600;
             if(httpResult.code<0){
                 //net error
+                //网络错误 还需要判断是否有进行中的任务
 
             }else if(httpResult.code==600){
                 const index = sourceItems.findIndex(i=>i.PlanNO==PlanNo)
@@ -127,10 +128,9 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
                         data:httpResult.data
                     })
                 }
-
-               
-                
+       
             }else{
+                //系统错误
                 callback({
                     code:httpResult.code,
                     data:httpResult.msg

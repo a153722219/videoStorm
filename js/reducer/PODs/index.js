@@ -19,7 +19,7 @@ export  default function onAction(state=defaultState,action) {
         case Types.POD_LOAD:
             return {
                 ...state,
-                details
+                details:action.contents
             }
         default: return state;
     }

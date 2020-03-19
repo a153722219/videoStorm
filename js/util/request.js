@@ -64,7 +64,8 @@ export const httpPost = async (api, params,needReSet=false) => {
                     ret = {
                         code:res.data.ReturnCode,
                         data:{},
-                        msg:NetStatusMap[res.data.ReturnCode]
+                        msg:res.data.ReturnMsg || NetStatusMap[res.data.ReturnCode]
+                        // msg:NetStatusMap[res.data.ReturnCode]
                     }
                 }
                 console.log("请求地址:",api,"结果:",ret)

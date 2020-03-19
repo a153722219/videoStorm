@@ -67,25 +67,9 @@ class KaHangPageItem extends Component {
         
         }}  
         onItemClick={(PlanNO)=>{
-            // console.log(this.props.statusFlag)
-            if(this.props.statusFlag==0){
-                if(this.props.geo.Lat && this.props.geo.Lon){
-                    LoadingManager.show();
-                    const {Lat,Lon,Address} = this.props.geo;
-                    const sourceItems = this.items;
-                    const targetItems = this.props.kahang[this.storeKey+""+1];
-                    this.props.onStartTranPort(PlanNO,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
-                        LoadingManager.close();
-                        console.log(res);
-                        this.goDetail(PlanNO)
-                    })
+            
 
-                }else{
-                    alert("地址获取失败,请打开网络定位")
-                }
-
-                return
-            }
+            this.goDetail(PlanNO)
 
             
         }}>
@@ -131,7 +115,7 @@ class KaHangPageItem extends Component {
         this.props.onLoadKaHangDetail(PlanNO,this.props.kahang.details,res=>{
             LoadingManager.close();
             if(res.code==600){
-                NavigationUtil.goPage({model:res.data},'GoTransPage')
+                NavigationUtil.goPage({model:res.data,statusFlag:this.statusFlag},'GoTransPage')
            
             }else{
                 alert(res.msg || "加载失败")
@@ -197,8 +181,7 @@ const mapStateToProps = state => ({
     user: state.user,
     theme: state.theme.theme,
     network:state.network,
-    kahang:state.kahang,
-    geo:state.geo.location
+    kahang:state.kahang
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -43,9 +43,9 @@ function configureStore(){
     // 如果createStore有需要加载多个参数，需要用compose将其拼装起来。
     // let store = createStore(reducer, compose(applyMiddleware(thunk),devToolsEnhancer({ realtime: true, port: 8000 })))
     
-    let store = createStore(reducer, compose(applyMiddleware(...middlewares), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+    // let store = createStore(reducer, compose(applyMiddleware(...middlewares), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
     //如果不使用debugger工具就用下面这句
-    // let store = createStore(reducer, compose(applyMiddleware(...middlewares)));
+    let store = createStore(reducer, compose(applyMiddleware(...middlewares)));
     let persistor = persistStore(store);
     return { persistor, store }
 }

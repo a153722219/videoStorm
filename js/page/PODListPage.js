@@ -62,7 +62,7 @@ class PODListPage extends Component {
 
     componentDidMount() {
         this.props.onLoadPOD(this.state.order,this.props.podList.details,res=>{
-         
+        //  console.log(1)
         })
         this.backPress.componentDidMount()
 
@@ -127,9 +127,9 @@ class PODListPage extends Component {
                 visible={this.state.modalVisible}
                 transparent={true}
                 onRequestClose={() => this.setState({modalVisible: false,index:0})}>
-                <ImageViewer saveToLocalByLongPress={false} imageUrls={(this.props.podList.details[this.state.order]).map(val=>{
+                {/* <ImageViewer saveToLocalByLongPress={false} imageUrls={(this.props.podList.details[this.state.order]).map(val=>{
                     return { props:{uri:val.ImgURL}}
-                })} index={this.state.index}/>
+                })} index={this.state.index}/> */}
             </Modal>
 
         </View>;
