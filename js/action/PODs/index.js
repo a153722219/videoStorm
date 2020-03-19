@@ -15,13 +15,13 @@ export function onLoadPOD(WaybillNO,details,callback){
                     "WaybillNO":"W20191230QVGR0003",
                     "ReceiptTime":"2019-12-30 16:28:13",
                     "PictureCount":"5",
-                    "ImgURL":"http://testoss.e6gpshk.com/EtmsFileService/20180420/other/f89a5afe-45d1-43b9-95ff-136f45fab87c.jpg"
+                    "ImgURL":"http://testoss.e6gpshk.com/EtmsFileService/20180420/other/f89a5afe-45d1-43b9-95ff-136f45fab87c.jpg;"
                 },
                 {
                     "WaybillNO":"W20191230QVGR0005",
                     "ReceiptTime":"2019-12-30 16:28:13",
                     "PictureCount":"5",
-                    "ImgURL":"http://testoss.e6gpshk.com/EtmsFileService/20180420/other/f89a5afe-45d1-43b9-95ff-136f45fab87c.jpg"
+                    "ImgURL":"http://testoss.e6gpshk.com/EtmsFileService/20180420/other/f89a5afe-45d1-43b9-95ff-136f45fab87c.jpg;"
                 }
             ]}
                  
