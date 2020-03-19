@@ -25,9 +25,9 @@ class DefaultPage extends Component {
                 {this.props.mode=="noRec" && <Image style={styles.img} source={require('../assets/zh/norecord.png')}/>}
                 {this.props.mode=="noOdr" && <Image style={styles.img} source={require('../assets/zh/Noorder.png')}/>}
 
-                {this.props.mode=="noNet" && <Text style={styles.text}>网络不给力，请稍后重试</Text>}
-                {this.props.mode=="noRec" && <Text style={styles.text}>暂无记录~</Text>}
-                {this.props.mode=="noOdr" && <Text style={styles.text}>暂无相关订单哦~</Text>}
+                {this.props.mode=="noNet" && <Text style={styles.text}>{i18n.t('NoNetwor')}</Text>}
+                {this.props.mode=="noRec" && <Text style={styles.text}>{i18n.t('NoRecord')}</Text>}
+                {this.props.mode=="noOdr" && <Text style={styles.text}>{i18n.t('NoOrder')}~</Text>}
                 
             </View>
            

@@ -210,6 +210,12 @@ export default {
 
     Tons:'吨',
     
-    Mi:'米'
+    Mi:'米',
+
+    NoNetwor:'网络不给力，请稍后重试',
+
+    NoRecord:'暂无记录~',
+
+    NoOrder:'暂无相关订单哦'
 
 };
