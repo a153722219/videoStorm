@@ -10,7 +10,7 @@ export  default function onAction(state=defaultState,action) {
     const key = "items_"+action.Phone;
     switch (action.type){
         case Types.REDUX_INIT:
-            const other = action.payload?action.payload.cars:defaultState
+            const other = action.payload?action.payload.pods:defaultState
             return{
                 ...other,
                 isLoading:false,

@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, TextInput,Image,FlatList,TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TextInput,Image,FlatList,RefreshControl,TouchableOpacity} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -22,25 +22,26 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import  setStatusBar from '../common/setStatusBar'
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import DefaultPage from '../common/DefaultPage'
 
 
-const images = [
-    {
-        props: {
-            // headers: ...
-            source: require('../assets/Koala.jpg')
-        },
-    },
+// let images = [
+//     {
+//         props: {
+//             // headers: ...
+//             source: require('../assets/Koala.jpg')
+//         },
+//     },
 
-    {
-        props: {
-            // headers: ...
-            source: require('../assets/Penguins.jpg')
-        },
-    },
-    // {url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460"}
-
-];
+//     {
+//         props: {
+//             // headers: ...
+//             source: require('../assets/Penguins.jpg')
+//         },
+//     },
+//     // {url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460"}
+// ];
 @setStatusBar({
     barStyle: 'dark-content',
     translucent: true
@@ -56,14 +57,32 @@ class PODListPage extends Component {
             index: 0,
             modalVisible: false,
             order:1111,
-            imageList:[]
+            imageList:[],
+            isLoad:false
         };
     }
 
-    componentDidMount() {
+    renderListEmptyComponent(){
+        if(!this.props.network.haveNet && !this.state.isLoad){
+            return <DefaultPage mode="noNet"/>;
+        }else if(!this.state.isLoad){
+            return <DefaultPage mode="noRec"/>;
+        }else{
+            return null
+        }
+        
+    }
+
+    _isLoding(){
+        const that = this 
+        this.setState({isLoad:true})
         this.props.onLoadPOD(this.state.order,this.props.podList.details,res=>{
-        //  console.log(1)
+            that.setState({isLoad:false})
         })
+    }
+
+    componentDidMount() {
+        this._isLoding()
         this.backPress.componentDidMount()
 
     }
@@ -79,12 +98,19 @@ class PODListPage extends Component {
     }
     _renderItem(data,index){
         const item = data.item
-        return  <TouchableOpacity activeOpacity={0.7} onPress={()=>{
-            this.setState({modalVisible: true})}
+        return  <TouchableOpacity activeOpacity={0.7} onPress={(data)=>{
+            let imgs =  item.ImgURL 
+            let strs = (imgs.split(";")).reduce((arr,item)=>{
+                if(item) arr.push({url:item});      
+                return arr
+            },[])
+            this.setState({modalVisible: true,imageList:strs})
+  
+        }
         }>
             <View style={styles.item}>
                 <View style={styles.ImgBox}>
-                    <Image style={styles.ImgBox} source={{uri:item.ImgURL}}/>
+                    <Image style={styles.ImgBox} source={{uri:(item.ImgURL.split(";"))[0]}}/>
                     <Text style={styles.count}>{i18n.locale=='zh'?`共${item.PictureCount}张`:`${item.PictureCount} Sheets`}</Text>
                 </View>
 
@@ -121,15 +147,26 @@ class PODListPage extends Component {
                 data={this.props.podList.details[this.state.order]}
                 renderItem={(item,index)=>this._renderItem(item,index)}
                 keyExtractor={(item,index)=>""+index}
+                refreshControl={
+                    <RefreshControl
+                        title="loading"
+                        titleColor="red"
+                        colors={["red"]}
+                        refreshing={this.state.isLoad}
+                        onRefresh={()=>{this._isLoding()}}
+                        tintColor="red"
+                    />
+                }
+                ListEmptyComponent={()=>this.renderListEmptyComponent()}
             />
 
+
             <Modal
+                animationType={'fade'}
                 visible={this.state.modalVisible}
                 transparent={true}
                 onRequestClose={() => this.setState({modalVisible: false,index:0})}>
-                {/* <ImageViewer saveToLocalByLongPress={false} imageUrls={(this.props.podList.details[this.state.order]).map(val=>{
-                    return { props:{uri:val.ImgURL}}
-                })} index={this.state.index}/> */}
+                <ImageViewer saveToLocalByLongPress={false} imageUrls={this.state.imageList} index={this.state.index}/>
             </Modal>
 
         </View>;
@@ -140,7 +177,8 @@ class PODListPage extends Component {
 const mapStateToProps = state => ({
     nav: state.nav,
     theme: state.theme.theme,
-    podList: state.pods
+    podList: state.pods,
+    network:state.network
 });
 
 const mapDispatchToProps = dispatch => ({
