@@ -90,13 +90,19 @@ export default {
 
     DepartureTime:"Departure time",
 
+    waitLeave:"Wait Leave",
+
+    Leaved:"Leaved",
+
+    arrived:"Arrived",
+
     goLoad:"Go to Load",
 
     goOffLoad:"Go to Offload",
 
     goTran:"Go to Transport",
 
-    AbnormalCauses:"异常原因",
+    AbnormalCauses:"Abnormal Causes",
 
     total:"Total",
 

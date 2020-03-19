@@ -18,7 +18,10 @@ import actions from '../action'
 import NavigationUtil from '../navigator/NavigationUtil';
 import KaHangItem from '../common/KaHangItem';
 import DefaultPage from '../common/DefaultPage';
-import LoadingManager from '../common/LoadingManager'
+import LoadingManager from '../common/LoadingManager';
+// （-1无按钮，0去运输，1到达，2离开，3已离开，4去
+// 装货，5去交货）
+
 class KaHangPageItem extends Component {
     constructor(props) {
         super(props);
@@ -28,13 +31,13 @@ class KaHangPageItem extends Component {
             isLoading:false,
             hideLoadingMore:true
         }
-        this.statusFlag = props.statusFlag;
         const Phone = props.user.currentUserKey.split("_")[1];
-        this.storeKey = "items_"+Phone+"_"+this.statusFlag;
-        this.items = props.kahang[this.storeKey];
+        this.statusFlag = props.statusFlag;
+        this.storeKey = "items_"+Phone+"_";
+        this.items = props.kahang[this.storeKey+""+props.statusFlag];
         this.items = this.items?this.items:[];
         // console.log(this.items)
-        this.props.onRefreshKaHang(this.statusFlag,this.items)
+        this.props.onRefreshKaHang(props.statusFlag,this.items);
 
     }
 
@@ -45,14 +48,47 @@ class KaHangPageItem extends Component {
         return true
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+    //    console.log(prevState)
+    //     if (prevState.items !== KaHangPageItem._items(nextProps)) {   //当之前的keys和现在的keys不同时
+    //         return {
+    //             items: KaHangPageItem._items(nextProps),  //把新的数据赋给keys
+    //         }
+    //     }
+        return null;
+    }
+
 
 
     renderItem(data){
         // console.log(data)
-        return <KaHangItem model={data.item} onClickRemainBtn={(PlanNO)=>{
+        return <KaHangItem model={data.item} statusFlag={this.props.statusFlag} onClickRemainBtn={(PlanNO)=>{
             this.props.onClickRemainBtn(PlanNO)
         
-        }}  onItemClick={(PlanNO)=>{this.goDetail(PlanNO)}}>
+        }}  
+        onItemClick={(PlanNO)=>{
+            // console.log(this.props.statusFlag)
+            if(this.props.statusFlag==0){
+                if(this.props.geo.Lat && this.props.geo.Lon){
+                    LoadingManager.show();
+                    const {Lat,Lon,Address} = this.props.geo;
+                    const sourceItems = this.items;
+                    const targetItems = this.props.kahang[this.storeKey+""+1];
+                    this.props.onStartTranPort(PlanNO,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+                        LoadingManager.close();
+                        console.log(res);
+                        this.goDetail(PlanNO)
+                    })
+
+                }else{
+                    alert("地址获取失败,请打开网络定位")
+                }
+
+                return
+            }
+
+            
+        }}>
 
         </KaHangItem>
     }
@@ -161,10 +197,12 @@ const mapStateToProps = state => ({
     user: state.user,
     theme: state.theme.theme,
     network:state.network,
-    kahang:state.kahang
+    kahang:state.kahang,
+    geo:state.geo.location
 });
 
 const mapDispatchToProps = dispatch => ({
+    onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
     onRefreshKaHang:(statusFlag,items)=>dispatch(actions.onRefreshKaHang(statusFlag,items)),
     onLoadKaHangDetail:(PlanNO,details,callback,type)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback,type)),
     onLoadMoreKaHang:(statusFlag,newPageIndex,items,showItems)=>dispatch(actions.onLoadMoreKaHang(statusFlag,newPageIndex,items,showItems))

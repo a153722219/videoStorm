@@ -15,4 +15,6 @@ api.selTransportScheduleLine  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelTr
 api.selRunningTask  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelRunningTask',{Phone,PlanNO})
 //查询运输详情接口
 api.selTransportDetails  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelTransportDetails',{Phone,PlanNO})
+//去运输接口
+api.startTransportPlan  = (Phone,PlanNO,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/StartTransportPlan',{Phone,PlanNO,Lat,Lon,Address})
 export default api;

@@ -78,6 +78,16 @@ export  default function onAction(state=defaultState,action) {
                     ...state,
                     fullDetails:action.contents
             }
+
+        case Types.KAHANG_START_TRAN:
+            const sourceItemsKey = "items_"+action.Phone+"_0";
+            const targetItemsKey = "items_"+action.Phone+"_1";
+            return {
+                ...state,
+                [sourceItemsKey]:action.sourceItems,
+                [targetItemsKey]:action.targetItems,
+                showItems:action.showItems
+            }
         default:return state;
     }
 }

@@ -35,7 +35,6 @@ export function onRefreshCars(items=[]) {
         dispatch({type:Types.CAR_REFRESH});
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         api.selVehicleList(userName,1).then(res=>{
-
                  _handleRefreshData(
                      dispatch,
                      PageSize,

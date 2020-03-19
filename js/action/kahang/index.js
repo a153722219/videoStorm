@@ -94,3 +94,48 @@ export function onLoadKaHangDetail(PlanNO,details,callback,type=0){
         });
     }
 }
+
+export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItems,callback){
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        api.startTransportPlan(userName,PlanNo,Lat,Lon,Address)
+        .then(httpResult=>{
+            httpResult.code=600;
+            if(httpResult.code<0){
+                //net error
+
+            }else if(httpResult.code==600){
+                const index = sourceItems.findIndex(i=>i.PlanNO==PlanNo)
+                const showIndex = showItems.findIndex(i=>i.PlanNO==PlanNo)
+                console.log(index)
+                if(index!=-1 && showIndex!=-1){
+                    const item = sourceItems.splice(index,1);
+                    showItems.splice(showIndex,1);
+                    // item.
+                    targetItems.unshift(item[0]);
+                    dispatch({
+                        type:Types.KAHANG_START_TRAN,
+                        sourceItems,
+                        targetItems,
+                        showItems,
+                        Phone:userName
+                    });
+
+                    callback({
+                        code:httpResult.code,
+                        data:httpResult.data
+                    })
+                }
+
+               
+                
+            }else{
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.msg
+                })
+            }
+        })
+    }
+}

@@ -2,7 +2,7 @@
  * Created by XiaoBai on 2020/2/28.
  */
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {StyleSheet, View, Text,TouchableOpacity,Image} from 'react-native';
 //redux
 import {connect} from "react-redux";
@@ -16,8 +16,7 @@ import Utils from '../util/Utils'
 //import EventTypes from '../util/EventTypes'
 //import ToastManager from '../common/ToastManager'
 
-
-class KaHangItem extends Component {
+class KaHangItem extends PureComponent {
     //类型检查
     static propTypes = {
         onClickRemainBtn:PropTypes.func
@@ -25,11 +24,22 @@ class KaHangItem extends Component {
 
     static defaultProps ={
         onClickRemainBtn:()=>{
-
+            //VirtualizedList: You have a large list that is slow to update
         }
     }
     constructor(props) {
         super(props);
+
+        this.btnTextMap = {
+            "-1":"", 
+            "0":i18n.t('goTran'),    
+            "1":i18n.t('arrived'),    
+            "2":i18n.t('waitLeave'),       
+            "3":i18n.t('Leaved'),    
+            "4":i18n.t('goLoad'),    
+            "5":i18n.t('goOffLoad'),
+        }
+        
 
     }
 
@@ -45,8 +55,7 @@ class KaHangItem extends Component {
 
     render() {
 
-        return <TouchableOpacity activeOpacity={0.85} onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO)}>
-            <View style={styles.container}>
+        return <View style={styles.container}>
                 <View style={styles.titleBox}>
                     <View style={styles.titleBox}>
                         <View style={[styles.indent,{backgroundColor:this.props.theme}]}>
@@ -67,7 +76,7 @@ class KaHangItem extends Component {
                     {/*开始站点*/}
                     <View style={[styles.fxContaner,styles.addressItem]}>
                         <View>
-                            <Text style={[styles.dot,{backgroundColor:this.props.theme}]}>1</Text>
+                            <Text style={[styles.dot,{backgroundColor:this.props.theme}]}>{this.props.model.StartSeqNO}</Text>
                         </View>
 
                         <View style={styles.right}>
@@ -82,7 +91,7 @@ class KaHangItem extends Component {
                     <View style={[styles.fxContaner,{marginTop:15*uW}]}>
                         <View style={[styles.fxContaner,styles.addressItem]}>
                             <View>
-                                <Text style={[styles.dot,{backgroundColor:"#9f9f9f"}]}>{this.props.model.StationCount}</Text>
+                                <Text style={[styles.dot,{backgroundColor:"#9f9f9f"}]}>{this.props.model.EndSeqNO}</Text>
                             </View>
 
                             <View style={styles.right}>
@@ -121,29 +130,43 @@ class KaHangItem extends Component {
                                 <Text style={[styles.blTitleCommom,styles.blContext]}>{Utils.parseTime('YY-mm-dd HH:MM',new Date(this.props.model.ExpectSendCarTime))}</Text>
                             </View>
                             {/*异常原因*/}
-                            {/*<View  style={{flexDirection:"row",marginTop:5*uW}}>*/}
-                                {/*<Text style={[styles.blTitleCommom,styles.blTitle,{color:'#E45151'}]}>{i18n.t('AbnormalCauses')}:</Text>*/}
-                                {/*<Text style={[styles.blTitleCommom,styles.blContext]}>weather reason</Text>*/}
-                            {/*</View>*/}
+                            {
+                                this.props.model.TransportStatus==2200 &&
+                                <View  style={{flexDirection:"row",marginTop:5*uW}}>
+                                    <Text style={[styles.blTitleCommom,styles.blTitle,{color:'#E45151'}]}>{i18n.t('AbnormalCauses')}:</Text>
+                                    <Text style={[styles.blTitleCommom,styles.blContext]}>{this.props.model.ExceptionInfo}</Text>
+                                </View>
+                            }
+
+                            
 
                         </View>
                         {/*装货按钮*/}
-                        <TouchableOpacity activeOpacity={0.8}>
-                            <Text style={[styles.goLoadBox,{backgroundColor:this.props.theme}]}>
-                                {i18n.t('goLoad')}
-                            </Text>
-                        </TouchableOpacity>
+                        {
+                            this.props.model.OpBtnCode!=-1 &&
+                            <TouchableOpacity activeOpacity={0.8} onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO)}>
+                                <Text style={[styles.goLoadBox,{backgroundColor:this.props.theme}]}>
+                                    {this.btnTextMap[this.props.model.OpBtnCode]}
+                                </Text>
+                            </TouchableOpacity>
+                        }
                     </View>
 
                     {/*完成，未完成图标*/}
-                    {/*<Image style={styles.finishIcon} source={i18n.locale==='zh'?require('../assets/zh/haveFinished.png'):require('../assets/en/Finished.png')}/>*/}
-                    {/* _FinishedStatus.png */}
+                    {
+                        this.props.model.TransportStatus==2100 && <Image style={styles.finishIcon} source={i18n.locale==='zh'?require('../assets/zh/haveFinished.png'):require('../assets/en/Finished.png')}/>
+                    }
+                    {
+                        this.props.model.TransportStatus==2200 && <Image style={styles.finishIcon} source={i18n.locale==='zh'?require('../assets/zh/_FinishedStatus.png'):require('../assets/en/_FinishedStatus.png')}/>
+                    }
+                       
+
                 </View>
 
 
 
             </View>
-        </TouchableOpacity>;
+    
     }
 
 }

@@ -90,6 +90,12 @@ export default {
 
     DepartureTime:"发车时间",
 
+    waitLeave:"待离开",
+
+    Leaved:"已离开",
+
+    arrived:"已到达",
+    
     goLoad:"去装货",
 
     goOffLoad:"去交货",
