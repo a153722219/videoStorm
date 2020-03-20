@@ -19,9 +19,15 @@ export  default function onAction(state=defaultState,action) {
         case Types.POD_LOAD:
             return {
                 ...state,
-                details:action.contents
+                details:action.contents,
+            }
+        case Types.POD_SEARCH_LIST:
+            return {
+                ...state,
+                searchList:action.searchList
             }
         default: return state;
+       
     }
 
 }
