@@ -107,9 +107,9 @@ class GoTransPage extends Component {
     }
 
     _genBottomButton(index){
-        console.log(index)
+        
         const item = this.state.model.LineList[index];
-        console.log(item)
+        // console.log(item)
         //已完成
          //  1到达，2离开，3已离开，4去装货，5去交货(卸货)
 
@@ -160,7 +160,7 @@ class GoTransPage extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.7} onPress={callback}>
                         <Text style={[styles.comfirmbtn,{backgroundColor:this.props.theme}]}>
-                            {i18n.t('goLoad')}
+                            {text}
                         </Text>
                     </TouchableOpacity>
 

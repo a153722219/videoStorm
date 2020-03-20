@@ -118,7 +118,7 @@ export default {
 
     LoadOrder:"Loading Order",
 
-    OffLoadOrder:"交货订单",
+    OffLoadOrder:"OffLoad Order",
 
     Route:"Route",
 
@@ -216,6 +216,7 @@ export default {
 
     ConfirmtoLeave:"Confirm to Leave",
 
-    ConfirmtoArrive:"Confirm to Arrive"
+    ConfirmtoArrive:"Confirm to Arrive",
 
+    arrived:"Arrived",
 };

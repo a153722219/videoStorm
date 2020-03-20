@@ -108,12 +108,6 @@ class TaskDetailPage extends Component {
                         <Text style={styles.value}>{data.item.CheckInConfirmStr}</Text>
                     </View>
                 }
-                    
-                
-                
-
-               
-            
 
             <View style={{marginTop:14*uW,height:312*uW,justifyContent:"space-between"}}>
                 <View style={styles.titleView}>

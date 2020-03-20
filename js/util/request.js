@@ -35,7 +35,7 @@ export const httpPost = async (api, params,needReSet=false) => {
 
     api = api+"?data="+JSON.stringify(params);
 
-    console.log("请求地址:",api,"参数:",params)
+     console.log("请求地址:",api,"参数:",params)
     
     return new Promise((resolve, reject) => {
         instance.post(api, {})
@@ -68,7 +68,7 @@ export const httpPost = async (api, params,needReSet=false) => {
                         // msg:NetStatusMap[res.data.ReturnCode]
                     }
                 }
-                console.log("请求地址:",api,"结果:",ret)
+                 console.log("请求地址:",api,"结果:",ret)
                 resolve(ret)
             })
 
