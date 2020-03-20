@@ -94,7 +94,7 @@ class TaskDetailPage extends Component {
             
                 
                 {
-                    data.item.LoadingConfirmStr &&
+                    data.item.LoadingConfirmStr!="" &&
                     <View style={styles.descBox}>
                         <Image style={styles.Icon} source={require("../assets/zh/Load.png")}/>
                         <Text style={styles.value}>{data.item.LoadingConfirmStr}</Text>
@@ -102,7 +102,7 @@ class TaskDetailPage extends Component {
                 }
 
                 {
-                !data.item.LoadingConfirmStr &&
+                data.item.LoadingConfirmStr=="" &&
                     <View style={styles.descBox}>
                         <Image style={styles.Icon} source={require("../assets/zh/offLoad.png")}/>
                         <Text style={styles.value}>{data.item.CheckInConfirmStr}</Text>

@@ -123,9 +123,13 @@ export default class ViewUtil{
         </TouchableOpacity>
     }
 
-    static _genFinishedItem(index,noline=false,callback){
+    static _genFinishedItem(index,noline=false){
         //完成状态的点
-        return <TouchableOpacity activeOpacity={0.7} onPress={callback} key={index}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+            this.setState({
+                currentLine:index-1
+            })
+        }} key={index}>
             <View style={[styles.dotItem,{width:noline?48*uW:163*uW}]}>
                 <View style={styles.dotItemTop}>
                     {!noline && <View style={styles.dotItemLine}/>}
@@ -161,9 +165,13 @@ export default class ViewUtil{
             </View>
         </TouchableOpacity>
     }
-    static _genOddFinishedItem(index,noline=false,callback){
+    static _genOddFinishedItem(index,noline=false){
         //完成状态的点
-        return <TouchableOpacity activeOpacity={0.7} onPress={callback} key={index}>
+        return <TouchableOpacity activeOpacity={0.7} onPress={()=>{
+            this.setState({
+                currentLine:index-1
+            })
+        }} key={index}>
             <View style={[styles.dotItem,{width:noline?61*uW:163*uW}]}>
                 <View style={styles.dotItemTop}>
                     {!noline && <View style={styles.dotItemLine}/>}

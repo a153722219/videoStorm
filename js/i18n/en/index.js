@@ -124,6 +124,8 @@ export default {
 
     saler:"Consignor",
 
+    Receiver:"Receiver",
+
     concat:"Contact",
 
     orderNo:"Order Number",
@@ -210,6 +212,10 @@ export default {
     
     NoRecord:'No Record ~',
 
-    NoOrder:' No order information'
+    NoOrder:' No order information',
+
+    ConfirmtoLeave:"Confirm to Leave",
+
+    ConfirmtoArrive:"Confirm to Arrive"
 
 };

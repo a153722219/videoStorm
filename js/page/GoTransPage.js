@@ -35,15 +35,16 @@ class GoTransPage extends Component {
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
-        this.state={
-            statusFlag:0
-        }
+       
         const Phone = props.user.currentUserKey.split("_")[1];
         this.storeKey = "items_"+Phone+"_";
         const {model} = this.props.navigation.state.params;
-       
-        this.model = model;
-       
+        // this.model = model;
+        this.state={
+            statusFlag:0,
+            currentLine:0,
+            model:model
+        }
     
     }
 
@@ -77,14 +78,14 @@ class GoTransPage extends Component {
     }
 
     goTrans(){
-        // console.log(this.props.statusFlag)
+        // console.log(this.props.statusFlag)model
             if(this.state.statusFlag==0){
                 if(this.props.geo.Lat && this.props.geo.Lon){
                     LoadingManager.show();
                     const {Lat,Lon,Address} = this.props.geo;
                     const sourceItems = this.props.kahang[this.storeKey+"0"];
                     const targetItems = this.props.kahang[this.storeKey+"1"];
-                    this.props.onStartTranPort(this.model.PlanNo,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+                    this.props.onStartTranPort(this.state.model.PlanNo,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
                         LoadingManager.close();
                         console.log(res);
                         if(res.code==600){
@@ -103,6 +104,68 @@ class GoTransPage extends Component {
 
                 return
             }
+    }
+
+    _genBottomButton(index){
+        console.log(index)
+        const item = this.state.model.LineList[index];
+        console.log(item)
+        //已完成
+         //  1到达，2离开，3已离开，4去装货，5去交货(卸货)
+
+            //装货
+        if(item.OpBtnCode==3){
+            if(item.NeedReceiptOrdCount>0){//交货
+                return this._genButton(i18n.t("uploadPOD"),false,()=>{})
+            }
+            //完成
+            return this._genButton(i18n.t("Finished"),true,()=>{})    
+        }
+
+        if(item.OpBtnCode==2){ //确认离开
+            return this._genButton(i18n.t("ConfirmtoLeave"),true,()=>{})    
+        }
+
+        if(item.OpBtnCode==1){ //确认到达
+            return this._genOddButton(i18n.t("ConfirmtoArrive"),()=>{})    
+        }
+
+        if(item.OpBtnCode==4){//4去装货
+            return this._genOddButton(i18n.t("goLoad"),()=>{})    
+        }
+
+        if(item.OpBtnCode==5){//5去交货
+            return this._genOddButton(i18n.t("goOffLoad"),()=>{})    
+        }
+
+
+
+        return null
+    }
+    _genButton(text,disable,callback){
+        return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
+            <Text style={[styles.comfirmbtn,styles.comfirmFullbtn,{backgroundColor:disable?'#D2D2D2':this.props.theme}]}>
+                {text}
+            </Text>
+        </TouchableOpacity>
+    }
+
+    _genOddButton(text,callback){
+        return <View style={styles.fixContainer}>
+                <TouchableOpacity activeOpacity={0.7}  onPress={()=>{}}>
+                            <View style={styles._finished}>
+                                <Image style={styles._finishedIcon} source={require('../assets/zh/_haveFinished.png')}/>
+                                <Text  style={styles._finishedText}>异常结束</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.7} onPress={callback}>
+                        <Text style={[styles.comfirmbtn,{backgroundColor:this.props.theme}]}>
+                            {i18n.t('goLoad')}
+                        </Text>
+                    </TouchableOpacity>
+
+        </View>
+
     }
 
 
@@ -124,11 +187,16 @@ class GoTransPage extends Component {
             {navigationBar}
 
             <ScrollView style={{flex:1}}>
-                <TaskBaseInfo showDetail={true} model={this.model}/>
+                <TaskBaseInfo showDetail={true} model={this.state.model}/>
 
                 <TaskLinesInfo 
-                    LineList={this.model.LineList}
-                    currentLine={0}
+                    LineList={this.state.model.LineList}
+                    currentLine={this.state.currentLine}
+                    onCurrentSelectedChange={(index)=>{
+                        this.setState({
+                            currentLine:index
+                        })
+                    }}
                  />
 
 
@@ -164,6 +232,10 @@ class GoTransPage extends Component {
                             {i18n.t('goTran')}
                         </Text>
                     </TouchableOpacity>
+                }
+
+                {
+                    this.state.statusFlag==1 && this._genBottomButton(this.state.currentLine)
                 }
 
             </View>}

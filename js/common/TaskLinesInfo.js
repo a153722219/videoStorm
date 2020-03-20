@@ -39,6 +39,15 @@ class TaskLinesInfo extends Component {
 
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const newCurrentLine = nextState.currentLine;
+        if(nextState.currentLine !== this.state.currentLine){
+            this.props.onCurrentSelectedChange(newCurrentLine)
+        }
+        
+        return true
+    }
+
     _goToYosemite(FullAddress) {
         openMap({ 
             // latitude: lat, 
@@ -73,28 +82,33 @@ class TaskLinesInfo extends Component {
             <ScrollView style={{height:239*uW}} horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={styles.dotContainer}>
                    { this.props.LineList.map((item,index)=>{
-
+                    //    1到达，2离开，3已离开，4去装货，5去交货(卸货)
                         const noLine = index==this.props.LineList.length-1;
+                        
+                        if(item.OpBtnCode==3){
+                            if(item.NeedReceiptOrdCount>0){
+                                //完成未回单
+                                return ViewUtil._genOddFinishedItem.call(this,index+1,noLine)
+                            }
+
+                            return ViewUtil._genFinishedItem.call(this,index+1,noLine)
+                        }
+
+                       
                         if(index==this.state.currentLine){
                             return ViewUtil._genSelectedItem(index+1,noLine)
                         }
                         return ViewUtil._genItem.call(this,index+1,noLine)
                    })} 
 
-                    {/* {ViewUtil._genFinishedItem(1)}
-                    {ViewUtil._genOddFinishedItem(2)}
-                    {ViewUtil._genItem(3)}
-                    {ViewUtil._genSelectedItem(4)}
-                    {ViewUtil._genItem(5)}
-                    {ViewUtil._genItem(6)}
-                    {ViewUtil._genItem(7,true)} */}
+    
 
                 </View>
 
             </ScrollView>
 
             <Text style={styles.tips} numberOfLines={2}>
-                {i18n.t('total2')}{this.props.LineList.length}{i18n.t('sites')} （{currentItem.NeedLoadOrdCount>0?i18n.t('LoadOrder'):i18n.t('OffLoadOrder')}{currentItem.WaybillNOs}）:
+                {i18n.t('total2')}{this.props.LineList.length}{i18n.t('sites')} （{currentItem.LoadOrdCount>0?i18n.t('LoadOrder'):i18n.t('OffLoadOrder')}{currentItem.WaybillNOs}）:
             </Text>
             <View style={styles.addressBox}>
                 <View style={{width:460*uW}}>
@@ -123,11 +137,11 @@ class TaskLinesInfo extends Component {
             <View style={styles.infoBox}>
                 <View style={[styles.InfoItem,{marginTop:0}]}>
                     <Text style={styles.InfoTitle} >
-                        {i18n.t('saler')}：
+                     {currentItem.LoadOrdCount>0?i18n.t('saler'):i18n.t('Receiver')}：
                     </Text>
 
                     <Text style={styles.InfoValue} >
-                        {currentItem.NeedLoadOrdCount>0?currentItem.ShipperName:currentItem.ReceiverName}
+                        {currentItem.LoadOrdCount>0?currentItem.ShipperName:currentItem.ReceiverName}
                     </Text>
 
                 </View>
@@ -138,12 +152,13 @@ class TaskLinesInfo extends Component {
                     </Text>
 
                     <TouchableOpacity activeOpacity={0.7} onPress={()=>{
-                        Utils.callPhone('138000138000')
+                        const phone  = currentItem.LoadOrdCount>0?currentItem.ShipperPhone:currentItem.ReceiverPhone;
+                        Utils.callPhone(phone)
                         }
                     }>
                         <View style={{flexDirection:'row',alignItems:"center"}}>
                             <Text style={styles.Phone} >
-                                {currentItem.NeedLoadOrdCount>0?currentItem.ShipperPhone:currentItem.ReceiverPhone}
+                                {currentItem.LoadOrdCount>0?currentItem.ShipperPhone:currentItem.ReceiverPhone}
                             </Text>
                             <Image  style={styles.PhoneIcon} source={require('../assets/zh/phone.png')}/>
                         </View>

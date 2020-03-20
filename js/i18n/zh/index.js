@@ -130,6 +130,8 @@ export default {
 
     saler:"发货人",
 
+    Receiver:"收货人",
+
     concat:"联系方式",
 
     orderNo:"订单号",
@@ -216,6 +218,10 @@ export default {
 
     NoRecord:'暂无记录~',
 
-    NoOrder:'暂无相关订单哦'
+    NoOrder:'暂无相关订单哦',
+
+    ConfirmtoLeave:"确认离开",
+
+    ConfirmtoArrive:"确认到达"
 
 };
