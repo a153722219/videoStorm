@@ -11,7 +11,7 @@ const defaultState = {
 };
 
 export  default function onAction(state=defaultState,action) {
-    const key = "items_"+action.Phone+"_"+action.statusFlag;
+    var key = "items_"+action.Phone+"_"+action.statusFlag;
     switch (action.type){
         case Types.REDUX_INIT:
             const other = action.payload?action.payload.kahang:defaultState
@@ -89,11 +89,11 @@ export  default function onAction(state=defaultState,action) {
                 showItems:action.showItems
             }
         case Types.KAHANG_LINE_ARRIVED:
-            const key = "items_"+action.Phone+"_1";
+            const sokey = "items_"+action.Phone+"_1";
             return {
                 ...state,
                 details:action.details,
-                [key]:action.items,
+                [sokey]:action.items,
                 showItems:action.showItems
             }
         default:return state;
