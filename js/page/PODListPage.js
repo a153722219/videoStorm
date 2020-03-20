@@ -56,11 +56,19 @@ class PODListPage extends Component {
         this.state = {
             index: 0,
             modalVisible: false,
-            order:1111,
+            order:'',
             imageList:[],
-            isLoad:false
+            isLoad:false,
+            searchStatus:false
         };
     }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        // if(nextProps)
+        // console.log(nextProps,prevState)
+
+    }
+
 
     renderListEmptyComponent(){
         if(!this.props.network.haveNet && !this.state.isLoad){
@@ -73,16 +81,23 @@ class PODListPage extends Component {
         
     }
 
-    _isLoding(){
+    _isLoading(){
         const that = this 
-        this.setState({isLoad:true})
-        this.props.onLoadPOD(this.state.order,this.props.podList.details,res=>{
-            that.setState({isLoad:false})
+        if(this.state.order){
+            this.setState({searchStatus:true})
+            console.log(1,this.state.searchStatus)
+        }else{ 
+            this.setState({searchStatus:false})
+            console.log(2,this.state.searchStatus)
+        }
+        // console.log(this.state.searchStatus)
+        this.props.onLoadPOD(this.state.order,this.props.podList.details,this.state.searchStatus,res=>{
+            that.setState({isLoad:false}) 
         })
     }
 
     componentDidMount() {
-        this._isLoding()
+        this._isLoading()
         this.backPress.componentDidMount()
 
     }
@@ -96,6 +111,7 @@ class PODListPage extends Component {
         NavigationUtil.goBack(this.props.navigation)
         return true
     }
+
     _renderItem(data,index){
         const item = data.item
         return  <TouchableOpacity activeOpacity={0.7} onPress={(data)=>{
@@ -125,7 +141,7 @@ class PODListPage extends Component {
 
 
     render() {
-
+        const datas = !this.state.searchStatus?this.props.podList.details:this.props.podList.searchList;
         let navigationBar =
             <NavigationBar
                 title={i18n.t('PODRecords')}
@@ -139,12 +155,19 @@ class PODListPage extends Component {
         return <View style={styles.container}>
             {navigationBar}
             <View style={[styles.boxEctra,styles.searchBarBox]}>
-                <TextInput  style={[styles.Ipt,styles.searchBarBox]} placeholder={i18n.t('searchByOrder')}/>
+                <TextInput  
+                onChangeText={text => {
+                    this.setState({order:text})
+                }} 
+                style={[styles.Ipt,styles.searchBarBox]} 
+                placeholder={i18n.t('searchByOrder')}
+                onSubmitEditing={()=>{this._isLoading()}}
+                />
             </View>
 
             <FlatList
 
-                data={this.props.podList.details[this.state.order]}
+                data={datas}
                 renderItem={(item,index)=>this._renderItem(item,index)}
                 keyExtractor={(item,index)=>""+index}
                 refreshControl={
@@ -153,7 +176,7 @@ class PODListPage extends Component {
                         titleColor="red"
                         colors={["red"]}
                         refreshing={this.state.isLoad}
-                        onRefresh={()=>{this._isLoding()}}
+                        onRefresh={()=>{this._isLoading()}}
                         tintColor="red"
                     />
                 }
@@ -182,7 +205,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLoadPOD:(WaybillNO,details,callback)=>dispatch(actions.onLoadPOD(WaybillNO,details,callback)),
+    onLoadPOD:(WaybillNo,details,searchStatus,callback)=>dispatch(actions.onLoadPOD(WaybillNo,details,searchStatus,callback)),
 });
 
 //注意：connect只是个function，并不应定非要放在export后面
