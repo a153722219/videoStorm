@@ -139,3 +139,63 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
         })
     }
 }
+
+export function onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        api.Arrive(userName,PlanNo,LineID,Lat,Lon,Address)
+        .then(httpResult=>{
+            if(httpResult.code<0){
+
+            }else if(httpResult.code==600){
+                //操作成功
+                const item  = details[PlanNo];
+                //更新详情页item
+                const index = item.LineList.findIndex(i=>i.LineID==LineID)
+                if(index!=-1){
+                    if(item.LineList[index].LoadOrdCount>0){
+                        item.LineList[index].OpBtnCode = 4;
+                    }else item.LineList[index].OpBtnCode = 5;
+
+                      //更新列表页的按钮状态
+                      for(let i in showItems){
+                          if(showItems[i].PlanNO==PlanNo){
+                            showItems[i].OpBtnCode = item.LineList[index].OpBtnCode;
+                            break;
+                          }
+                      }
+                      for(let i in items){
+                        if(items[i].PlanNO==PlanNo){
+                            items[i].OpBtnCode = item.LineList[index].OpBtnCode;
+                          break;
+                        }
+                    }
+
+                }
+
+            
+                dispatch({
+                    type:Types.KAHANG_START_TRAN,
+                    details,
+                    items,
+                    showItems,
+                    Phone:userName
+                });
+
+
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.data
+                })
+            }else{
+                //系统错误
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.msg
+                })
+            }
+        })
+
+    }
+}

@@ -94,7 +94,7 @@ export default {
 
     Leaved:"已离开",
 
-    arrived:"已到达",
+    arrived:"确认到达",
     
     goLoad:"去装货",
 

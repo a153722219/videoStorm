@@ -47,6 +47,10 @@ class GoTransPage extends Component {
         }
     
     }
+    
+    static getDerivedStateFromProps(nextProps, prevState) {
+        // console.log(nextProps,prevState)
+    }
 
     componentDidMount() {
         this.backPress.componentDidMount();
@@ -127,21 +131,70 @@ class GoTransPage extends Component {
         }
 
         if(item.OpBtnCode==1){ //确认到达
-            return this._genOddButton(i18n.t("ConfirmtoArrive"),()=>{})    
+           
+            return this._genOddButton(i18n.t("ConfirmtoArrive"),()=>{
+                this.commonFunc(()=>{
+                    LoadingManager.show();
+                    const {Lat,Lon,Address} = this.props.geo;
+                    const Items = this.props.kahang[this.storeKey+"1"];
+                    this.props.onArrived(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
+                        if(res.code!=600)
+                            alert(res.data || "加载失败")
+                        
+                        console.log(res)
+                        LoadingManager.close();
+                    });              
+                });
+               
+            })    
         }
 
         if(item.OpBtnCode==4){//4去装货
-            return this._genOddButton(i18n.t("goLoad"),()=>{})    
+            return this._genOddButton(i18n.t("goLoad"),()=>{
+                this.commonFunc(()=>{
+
+                });
+
+            })    
         }
 
         if(item.OpBtnCode==5){//5去交货
             return this._genOddButton(i18n.t("goOffLoad"),()=>{})    
         }
 
-
-
         return null
     }
+
+
+
+    _checkHasTask(LineID){ //检查当前是否有其他任务正在进行
+        for(let i in this.props.kahang.details){
+            let Item = this.props.kahang.details[i]
+            for(let k in Item.LineList){
+                let Line = Item.LineList[k]
+                if(Line.LineID==LineID){
+                    continue;
+                }else if(Line.OpBtnCode!=1 && Line.OpBtnCode!=3){
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    commonFunc(cb){
+        if(this._checkHasTask(this.state.model.PlanNo)){
+            return alert("已有其他任务进行中，无法进行操作")
+        }
+        if(this.props.geo.Lat && this.props.geo.Lon){
+            cb();
+        }else alert("地址获取失败,请打开网络定位")
+    }
+
+
+
+
+
     _genButton(text,disable,callback){
         return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
             <Text style={[styles.comfirmbtn,styles.comfirmFullbtn,{backgroundColor:disable?'#D2D2D2':this.props.theme}]}>
@@ -253,6 +306,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
+    onArrived:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

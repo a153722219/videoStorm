@@ -88,6 +88,14 @@ export  default function onAction(state=defaultState,action) {
                 [targetItemsKey]:action.targetItems,
                 showItems:action.showItems
             }
+        case Types.KAHANG_LINE_ARRIVED:
+            const key = "items_"+action.Phone+"_1";
+            return {
+                ...state,
+                details:action.details,
+                [key]:action.items,
+                showItems:action.showItems
+            }
         default:return state;
     }
 }

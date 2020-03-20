@@ -218,5 +218,5 @@ export default {
 
     ConfirmtoArrive:"Confirm to Arrive",
 
-    arrived:"Arrived",
+    arrived:"Confirm to Arrive",
 };
