@@ -59,7 +59,6 @@ class PODListPage extends Component {
             order:'',
             imageList:[],
             isLoad:false,
-            searchStatus:false
         };
     }
 
@@ -83,15 +82,8 @@ class PODListPage extends Component {
 
     _isLoading(){
         const that = this 
-        if(this.state.order){
-            this.setState({searchStatus:true})
-            console.log(1,this.state.searchStatus)
-        }else{ 
-            this.setState({searchStatus:false})
-            console.log(2,this.state.searchStatus)
-        }
         // console.log(this.state.searchStatus)
-        this.props.onLoadPOD(this.state.order,this.props.podList.details,this.state.searchStatus,res=>{
+        this.props.onLoadPOD(this.state.order,this.props.podList.details,res=>{
             that.setState({isLoad:false}) 
         })
     }
@@ -141,7 +133,7 @@ class PODListPage extends Component {
 
 
     render() {
-        const datas = !this.state.searchStatus?this.props.podList.details:this.props.podList.searchList;
+        const datas = !this.state.order?this.props.podList.details:this.props.podList.searchList;
         let navigationBar =
             <NavigationBar
                 title={i18n.t('PODRecords')}
@@ -158,6 +150,9 @@ class PODListPage extends Component {
                 <TextInput  
                 onChangeText={text => {
                     this.setState({order:text})
+                    if(!text){
+                        this._isLoading()
+                    }
                 }} 
                 style={[styles.Ipt,styles.searchBarBox]} 
                 placeholder={i18n.t('searchByOrder')}
@@ -205,7 +200,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLoadPOD:(WaybillNo,details,searchStatus,callback)=>dispatch(actions.onLoadPOD(WaybillNo,details,searchStatus,callback)),
+    onLoadPOD:(WaybillNo,details,callback)=>dispatch(actions.onLoadPOD(WaybillNo,details,callback)),
 });
 
 //注意：connect只是个function，并不应定非要放在export后面
