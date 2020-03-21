@@ -20,5 +20,11 @@ api.startTransportPlan  = (Phone,PlanNO,Lat,Lon,Address)=>httpPost('Api/TmsAppWe
 // 回单记录列表
 api.PODList = (Phone,WaybillNO)=>httpPost('Api/TmsAppWebApi/SelReceiptWaybills',{Phone,WaybillNO})
 // 确认到达
-api.Arrive = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/Arrive',{Phone,PlanNO,LineID,Lat,Lon,Address})
+api.arrive = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/Arrive',{Phone,PlanNO,LineID,Lat,Lon,Address})
+//去装货
+api.goLoading = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/GoLoading',{Phone,PlanNO,LineID,Lat,Lon,Address})
+//去交货
+api.goDelivery = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/GoDelivery',{Phone,PlanNO,LineID,Lat,Lon,Address})
+//确认离开
+api.confirmLeave = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/ConfirmLeave',{Phone,PlanNO,LineID,Lat,Lon,Address})
 export default api;

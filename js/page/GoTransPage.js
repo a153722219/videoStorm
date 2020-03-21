@@ -127,20 +127,35 @@ class GoTransPage extends Component {
         }
 
         if(item.OpBtnCode==2){ //确认离开
-            return this._genButton(i18n.t("ConfirmtoLeave"),true,()=>{})    
+            return this._genButton(i18n.t("ConfirmtoLeave"),false,()=>{
+                this.commonFunc(item.LineID,(Lat,Lon,Address,Items)=>{
+                    LoadingManager.show();
+                    this.props.onLeave(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
+                        if(res.code!=600)
+                            alert(res.data || "操作失败")
+                        console.log(res)
+                        LoadingManager.close();
+                        //确认后 要自动跳到下一个未执行站点
+                        let next = this.findNextLine(index);
+                        if(next!=-1){
+                            this.setState({
+                                currentLine:next
+                            })
+                        }
+                    });              
+                });
+
+            })
         }
 
         if(item.OpBtnCode==1){ //确认到达
            
             return this._genOddButton(i18n.t("ConfirmtoArrive"),()=>{
-                this.commonFunc(()=>{
+                this.commonFunc(item.LineID,(Lat,Lon,Address,Items)=>{
                     LoadingManager.show();
-                    const {Lat,Lon,Address} = this.props.geo;
-                    const Items = this.props.kahang[this.storeKey+"1"];
                     this.props.onArrived(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
                         if(res.code!=600)
-                            alert(res.data || "加载失败")
-                        
+                            alert(res.data || "操作失败")
                         console.log(res)
                         LoadingManager.close();
                     });              
@@ -151,15 +166,37 @@ class GoTransPage extends Component {
 
         if(item.OpBtnCode==4){//4去装货
             return this._genOddButton(i18n.t("goLoad"),()=>{
-                this.commonFunc(()=>{
-
+                this.commonFunc(item.LineID,(Lat,Lon,Address,Items)=>{
+                    ViewUtil.showComfirm(()=>{
+                        this.props.onArrived(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
+                            if(res.code!=600)
+                                alert(res.data || "操作失败")
+                            
+                            console.log(res)
+                            LoadingManager.close();
+                        });  
+                    },"装货确认","确认已经完成装货?")
+                   
                 });
 
             })    
         }
 
         if(item.OpBtnCode==5){//5去交货
-            return this._genOddButton(i18n.t("goOffLoad"),()=>{})    
+            return this._genOddButton(i18n.t("goOffLoad"),()=>{
+                this.commonFunc(item.LineID,(Lat,Lon,Address,Items)=>{
+                    ViewUtil.showComfirm(()=>{
+                        this.props.onOffLoad(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
+                            if(res.code!=600)
+                                alert(res.data || "操作失败")
+                            
+                            console.log(res)
+                            LoadingManager.close();
+                        });  
+                    },"交货确认","确认已经完成交货?")
+                   
+                });
+            })    
         }
 
         return null
@@ -182,15 +219,32 @@ class GoTransPage extends Component {
         return false
     }
 
-    commonFunc(cb){
-        if(this._checkHasTask(this.state.model.PlanNo)){
+    commonFunc(LineID,cb){
+        if(this._checkHasTask(LineID)){
             return alert("已有其他任务进行中，无法进行操作")
         }
         if(this.props.geo.Lat && this.props.geo.Lon){
-            cb();
-        }else alert("地址获取失败,请打开网络定位")
+            const {Lat,Lon,Address} = this.props.geo;
+            const Items = this.props.kahang[this.storeKey+"1"];
+            cb(Lat,Lon,Address,Items);
+        }else alert("地址获取失败,请打开WIFI网络定位")
     }
+    findNextLine(index){
+        //返回下一个未开始任务的index
+        for(var i=index+1;i<this.state.model.LineList.length;i++){
+            if(this.state.model.LineList[i].OpBtnCode==1){
+                return i;
+            }
+        }
 
+        for(var i=0;i<index;i++){
+            if(this.state.model.LineList[i].OpBtnCode==1){
+                return i;
+            }
+        }
+
+        return -1
+    }
 
 
 
@@ -307,6 +361,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
     onArrived:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
+    onGoLoad:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
+    onLeave:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
+    onOffLoad:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

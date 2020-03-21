@@ -98,3 +98,57 @@ export function _handleLoadDetails(dispatch,key,contents,dpLoadSType,httpResult,
         })
     }
 }
+
+
+export function _handleLineAction(dispatch,httpResult,details,PlanNo,LineID,showItems,items,dpType,userName,LoadCode,offLoadCode,callback){
+    if(httpResult.code<0){
+
+    }else if(httpResult.code==600){
+        //操作成功
+        const item  = details[PlanNo];
+        //更新详情页item
+        const index = item.LineList.findIndex(i=>i.LineID==LineID)
+        if(index!=-1){
+            if(item.LineList[index].LoadOrdCount>0){
+                item.LineList[index].OpBtnCode = LoadCode;
+            }else item.LineList[index].OpBtnCode = offLoadCode;
+
+              //更新列表页的按钮状态
+              for(let i in showItems){
+                  if(showItems[i].PlanNO==PlanNo){
+                    showItems[i].OpBtnCode = item.LineList[index].OpBtnCode;
+                    break;
+                  }
+              }
+              for(let i in items){
+                if(items[i].PlanNO==PlanNo){
+                    items[i].OpBtnCode = item.LineList[index].OpBtnCode;
+                    items[i].ModifiedTime = new Date().toString();
+                  break;
+                }
+            }
+
+        }
+
+    
+        dispatch({
+            type:dpType,
+            details,
+            items,
+            showItems,
+            Phone:userName
+        });
+
+
+        callback({
+            code:httpResult.code,
+            data:httpResult.data
+        })
+    }else{
+        //系统错误
+        callback({
+            code:httpResult.code,
+            data:httpResult.msg
+        })
+    }
+}

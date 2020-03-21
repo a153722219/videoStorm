@@ -138,9 +138,9 @@ class KaHangPage extends Component {
         if(status==1){
             return "#9F9F9F"
         }else if(status==2){
-            return this.props.theme
-        }else{
             return "#F8B422"
+        }else{
+            return this.props.theme
         }
     }
 
@@ -148,9 +148,9 @@ class KaHangPage extends Component {
         if(status==1){
             return ""
         }else if(status==2){
-            return i18n.t('Finished')
-        }else{
             return i18n.t('Pending2')
+        }else{
+            return i18n.t('Finished')
         }
     }
 

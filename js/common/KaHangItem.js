@@ -68,7 +68,7 @@ class KaHangItem extends PureComponent {
 
                     <View style={styles.titleBox}>
                         <Image style={[styles.timeIcon]} source={require('../assets/zh/waitExecTime.png')}/>
-                        <Text style={styles.time}>{Utils.parseTime('mm-dd HH:MM',new Date(this.props.model.CreatedTime))}</Text>
+                        <Text style={styles.time}>{Utils.parseTime('mm-dd HH:MM',new Date(this.props.model.ModifiedTime))}</Text>
                     </View>
 
                 </View>

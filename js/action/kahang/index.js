@@ -2,7 +2,7 @@ import Types from "../types";
 import api from '../../api';
 import Globals from '../../util/Globals'
 import Utils from '../../util/Utils'
-import {_handleRefreshData,_handleLoadMoreData,_handleLoadDetails} from '../ActionUtil'
+import {_handleRefreshData,_handleLoadMoreData,_handleLoadDetails,_handleLineAction} from '../ActionUtil'
 const PageSize = 5;
 //刷新卡航
 export function onRefreshKaHang(statusFlag,items=[]){
@@ -144,58 +144,107 @@ export function onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.Arrive(userName,PlanNo,LineID,Lat,Lon,Address)
+        api.arrive(userName,PlanNo,LineID,Lat,Lon,Address)
         .then(httpResult=>{
-            if(httpResult.code<0){
-
-            }else if(httpResult.code==600){
-                //操作成功
-                const item  = details[PlanNo];
-                //更新详情页item
-                const index = item.LineList.findIndex(i=>i.LineID==LineID)
-                if(index!=-1){
-                    if(item.LineList[index].LoadOrdCount>0){
-                        item.LineList[index].OpBtnCode = 4;
-                    }else item.LineList[index].OpBtnCode = 5;
-
-                      //更新列表页的按钮状态
-                      for(let i in showItems){
-                          if(showItems[i].PlanNO==PlanNo){
-                            showItems[i].OpBtnCode = item.LineList[index].OpBtnCode;
-                            break;
-                          }
-                      }
-                      for(let i in items){
-                        if(items[i].PlanNO==PlanNo){
-                            items[i].OpBtnCode = item.LineList[index].OpBtnCode;
-                          break;
-                        }
-                    }
-
-                }
-
-            
-                dispatch({
-                    type:Types.KAHANG_START_TRAN,
-                    details,
-                    items,
-                    showItems,
-                    Phone:userName
-                });
-
-
-                callback({
-                    code:httpResult.code,
-                    data:httpResult.data
-                })
-            }else{
-                //系统错误
-                callback({
-                    code:httpResult.code,
-                    data:httpResult.msg
-                })
-            }
+            _handleLineAction(
+                dispatch,
+                httpResult,
+                details,
+                PlanNo,
+                LineID,
+                showItems,
+                items,
+                Types.KAHANG_LINE_ARRIVED,
+                userName,
+                4,
+                5,
+                callback
+            )
         })
 
     }
 }
+
+
+export function onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
+
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        api.arrive(userName,PlanNo,LineID,Lat,Lon,Address)
+        .then(httpResult=>{
+            _handleLineAction(
+                dispatch,
+                httpResult,
+                details,
+                PlanNo,
+                LineID,
+                showItems,
+                items,
+                Types.KAHANG_LINE_GOLOAD,
+                userName,
+                2,
+                2,
+                callback
+            )
+        })
+    }
+
+}
+
+
+
+export function onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
+
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        api.confirmLeave(userName,PlanNo,LineID,Lat,Lon,Address)
+        .then(httpResult=>{
+            _handleLineAction(
+                dispatch,
+                httpResult,
+                details,
+                PlanNo,
+                LineID,
+                showItems,
+                items,
+                Types.KAHANG_LINE_LEAVE,
+                userName,
+                3,
+                3,
+                callback
+            )
+        })
+    }
+
+}
+
+export function onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
+
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        api.goDelivery(userName,PlanNo,LineID,Lat,Lon,Address)
+        .then(httpResult=>{
+            _handleLineAction(
+                dispatch,
+                httpResult,
+                details,
+                PlanNo,
+                LineID,
+                showItems,
+                items,
+                Types.KAHANG_LINE_LEAVE,
+                userName,
+                2,
+                2,
+                callback
+            )
+        })
+    }
+
+}
+
+
+

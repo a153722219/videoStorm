@@ -89,6 +89,9 @@ export  default function onAction(state=defaultState,action) {
                 showItems:action.showItems
             }
         case Types.KAHANG_LINE_ARRIVED:
+        case Types.KAHANG_LINE_GOLOAD:
+        case Types.KAHANG_LINE_LEAVE:
+        case Types.KAHANG_LINE_OFFLOAD:
             const sokey = "items_"+action.Phone+"_1";
             return {
                 ...state,

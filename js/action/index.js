@@ -12,7 +12,10 @@ import {
     onLoadKaHangPreView,
     onLoadKaHangDetail,
     onStartTranPort,
-    onArrived
+    onArrived,
+    onGoLoad,
+    onLeave,
+    onOffLoad
 } from './kahang'
 import {onGeoChange} from './geo'
 export default {
@@ -30,5 +33,8 @@ export default {
     onLoadKaHangDetail,
     onStartTranPort,
     onLoadPOD,
-    onArrived
+    onArrived,
+    onGoLoad,
+    onLeave,
+    onOffLoad
 }

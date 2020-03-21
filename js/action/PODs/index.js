@@ -12,7 +12,7 @@ export function onLoadPOD(WaybillNo,details,callback){
 
             let searchList =  [];
 
-            res = {code:-1,data:[
+            res = {code:600,data:[
                 {
                     "WaybillNO":"W20191230QVGR0003",
                     "ReceiptTime":"2019-12-30 16:28:13",
