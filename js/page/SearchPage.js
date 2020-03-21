@@ -61,6 +61,7 @@ class SearchPage extends Component {
                     style={styles.Ipt}
                     autoFocus={true}
                     returnKeyType="search"
+                    keyboardType = 'phone-pad'
                     placeholder={i18n.t('searchPlaceHolder')}
                     ref={TextInput => this.TextInput = TextInput}
                     onSubmitEditing={()=>{ NavigationUtil.goPage({key:this.state.searchTxt},'SearchResultPage')}}
@@ -68,6 +69,7 @@ class SearchPage extends Component {
                         this.setState({searchTxt:val})
                     }}
                 />
+               {this.state.searchTxt!==''&&<Text>X</Text>} 
             </View>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this.onBackPress()}>
                 <Text style={[styles.cancel,{marginLeft:i18n.locale=="zh"?28*uW:15*uW}]}>{i18n.t('cancel')}</Text>
