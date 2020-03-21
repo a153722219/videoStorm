@@ -45,11 +45,14 @@ class GoTransPage extends Component {
             currentLine:0,
             model:model
         }
+       
+
     
     }
     
     static getDerivedStateFromProps(nextProps, prevState) {
         // console.log(nextProps,prevState)
+        return null
     }
 
     componentDidMount() {
@@ -58,6 +61,15 @@ class GoTransPage extends Component {
         this.setState({
             statusFlag:statusFlag
         });
+         //设置currentLine
+         const newCurrentLine = this.state.model.LineList.findIndex((item)=>item.LineID==this.state.model.CurrentLineID)
+         console.log(newCurrentLine)
+         if(newCurrentLine!=-1){
+            this.setState({
+                currentLine:newCurrentLine
+            });
+         }
+         console.log()
     }
 
     componentWillUnmount() {
@@ -79,6 +91,47 @@ class GoTransPage extends Component {
                     <Text  style={styles.navBtnTitle}>{i18n.t('PODRecords')}</Text>
             </View>
         </TouchableOpacity>
+    }
+
+    manualEnd(){
+        const {PlanNo} = this.state.model;
+        const index = this.findOddLine();
+        if(index==-1){
+            ViewUtil.showComfirm(()=>{
+                LoadingManager.show();
+                const sourceItems = this.props.kahang[this.storeKey+"1"];
+                const targetItems = this.props.kahang[this.storeKey+"2"];
+                this.props.onManualEnd(PlanNo,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+                    LoadingManager.close();
+                    if(res.code==600){
+                        this.setState({
+                            statusFlag:2
+                        })
+                    }else{
+                        alert(res.data || "操作失败")
+                    }
+                    
+                })
+
+            },"异常结束","确定要异常结束该任务?")
+        }else{
+            this.setState({
+                currentLine:index
+            })
+            alert("请先上传回单")
+        }
+    }
+
+
+    findOddLine(){
+        //返回
+        for(var i=0;i<this.state.model.LineList.length;i++){
+            if(this.state.model.LineList[i].OpBtnCode==3 && this.state.model.LineList[i].NeedReceiptOrdCount>0){
+                
+                return i;
+            } 
+        }
+        return -1
     }
 
     goTrans(){
@@ -106,7 +159,7 @@ class GoTransPage extends Component {
                     alert("地址获取失败,请打开网络定位")
                 }
 
-                return
+                
             }
     }
 
@@ -120,9 +173,19 @@ class GoTransPage extends Component {
             //装货
         if(item.OpBtnCode==3){
             if(item.NeedReceiptOrdCount>0){//交货
-                return this._genButton(i18n.t("uploadPOD"),false,()=>{})
+                return this._genButton(i18n.t("uploadPOD"),false,()=>{
+                    NavigationUtil.goPage({
+                        index:index,
+                        PlanNo:this.state.model.PlanNo,
+                        WaybillNOs:item.WaybillNOs,
+                        callback:()=>{
+                            console.log("2")
+                        }
+                    },"UploadPodPage");
+                })
             }
             //完成
+
             return this._genButton(i18n.t("Finished"),true,()=>{})    
         }
 
@@ -133,7 +196,7 @@ class GoTransPage extends Component {
                     this.props.onLeave(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
                         if(res.code!=600)
                             alert(res.data || "操作失败")
-                        console.log(res)
+                       
                         LoadingManager.close();
                         //确认后 要自动跳到下一个未执行站点
                         let next = this.findNextLine(index);
@@ -156,7 +219,7 @@ class GoTransPage extends Component {
                     this.props.onArrived(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
                         if(res.code!=600)
                             alert(res.data || "操作失败")
-                        console.log(res)
+                       
                         LoadingManager.close();
                     });              
                 });
@@ -172,7 +235,7 @@ class GoTransPage extends Component {
                             if(res.code!=600)
                                 alert(res.data || "操作失败")
                             
-                            console.log(res)
+                          
                             LoadingManager.close();
                         });  
                     },"装货确认","确认已经完成装货?")
@@ -189,8 +252,6 @@ class GoTransPage extends Component {
                         this.props.onOffLoad(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
                             if(res.code!=600)
                                 alert(res.data || "操作失败")
-                            
-                            console.log(res)
                             LoadingManager.close();
                         });  
                     },"交货确认","确认已经完成交货?")
@@ -259,7 +320,7 @@ class GoTransPage extends Component {
 
     _genOddButton(text,callback){
         return <View style={styles.fixContainer}>
-                <TouchableOpacity activeOpacity={0.7}  onPress={()=>{}}>
+                <TouchableOpacity activeOpacity={0.7}  onPress={this.manualEnd.bind(this)}>
                             <View style={styles._finished}>
                                 <Image style={styles._finishedIcon} source={require('../assets/zh/_haveFinished.png')}/>
                                 <Text  style={styles._finishedText}>异常结束</Text>
@@ -360,6 +421,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
+    onManualEnd:(PlanNo,sourceItems,showItems,targetItems,callback)=>dispatch(actions.onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback)),
     onArrived:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
     onGoLoad:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
     onLeave:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),

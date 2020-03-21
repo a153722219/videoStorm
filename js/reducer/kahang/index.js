@@ -80,8 +80,17 @@ export  default function onAction(state=defaultState,action) {
             }
 
         case Types.KAHANG_START_TRAN:
-            const sourceItemsKey = "items_"+action.Phone+"_0";
-            const targetItemsKey = "items_"+action.Phone+"_1";
+            var sourceItemsKey = "items_"+action.Phone+"_0";
+            var targetItemsKey = "items_"+action.Phone+"_1";
+            return {
+                ...state,
+                [sourceItemsKey]:action.sourceItems,
+                [targetItemsKey]:action.targetItems,
+                showItems:action.showItems
+            }
+        case Types.KAHANG_MANUAL_END:
+            var sourceItemsKey = "items_"+action.Phone+"_1";
+            var targetItemsKey = "items_"+action.Phone+"_2";
             return {
                 ...state,
                 [sourceItemsKey]:action.sourceItems,
@@ -98,6 +107,11 @@ export  default function onAction(state=defaultState,action) {
                 details:action.details,
                 [sokey]:action.items,
                 showItems:action.showItems
+            }
+        case Types.KAHANG_UPLOAD_POD:
+            return {
+                ...state,
+                details:action.details
             }
         default:return state;
     }

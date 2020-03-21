@@ -7,9 +7,16 @@ const instance = axios.create({
     timeout: 5000
 });
 
+const defaultHeaders ={
+    headers:{
+        "Accept":"application/json, text/plain, */*",
+        "Content-Type":"application/json;charset=utf-8"
+    }
+}
+
 //请求拦截处理
 instance.interceptors.request.use(function (config) {
-    
+    console.log(config)
     // 在发送请求之前做些什么
     return config;
 }, function (error) {
@@ -28,7 +35,7 @@ instance.interceptors.response.use(function (response) {
 });
 
 
-export const httpPost = async (api, params,needReSet=false) => {
+export const httpPost = async (api, params,body={},config=defaultHeaders,needReSet=false) => {
    
     params.AppKey = APPKEY;
     params.TimeStamp = Utils.parseTime('YYYY-mm-dd HH:MM:SS',new Date());
@@ -38,7 +45,8 @@ export const httpPost = async (api, params,needReSet=false) => {
      console.log("请求地址:",api,"参数:",params)
     
     return new Promise((resolve, reject) => {
-        instance.post(api, {})
+
+        instance.post(api, body,config)
             .then(res => {
                 let ret = {};
                 if(res=="Error: Network Error"){

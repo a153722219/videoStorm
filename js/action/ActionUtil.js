@@ -152,3 +152,43 @@ export function _handleLineAction(dispatch,httpResult,details,PlanNo,LineID,show
         })
     }
 }
+
+
+export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetItems,showItems,dpType,userName,callback){
+    // httpResult.code=600;
+    if(httpResult.code<0){
+        //net error
+        //网络错误 还需要判断是否有进行中的任务
+
+    }else if(httpResult.code==600){
+        const index = sourceItems.findIndex(i=>i.PlanNO==PlanNo)
+        const showIndex = showItems.findIndex(i=>i.PlanNO==PlanNo)
+
+            if(index!=-1){
+                const item = sourceItems.splice(index,1);
+                if(showIndex!=-1)
+                    showItems.splice(showIndex,1);
+                // item.
+                targetItems.unshift(item[0]);
+                dispatch({
+                    type:dpType,
+                    sourceItems,
+                    targetItems,
+                    showItems,
+                    Phone:userName
+                });
+
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.data
+                })
+            }
+
+        }else{
+            //系统错误
+            callback({
+                code:httpResult.code,
+                data:httpResult.msg
+            })
+        }
+}

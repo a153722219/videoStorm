@@ -27,4 +27,12 @@ api.goLoading = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebAp
 api.goDelivery = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/GoDelivery',{Phone,PlanNO,LineID,Lat,Lon,Address})
 //确认离开
 api.confirmLeave = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/ConfirmLeave',{Phone,PlanNO,LineID,Lat,Lon,Address})
+//异常结束
+api.manualEnd = (Phone,PlanNO,Msg)=>httpPost('Api/TmsAppWebApi/ManualEnd',{Phone,PlanNO,Msg});
+//上传回单
+api.uploadReceipt = (Phone,WaybillNO,fd)=>httpPost('Api/TmsAppWebApi/UploadReceipt',{Phone,WaybillNO},fd,
+{
+    headers:{ 'Content-Type': 'multipart/form-data'}
+});
+
 export default api;

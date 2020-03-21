@@ -44,7 +44,12 @@ class TaskLinesInfo extends Component {
         if(nextState.currentLine !== this.state.currentLine){
             this.props.onCurrentSelectedChange(newCurrentLine)
         }
-        
+        if(nextProps.currentLine !== this.state.currentLine){
+            this.setState({
+                currentLine:nextProps.currentLine
+            })
+        }
+
         return true
     }
 

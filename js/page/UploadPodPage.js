@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,Image,TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text,Image,TouchableOpacity,Platform} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -20,7 +20,8 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil'
 import  setStatusBar from '../common/setStatusBar'
-
+import actions from '../action'
+import LoadingManager from '../common/LoadingManager';
 //图片选择器参数设置
 const options = {
     title: '请选择图片来源',
@@ -48,8 +49,21 @@ class UploadPodPage extends Component {
             backPress: () => this.onBackPress()
         });
 
+       
+        const {
+            WaybillNOs,
+            callback,
+            index,
+            PlanNo
+        }=  this.props.navigation.state.params;
+
+        // console.log(WaybillNOs,callback)
         this.state={
-            ImgList:[]
+            ImgList:[],
+            WaybillNO:WaybillNOs.split(',')[0],
+            callback,
+            index,
+            PlanNo
         }
     }
 
@@ -83,7 +97,7 @@ class UploadPodPage extends Component {
                 alert("自定义按钮点击：" + response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                let source = { uri: response.uri ,name:response.fileName,path:response.path };
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
@@ -106,6 +120,45 @@ class UploadPodPage extends Component {
         });
     }
 
+    upload(){
+        if(this.state.ImgList.length<=0){
+            alert("请选择图片!")
+            return
+        }else{
+            let fd = new FormData();
+            this.state.ImgList.map(item=>{
+                let uri;
+                if(Platform.OS === 'android'){
+                    
+                    uri = item.imgSource.uri
+                }else {
+                    uri = item.imgSource.uri.replace('file://','')
+                }
+                 console.log(item,uri)
+                let file = {
+                    uri: uri,
+                    type: 'multipart/form-data',
+                    name: item.imgSource.name
+                }
+               
+                fd.append("file",file)
+                return item
+            })
+            console.log("formdata", JSON.stringify(fd))
+            LoadingManager.show();
+            this.props.onUploadPOD(this.state.PlanNo,this.state.WaybillNO,fd,this.state.index,this.props.kahang.details,(res)=>{
+                    console.log(res)
+                    if(res.code!=600)
+                            alert(res.data || "操作失败")
+                       
+                   LoadingManager.close();
+                   NavigationUtil.goBack(this.props.navigation)
+            })
+
+            
+        }
+    }
+
 
     render() {
 
@@ -122,7 +175,7 @@ class UploadPodPage extends Component {
         return <View style={{flex:1}}>
             {navigationBar}
             <Text style={styles.orderNoBox}>
-                {i18n.t("orderNo")}:T20191128PKLX002
+                {i18n.t("orderNo")}:{this.state.WaybillNO}
             </Text>
             <Text style={styles.Count}>
                 ({this.state.ImgList.length}/5)
@@ -130,7 +183,7 @@ class UploadPodPage extends Component {
 
             <View style={styles.ImgsContainer}>
                 {this.state.ImgList.map((item,index)=>{
-                    return <View style={[styles.ImgBox,{marginLeft:index%3===0?0:16*uW,marginTop:index<=2?0:16*uW}]}>
+                    return <View key={index} style={[styles.ImgBox,{marginLeft:index%3===0?0:16*uW,marginTop:index<=2?0:16*uW}]}>
                         <TouchableOpacity activeOpacity={0.8}>
                             <Image style={styles.Img} source={item.imgSource}/>
                         </TouchableOpacity>
@@ -154,7 +207,7 @@ class UploadPodPage extends Component {
 
             </View>
 
-            <TouchableOpacity style={styles.btnPosition} activeOpacity={0.7}>
+            <TouchableOpacity style={styles.btnPosition} activeOpacity={0.7} onPress={this.upload.bind(this)}>
                     <Text style={[styles.comfirmBtn,{backgroundColor:this.props.theme}]}>
                         {i18n.t('comfirmUpload')}
                     </Text>
@@ -169,10 +222,13 @@ class UploadPodPage extends Component {
 
 const mapStateToProps = state => ({
     nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
+    kahang:state.kahang
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onUploadPOD:(PlanNo,WaybillNO,fd,index,details,callback)=>dispatch(actions.onUploadPOD(PlanNo,WaybillNO,fd,index,details,callback)),
+});
 
 //注意：connect只是个function，并不应定非要放在export后面
 export default connect(mapStateToProps, mapDispatchToProps)(UploadPodPage);

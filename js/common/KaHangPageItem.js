@@ -64,7 +64,6 @@ class KaHangPageItem extends Component {
         // console.log(data)
         return <KaHangItem model={data.item} statusFlag={this.props.statusFlag} onClickRemainBtn={(PlanNO)=>{
             this.props.onClickRemainBtn(PlanNO)
-        
         }}  
         onItemClick={(PlanNO)=>{
             
@@ -116,7 +115,6 @@ class KaHangPageItem extends Component {
             LoadingManager.close();
             if(res.code==600){
                 NavigationUtil.goPage({model:res.data,statusFlag:this.statusFlag},'GoTransPage')
-           
             }else{
                 alert(res.msg || "加载失败")
             }

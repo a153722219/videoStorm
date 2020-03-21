@@ -2,7 +2,7 @@ import Types from "../types";
 import api from '../../api';
 import Globals from '../../util/Globals'
 import Utils from '../../util/Utils'
-import {_handleRefreshData,_handleLoadMoreData,_handleLoadDetails,_handleLineAction} from '../ActionUtil'
+import {_handleRefreshData,_handleLoadMoreData,_handleLoadDetails,_handleLineAction,_handlePlanAction } from '../ActionUtil'
 const PageSize = 5;
 //刷新卡航
 export function onRefreshKaHang(statusFlag,items=[]){
@@ -101,45 +101,21 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         api.startTransportPlan(userName,PlanNo,Lat,Lon,Address)
         .then(httpResult=>{
-            // httpResult.code=600;
-            if(httpResult.code<0){
-                //net error
-                //网络错误 还需要判断是否有进行中的任务
-
-            }else if(httpResult.code==600){
-                const index = sourceItems.findIndex(i=>i.PlanNO==PlanNo)
-                const showIndex = showItems.findIndex(i=>i.PlanNO==PlanNo)
-                console.log(index)
-                if(index!=-1 && showIndex!=-1){
-                    const item = sourceItems.splice(index,1);
-                    showItems.splice(showIndex,1);
-                    // item.
-                    targetItems.unshift(item[0]);
-                    dispatch({
-                        type:Types.KAHANG_START_TRAN,
-                        sourceItems,
-                        targetItems,
-                        showItems,
-                        Phone:userName
-                    });
-
-                    callback({
-                        code:httpResult.code,
-                        data:httpResult.data
-                    })
-                }
-       
-            }else{
-                //系统错误
-                callback({
-                    code:httpResult.code,
-                    data:httpResult.msg
-                })
-            }
+            _handlePlanAction(
+                dispatch,
+                httpResult,
+                PlanNo,
+                sourceItems,
+                targetItems,
+                showItems,
+                Types.KAHANG_START_TRAN,
+                userName,
+                callback
+            )
         })
     }
 }
-
+//确认到达
 export function onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
     const store = Globals.store;
     return dispatch=>{
@@ -165,9 +141,8 @@ export function onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
     }
 }
 
-
+//去装货
 export function onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
-
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
@@ -192,8 +167,7 @@ export function onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,c
 
 }
 
-
-
+//确认离开
 export function onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
 
     const store = Globals.store;
@@ -219,7 +193,7 @@ export function onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,ca
     }
 
 }
-
+//去交货
 export function onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback){
 
     const store = Globals.store;
@@ -246,5 +220,57 @@ export function onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
 
 }
 
+//异常结束
+export function onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback){
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        const Msg = Utils.parseTime('YYYY-mm-dd HH:MM',new Date()) + " 司机" + store.getState().user.DriverName +"手动结束运输任务"
+        api.manualEnd(userName,PlanNo,Msg).then(httpResult=>{
+            _handlePlanAction(
+                dispatch,
+                httpResult,
+                PlanNo,
+                sourceItems,
+                targetItems,
+                showItems,
+                Types.KAHANG_MANUAL_END,
+                userName,
+                callback
+            )
 
+        })
 
+    }
+}
+
+//上传回单
+export function onUploadPOD(PlanNo,WaybillNO,fd,index,details,callback){
+    const store = Globals.store;
+    return dispatch=>{
+        const userName =  store.getState().user.currentUserKey.split('_')[1];
+        api.uploadReceipt(userName,WaybillNO,fd).then(httpResult=>{
+            if(httpResult.code<0){
+
+            }else if(httpResult.code==600){
+                const item = details[PlanNo];
+                const lineItem = item.LineList[index];
+                lineItem.NeedReceiptOrdCount = 0;
+                dispatch({
+                    type:Types.KAHANG_UPLOAD_POD,
+                    details
+                })
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.data
+                })
+            }else{
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.data
+                })
+            }
+        })
+
+    }
+}
