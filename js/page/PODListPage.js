@@ -58,7 +58,7 @@ class PODListPage extends Component {
             modalVisible: false,
             order:'',
             imageList:[],
-            isLoad:false,
+            isLoad:true,
         };
     }
 

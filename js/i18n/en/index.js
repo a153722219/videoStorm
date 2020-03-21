@@ -219,4 +219,6 @@ export default {
     ConfirmtoArrive:"Confirm to Arrive",
 
     arrived:"Confirm to Arrive",
+
+    searchResult:'searchResult'
 };

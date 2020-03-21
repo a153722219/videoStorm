@@ -34,5 +34,7 @@ api.uploadReceipt = (Phone,WaybillNO,fd)=>httpPost('Api/TmsAppWebApi/UploadRecei
 {
     headers:{ 'Content-Type': 'multipart/form-data'}
 });
+// 搜索接口
+api.search = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelOrdersInfo',{Phone,PlanNO})
 
 export default api;

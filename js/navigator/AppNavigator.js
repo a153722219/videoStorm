@@ -22,6 +22,7 @@ import  CarDetailsPage from '../page/CarDetailsPage'
 import  UserInfoPage from '../page/UserInfoPage'
 import  SettingPage from '../page/SettingPage'
 import  ChangePasswordPage from '../page/ChangePasswordPage'
+import  SearchResultPage from '../page/SearchResultPage'
 import {connect} from 'react-redux'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
 export const rootCom = 'Init';//设置根路由
@@ -115,7 +116,15 @@ const MainNavigator = createStackNavigator({
         navigationOptions:{
             header:null,
         }
-    }
+    },
+    SearchResultPage:{
+        screen:SearchResultPage,
+        navigationOptions:{
+            header:null,
+        }
+    },
+
+
 
 });
 

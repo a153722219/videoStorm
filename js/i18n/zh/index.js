@@ -222,6 +222,8 @@ export default {
 
     ConfirmtoLeave:"确认离开",
 
-    ConfirmtoArrive:"确认到达"
+    ConfirmtoArrive:"确认到达",
+
+    searchResult:'搜索结果'
 
 };
