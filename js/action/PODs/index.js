@@ -28,6 +28,7 @@ export function onLoadPOD(WaybillNo,details,callback){
             ]}
             setTimeout(()=>{
                 if(res.code<0){
+                    console.log(-1)
                     //无网络 返回本地数据
                     if(details){
                         // 判断是否有搜索字样
@@ -63,10 +64,11 @@ export function onLoadPOD(WaybillNo,details,callback){
                             data:"网络错误"
                         })
                     }
-                }else if(res==600){
+                }else if(res.code==600){
+                    console.log(600)
                     //更新本地数据
                         dispatch({
-                            type:!searchStatus?Types.POD_LOAD:Types.POD_SEARCH_LIST,
+                            type:!WaybillNo?Types.POD_LOAD:Types.POD_SEARCH_LIST,
                             contents:res.data,
                             searchList:res.data,
                         });
@@ -77,6 +79,7 @@ export function onLoadPOD(WaybillNo,details,callback){
                         })
                    
                 }else{
+                    console.log(null)
                     callback({
                         code:res.code,
                         data:res.msg
