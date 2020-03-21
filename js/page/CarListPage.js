@@ -124,8 +124,6 @@ class CarListPage extends Component {
                         style={{
                             flex:1,
                             minWidth:"100%",
-                            minHeight: "100%"
-
                         }}
     
                         data={this.props.carList.showItems}

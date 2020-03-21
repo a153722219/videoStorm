@@ -27,4 +27,6 @@ api.goLoading = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebAp
 api.goDelivery = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/GoDelivery',{Phone,PlanNO,LineID,Lat,Lon,Address})
 //确认离开
 api.confirmLeave = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/ConfirmLeave',{Phone,PlanNO,LineID,Lat,Lon,Address})
+// 搜索接口
+api.search = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelOrdersInfo',{Phone,PlanNO})
 export default api;
