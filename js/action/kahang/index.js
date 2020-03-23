@@ -110,6 +110,7 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
                 showItems,
                 Types.KAHANG_START_TRAN,
                 userName,
+                "",
                 callback
             )
         })
@@ -224,8 +225,9 @@ export function onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
 export function onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback){
     const store = Globals.store;
     return dispatch=>{
-        const userName =  store.getState().user.currentUserKey.split('_')[1];
-        const Msg = Utils.parseTime('YYYY-mm-dd HH:MM',new Date()) + " 司机" + store.getState().user.DriverName +"手动结束运输任务"
+        const ukey =store.getState().user.currentUserKey;
+        const userName =  ukey.split('_')[1];
+        const Msg = Utils.parseTime('YYYY-mm-dd HH:MM',new Date()) + " 司机" + store.getState().user[ukey].DriverName +"手动结束运输任务"
         api.manualEnd(userName,PlanNo,Msg).then(httpResult=>{
             _handlePlanAction(
                 dispatch,
@@ -236,7 +238,8 @@ export function onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback){
                 showItems,
                 Types.KAHANG_MANUAL_END,
                 userName,
-                callback
+                Msg,
+                callback,
             )
 
         })
@@ -274,3 +277,29 @@ export function onUploadPOD(PlanNo,WaybillNO,fd,index,details,callback){
 
     }
 }
+
+//路线正常完成
+
+export function onPlanFinish(PlanNo,sourceItems,showItems,targetItems,callback){
+    const store = Globals.store;
+    return dispatch=>{
+        const ukey =store.getState().user.currentUserKey;
+        const userName =  ukey.split('_')[1];
+        _handlePlanAction(
+            dispatch,
+            {code:600,data:true},
+            PlanNo,
+            sourceItems,
+            targetItems,
+            showItems,
+            Types.KAHANG_FINISHED,
+            userName,
+            "",
+            callback,
+        )
+    }
+}
+
+//TODO 
+//transportstatus 联动 路线预览联动  操作离线化 
+//离线网络请求缓存发送 上传回单回调

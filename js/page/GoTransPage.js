@@ -126,8 +126,7 @@ class GoTransPage extends Component {
     findOddLine(){
         //返回
         for(var i=0;i<this.state.model.LineList.length;i++){
-            if(this.state.model.LineList[i].OpBtnCode==3 && this.state.model.LineList[i].NeedReceiptOrdCount>0){
-                
+            if(this.state.model.LineList[i].OpBtnCode==3 && this.state.model.LineList[i].NeedReceiptOrdCount>0){ 
                 return i;
             } 
         }
@@ -179,7 +178,8 @@ class GoTransPage extends Component {
                         PlanNo:this.state.model.PlanNo,
                         WaybillNOs:item.WaybillNOs,
                         callback:()=>{
-                            console.log("2")
+                            this.checkPlanHasFinished();
+                           
                         }
                     },"UploadPodPage");
                 })
@@ -204,6 +204,8 @@ class GoTransPage extends Component {
                             this.setState({
                                 currentLine:next
                             })
+                        }else{
+                            this.checkPlanHasFinished();
                         }
                     });              
                 });
@@ -308,7 +310,28 @@ class GoTransPage extends Component {
     }
 
 
+    checkPlanHasFinished(){
+        for(let i in this.state.model.LineList){
+            let item = this.state.model.LineList[i]
+            if(item.OpBtnCode!=3 || (item.OpBtnCode==3 && item.NeedReceiptOrdCount>0)){
+                return false;
+            }
+        }
+        const sourceItems = this.props.kahang[this.storeKey+"1"];
+        const targetItems = this.props.kahang[this.storeKey+"2"];
+        this.props.onPlanFinish(PlanNo,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+            if(res.code==600){
+                this.setState({
+                    statusFlag:2
+                })
+            }else{
+                alert(res.data || "操作失败")
+            }
+            
+        })
 
+        
+    }
 
     _genButton(text,disable,callback){
         return <TouchableOpacity activeOpacity={0.7} onPress={callback}>
@@ -421,6 +444,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
+    onPlanFinish:(PlanNo,sourceItems,showItems,targetItems,callback)=>dispatch(actions.onPlanFinish(PlanNo,sourceItems,showItems,targetItems,callback)),
     onManualEnd:(PlanNo,sourceItems,showItems,targetItems,callback)=>dispatch(actions.onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback)),
     onArrived:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
     onGoLoad:(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)=>dispatch(actions.onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,callback)),
