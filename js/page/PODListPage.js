@@ -67,14 +67,21 @@ class PODListPage extends Component {
         };
     }
     //reducer已经返回数据了,但是本页面state没有改变,重写下面这个方法
+    // nextProps==reducer已更新数据   preState=页面更新前的 需要重新复制
     static getDerivedStateFromProps(nextProps, prevState) {
         // if(nextProps)
-         console.log(nextProps,prevState)
+        //  console.log(nextProps,prevState)
          const Phone = nextProps.user.currentUserKey.split("_")[1];
          const details = nextProps.podList["details_"+Phone];
+         const searchList = nextProps.podList["searchList_"+Phone];
          if(details!==prevState.details){
             return {
                 details: details,  //把新的数据赋给details
+            }
+         }
+         if(searchList!==prevState.searchList){
+            return {
+                searchList: searchList,  //把新的数据赋给details
             }
          }
 
