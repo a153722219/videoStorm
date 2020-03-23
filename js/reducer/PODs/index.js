@@ -2,7 +2,9 @@ import  Types from '../../action/types'
 
 const defaultState = {
     isLoading:false,
-    hideLoadingMore:true
+    hideLoadingMore:true,
+    details:[],
+    searchLists:[]
 };
 
 export  default function onAction(state=defaultState,action) {
