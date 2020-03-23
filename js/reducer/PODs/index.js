@@ -2,30 +2,29 @@ import  Types from '../../action/types'
 
 const defaultState = {
     isLoading:false,
-    hideLoadingMore:true,
-    details:[],//详情
-    searchList:[]
+    hideLoadingMore:true
 };
 
 export  default function onAction(state=defaultState,action) {
-    const key = "items_"+action.Phone;
+    const key = "details_"+ action.phone;
+    const key2 = "searchList_" + action.phone
     switch (action.type){
         case Types.REDUX_INIT:
             const other = action.payload?action.payload.pods:defaultState
             return{
                 ...other,
                 isLoading:false,
-                hideLoadingMore:true,
+                hideLoadingMore:true
             }
         case Types.POD_LOAD:
             return {
                 ...state,
-                details:action.contents,
+                [key]:action.contents
             }
         case Types.POD_SEARCH_LIST:
             return {
                 ...state,
-                searchList:action.searchList
+                [key2]:action.searchList
             }
         default: return state;
        
