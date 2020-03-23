@@ -89,6 +89,7 @@ export  default function onAction(state=defaultState,action) {
                 showItems:action.showItems
             }
         case Types.KAHANG_MANUAL_END:
+        case Types.KAHANG_FINISHED:
             var sourceItemsKey = "items_"+action.Phone+"_1";
             var targetItemsKey = "items_"+action.Phone+"_2";
             return {

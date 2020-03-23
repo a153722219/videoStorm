@@ -17,7 +17,8 @@ import {
     onLeave,
     onOffLoad,
     onManualEnd,
-    onUploadPOD
+    onUploadPOD,
+    onPlanFinish
 } from './kahang'
 import {onGeoChange} from './geo'
 export default {
@@ -40,5 +41,6 @@ export default {
     onLeave,
     onOffLoad,
     onManualEnd,
-    onUploadPOD
+    onUploadPOD,
+    onPlanFinish
 }

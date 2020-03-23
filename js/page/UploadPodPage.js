@@ -150,7 +150,7 @@ class UploadPodPage extends Component {
                     console.log(res)
                     if(res.code!=600)
                             alert(res.data || "操作失败")
-                       
+                    this.state.callback && this.state.callback();
                    LoadingManager.close();
                    NavigationUtil.goBack(this.props.navigation)
             })

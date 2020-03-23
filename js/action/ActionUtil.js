@@ -1,5 +1,6 @@
 // import ProjectModel from '../mo/ProjectModel'
 import Utils from '../util/Utils'
+import Types from './types'
 export function _handleRefreshData(dispatch,PageSize,httpResult,dpLoadSType,dpLoadFType,items=[],userName,statusFlag){
     if(httpResult.code<0){
         //net error
@@ -117,6 +118,7 @@ export function _handleLineAction(dispatch,httpResult,details,PlanNo,LineID,show
               for(let i in showItems){
                   if(showItems[i].PlanNO==PlanNo){
                     showItems[i].OpBtnCode = item.LineList[index].OpBtnCode;
+                    items[i].ModifiedTime = new Date().toString();
                     break;
                   }
               }
@@ -154,7 +156,7 @@ export function _handleLineAction(dispatch,httpResult,details,PlanNo,LineID,show
 }
 
 
-export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetItems,showItems,dpType,userName,callback){
+export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetItems,showItems,dpType,userName,Msg="",callback){
     // httpResult.code=600;
     if(httpResult.code<0){
         //net error
@@ -168,8 +170,21 @@ export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetI
                 const item = sourceItems.splice(index,1);
                 if(showIndex!=-1)
                     showItems.splice(showIndex,1);
-                // item.
+                // 更新异常原因 异常状态
+                item[0].ExceptionInfo = Msg;
+                if(dpType==Types.KAHANG_MANUAL_END){
+                    item[0].TransportStatus = 2200;
+                    item[0].StationCount = 1;
+                }else if(dpType==Types.KAHANG_START_TRAN){
+                    item[0].TransportStatus = 1800;
+                    //item[0].StationCount = 1;
+                }else{
+                    item[0].TransportStatus = 2100;
+                }
+                //最后操作时间
+                item[0].ModifiedTime = new Date().toString();
                 targetItems.unshift(item[0]);
+                
                 dispatch({
                     type:dpType,
                     sourceItems,
