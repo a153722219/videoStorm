@@ -45,7 +45,10 @@ class WelcomePage extends Component{
 
   componentWillUnmount(){
     // GoogleGeo.stopGetLocation();
-     
+    NavigationUtil.resetToHomePage()
+    setTimeout(()=>{
+      NavigationUtil.goPage({},'PODListPage')
+    },500)
   }
 
 

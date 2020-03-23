@@ -50,6 +50,11 @@ class PODListPage extends Component {
 
     constructor(props) {
         super(props);
+        const userKey  = props.user.currentUserKey.split("_")[1];
+        const details = this.props.podList['details_'+userKey];
+        const searchList = this.props.podList['searchList'+userKey];
+        this.details = details?details:[];
+        this.searchList = searchList?searchList:[];
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
@@ -82,8 +87,7 @@ class PODListPage extends Component {
 
     _isLoading(){
         const that = this 
-        // console.log(this.state.searchStatus)
-        this.props.onLoadPOD(this.state.order,this.props.podList.details,res=>{
+        this.props.onLoadPOD(this.state.order,this.details,res=>{
             that.setState({isLoad:false}) 
         })
     }
@@ -133,7 +137,7 @@ class PODListPage extends Component {
 
 
     render() {
-        const datas = !this.state.order?this.props.podList.details:this.props.podList.searchList;
+        datas = !this.state.order?this.details:this.searchList;
         let navigationBar =
             <NavigationBar
                 title={i18n.t('PODRecords')}
@@ -193,6 +197,7 @@ class PODListPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    user: state.user,
     nav: state.nav,
     theme: state.theme.theme,
     podList: state.pods,
