@@ -72,8 +72,8 @@ class PODListPage extends Component {
         // if(nextProps)
         //  console.log(nextProps,prevState)
          const Phone = nextProps.user.currentUserKey.split("_")[1];
-         const details = nextProps.podList["details_"+Phone];
-         const searchList = nextProps.podList["searchList_"+Phone];
+         const details = nextProps.podList["details_"+Phone] || [];
+         const searchList = nextProps.podList["searchList_"+Phone] || [];
          if(details!==prevState.details){
             return {
                 details: details,  //把新的数据赋给details
