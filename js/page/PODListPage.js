@@ -66,10 +66,17 @@ class PODListPage extends Component {
             isLoad:true,
         };
     }
-
+    //reducer已经返回数据了,但是本页面state没有改变,重写下面这个方法
     static getDerivedStateFromProps(nextProps, prevState) {
         // if(nextProps)
-        // console.log(nextProps,prevState)
+         console.log(nextProps,prevState)
+         const Phone = nextProps.user.currentUserKey.split("_")[1];
+         const details = nextProps.podList["details_"+Phone];
+         if(details!==prevState.details){
+            return {
+                details: details,  //把新的数据赋给details
+            }
+         }
 
     }
 
