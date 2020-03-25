@@ -1,6 +1,7 @@
 // import ProjectModel from '../mo/ProjectModel'
 import Utils from '../util/Utils'
 import Types from './types'
+import Globals from '../util/Globals';
 export function _handleRefreshData(dispatch,PageSize,httpResult,dpLoadSType,dpLoadFType,items=[],userName,statusFlag){
     if(httpResult.code<0){
         //net error
@@ -141,12 +142,13 @@ export function _handleLineAction(dispatch,httpResult,details,PlanNo,LineID,show
 
 
         callback({
-            code:httpResult.code,
+            code:600,
             data:httpResult.data
         });
 
         if(httpResult.code<0){
             //存入离线请求
+            Globals.saveSendApis(netAction)
         }
 
 
@@ -160,13 +162,19 @@ export function _handleLineAction(dispatch,httpResult,details,PlanNo,LineID,show
 }
 
 
-export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetItems,showItems,dpType,userName,Msg="",callback){
+export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetItems,showItems,dpType,userName,Msg="",callback,netAction){
     // httpResult.code=600;
-   if(httpResult.code<0){
+    if(httpResult.code==600 || httpResult.code<0){
+        const index = sourceItems.findIndex(i=>i.PlanNO==PlanNo);
+        const showIndex = showItems.findIndex(i=>i.PlanNO==PlanNo);
+            if(dpType==Types.KAHANG_START_TRAN && httpResult.code<0){
+                callback({
+                    code:httpResult.code,
+                    data:httpResult.msg
+                })
+                return
+            }
 
-   } else if( httpResult.code==600){
-        const index = sourceItems.findIndex(i=>i.PlanNO==PlanNo)
-        const showIndex = showItems.findIndex(i=>i.PlanNO==PlanNo)
 
             if(index!=-1){
                 const item = sourceItems.splice(index,1);
@@ -198,7 +206,7 @@ export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetI
                 callback({
                     code:httpResult.code,
                     data:httpResult.data
-                })
+                });
             }
 
         }else{

@@ -21,6 +21,7 @@ import { PermissionsAndroid } from "react-native";
 //import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocode,addLocationListener, start, stop} from "react-native-amap-geolocation";
 import GoogleGeo from '../util/GoogleGeo';
 import Utils from '../util/Utils'
+import Globals from '../util/Globals';
 @setStatusBar({
     barStyle: 'light-content',
     translucent: true
@@ -68,19 +69,35 @@ import Utils from '../util/Utils'
 
      async componentDidMount(){
 
-         const unsubscribe = NetInfo.addEventListener(state=> {
-             this.props.onNetWorkChange(state.isConnected)
+         this.unsubscribe = NetInfo.addEventListener(state=> {
+             this.props.onNetWorkChange(state.isConnected);
+             console.log(state)
+             if(state.isConnected &&　Globals.inited && state.isInternetReachable){
+                 Globals.sendApis();
+             }
             //  ToastManager.show('type='+ state.type +' isConnected = '+ state.isConnected);
          });
 
          // 对于 Android 需要自行根据需要申请权限
         await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
         GoogleGeo.setNetworkLocationUrl('https://www.baidream.top/'); //设置位置反代域名
+        // Globals.waitSendApis.push({name:"manualEnd",params:[]})
+         if(!Globals.inited){
+            setTimeout(()=>{
+                if(Globals.waitSendApis.length>0){
+                    ToastManager.show("需要重新登录");
+                    this.props.onUserLogout();
+                    setTimeout(()=>{
+                        NavigationUtil.RootNavigation.navigate("Init");
+                    },100)
+                }
+              },100);
+         }
+        
      }
 
 
      getLocation(){
-        
         // Utils.getLocation((data)=>{
         //     if(data.errorCode=="0000"){
         //         // console.log(data.msg)
@@ -93,7 +110,7 @@ import Utils from '../util/Utils'
      componentWillUnmount() {
          this.geoTimer && clearInterval(this.geoTimer);
          GoogleGeo.stopGetLocation();
-         unsubscribe();
+         this.unsubscribe();
      };
 
     render() {
@@ -179,7 +196,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch=>({
     onThemeChange:theme=>dispatch(actions.onThemeChange(theme)),
     onNetWorkChange:e=>dispatch(actions.onNetWorkChange(e)),
-    onGeoChange:e=>dispatch(actions.onGeoChange(e))
+    onGeoChange:e=>dispatch(actions.onGeoChange(e)),
+    onUserLogout:()=>dispatch(actions.onUserLogout())
 });
 
 //注意：connect只是个function，并不应定非要放在export后面

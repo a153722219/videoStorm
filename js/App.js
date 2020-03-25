@@ -16,13 +16,21 @@ import LoadingManager from './common/LoadingManager'
 import LoadingComponent from './common/LoadingComponent'
 import Toast from 'react-native-easy-toast';
 import Globals from './util/Globals';
-
+import AsyncStorage from '@react-native-community/async-storage';
 export default class App extends Component {
 
   constructor(props) {
       super(props)
       Globals.Android_SDK_INT = props.Android_SDK_INT;
       Globals.store = store.store;
+      Globals.waitSendApis = [];
+      AsyncStorage.getItem('waitSendApis',(error,result)=>{
+        if (!error) {
+          if (result) {
+            Globals.waitSendApis=JSON.parse(result);
+          }
+        }
+      });
   }
   render() {
     return <Provider store={store.store}>

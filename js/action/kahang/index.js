@@ -99,7 +99,12 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.startTransportPlan(userName,PlanNo,Lat,Lon,Address)
+        const netAction = {
+            name:"startTransportPlan",
+            params:[userName,PlanNo,Lat,Lon,Address]
+        }
+        
+        api[netAction.name](...netAction.params)
         .then(httpResult=>{
             _handlePlanAction(
                 dispatch,
@@ -111,7 +116,8 @@ export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,tar
                 Types.KAHANG_START_TRAN,
                 userName,
                 "",
-                callback
+                callback,
+                netAction
             )
         })
     }
@@ -248,7 +254,11 @@ export function onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback){
         const ukey =store.getState().user.currentUserKey;
         const userName =  ukey.split('_')[1];
         const Msg = Utils.parseTime('YYYY-mm-dd HH:MM',new Date()) + " 司机" + store.getState().user[ukey].DriverName +"手动结束运输任务"
-        api.manualEnd(userName,PlanNo,Msg).then(httpResult=>{
+        const netAction = {
+            name:"manualEnd",
+            params:[userName,PlanNo,Msg]
+        }
+        api[netAction.name](...netAction.params).then(httpResult=>{
             _handlePlanAction(
                 dispatch,
                 httpResult,

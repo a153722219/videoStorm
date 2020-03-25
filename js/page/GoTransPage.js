@@ -63,7 +63,7 @@ class GoTransPage extends Component {
         });
          //设置currentLine
          const newCurrentLine = this.state.model.LineList.findIndex((item)=>item.LineID==this.state.model.CurrentLineID)
-         console.log(newCurrentLine)
+
          if(newCurrentLine!=-1){
             this.setState({
                 currentLine:newCurrentLine
@@ -233,7 +233,7 @@ class GoTransPage extends Component {
             return this._genOddButton(i18n.t("goLoad"),()=>{
                 this.commonFunc(item.LineID,(Lat,Lon,Address,Items)=>{
                     ViewUtil.showComfirm(()=>{
-                        this.props.onArrived(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
+                        this.props.onGoLoad(this.state.model.PlanNo,Lat,Lon,Address,item.LineID,this.props.kahang.details,this.props.kahang.showItems,Items,(res)=>{
                             if(res.code!=600)
                                 alert(res.data || "操作失败")
                             
@@ -275,7 +275,11 @@ class GoTransPage extends Component {
                 if(Line.LineID==LineID){
                     continue;
                 }else if(Line.OpBtnCode!=1 && Line.OpBtnCode!=3){
-                    return true
+                    const oItems = this.props.kahang[this.storeKey+"1"];
+                    const index = oItems.findIndex(i=>i.PlanNO==i)
+                    console.log(index)
+                    if(index!=-1)
+                        return true
                 }
             }
         }

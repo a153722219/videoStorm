@@ -18,10 +18,12 @@ import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
 import actions from '../action/index'
 import api from '../api';
+import Globals from '../util/Globals';
 
 
 class WelcomePage extends Component{
   componentDidMount(){
+  
       
   }
 
@@ -66,13 +68,17 @@ class WelcomePage extends Component{
           if(user){
             //本地登录成功
             this.props.onUserLogin(user);
-            NavigationUtil.resetToHomePage()
+            Globals.inited = true;
+            // Globals.sendApis();
+            NavigationUtil.resetToHomePage();
           }else{
             alert("网络连接错误");
           }
           return 
        }else if(res.code==600){
             this.props.onUserLogin(res.data);
+            Globals.inited = true;
+            // Globals.sendApis();
             NavigationUtil.resetToHomePage()   
        }else{
             alert(res.msg);  

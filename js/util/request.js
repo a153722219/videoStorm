@@ -4,7 +4,7 @@ import {NetStatusMap,APPKEY,baseURL} from './constant';
 
 const instance = axios.create({
     baseURL: baseURL,
-    timeout: 5000
+    timeout: 20000
 });
 
 const defaultHeaders ={
