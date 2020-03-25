@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, TextInput,Image,FlatList,RefreshControl,TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TextInput,Image,FlatList,RefreshControl,TouchableOpacity,ActivityIndicator} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -50,48 +50,47 @@ class PODListPage extends Component {
 
     constructor(props) {
         super(props);
-        const Phone = props.user.currentUserKey.split("_")[1];
-        const details = this.props.podList["details_"+Phone];
-        const searchList = this.props.podList["searchList_"+Phone];
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
+        const Phone = props.user.currentUserKey.split("_")[1];
+        let items = props.podList["items_"+Phone];
+        this.items = items?items:[];
         this.state = {
             index: 0,
             modalVisible: false,
             order:'',
-            imageList:[],
-            searchList:searchList?searchList:[],
-            details:details?details:[],
-            isLoad:true,
+            imageList:[]
         };
     }
-    //reducer已经返回数据了,但是本页面state没有改变,重写下面这个方法
-    // nextProps==reducer已更新数据   preState=页面更新前的 需要重新复制
-    static getDerivedStateFromProps(nextProps, prevState) {
-        // if(nextProps)
-        //  console.log(nextProps,prevState)
-         const Phone = nextProps.user.currentUserKey.split("_")[1];
-         const details = nextProps.podList["details_"+Phone] || [];
-         const searchList = nextProps.podList["searchList_"+Phone] || [];
-         if(details!==prevState.details){
-            return {
-                details: details,  //把新的数据赋给details
-            }
-         }
-         if(searchList!==prevState.searchList){
-            return {
-                searchList: searchList,  //把新的数据赋给details
-            }
-         }
 
+    genIndicator(){
+        return this.props.podList.hideLoadingMore?null:
+            <View style={styles.indicatorContainer}>
+                <ActivityIndicator
+                    style={{color:'red',margin:10}}
+                />
+                <Text>加载更多</Text>
+            </View>
+    }
+
+    loadData(loadMore){
+        // console.log(loadMore)
+        const {PageIndex,showItems,hideLoadingMore} = this.props.podList;
+        if(!loadMore){
+            this.props.onRefreshPods(this.items,this.state.order)
+
+        }else if(hideLoadingMore){
+            // console.log(1)
+            this.props.onLoadMorePods(PageIndex+1,this.items,showItems,this.state.order);
+        }
     }
 
 
     renderListEmptyComponent(){
-        if(!this.props.network.haveNet && !this.state.isLoad){
+        if(!this.props.network.haveNet && !this.props.podList.isLoading){
             return <DefaultPage mode="noNet"/>;
-        }else if(!this.state.isLoad){
+        }else if(!this.props.podList.isLoading){
             return <DefaultPage mode="noRec"/>;
         }else{
             return null
@@ -99,17 +98,9 @@ class PODListPage extends Component {
         
     }
 
-    _isLoading(){
-        const that = this 
-        this.props.onLoadPOD(this.state.order,this.state.details,res=>{
-            that.setState({isLoad:false}) 
-        })
-    }
-
     componentDidMount() {
-        this._isLoading()
+        this.loadData()
         this.backPress.componentDidMount()
-
     }
 
     componentWillUnmount() {
@@ -131,7 +122,6 @@ class PODListPage extends Component {
                 return arr
             },[])
             this.setState({modalVisible: true,imageList:strs})
-  
         }
         }>
             <View style={styles.item}>
@@ -151,7 +141,6 @@ class PODListPage extends Component {
 
 
     render() {
-        datas = !this.state.order?this.state.details:this.state.searchList;
         let navigationBar =
             <NavigationBar
                 title={i18n.t('PODRecords')}
@@ -169,18 +158,20 @@ class PODListPage extends Component {
                 onChangeText={text => {
                     this.setState({order:text})
                     if(!text){
-                        this._isLoading()
+                        this.loadData(false)
                     }
                 }} 
+                returnKeyType="search"
+                keyboardType = 'phone-pad'
                 style={[styles.Ipt,styles.searchBarBox]} 
                 placeholder={i18n.t('searchByOrder')}
-                onSubmitEditing={()=>{this._isLoading()}}
+                onSubmitEditing={()=>{this.loadData(false)}}
                 />
             </View>
 
             <FlatList
-
-                data={datas}
+                data={this.props.podList.showItems}
+                ListEmptyComponent={()=>this.renderListEmptyComponent()}
                 renderItem={(item,index)=>this._renderItem(item,index)}
                 keyExtractor={(item,index)=>""+index}
                 refreshControl={
@@ -188,12 +179,30 @@ class PODListPage extends Component {
                         title="loading"
                         titleColor="red"
                         colors={["red"]}
-                        refreshing={this.state.isLoad}
-                        onRefresh={()=>{this._isLoading()}}
+                        refreshing={this.props.podList.isLoading}
+                        onRefresh={()=>{this.loadData()}}
                         tintColor="red"
                     />
                 }
-                ListEmptyComponent={()=>this.renderListEmptyComponent()}
+               
+                ListFooterComponent={()=>this.genIndicator()}
+                onEndReached={() => {
+    
+                    setTimeout(() => {
+                        if (this.canLoadMore) {
+                            this.loadData(true);
+                            this.canLoadMore = false;
+                        }}, 100)
+                }}
+                onScrollBeginDrag={() => {
+                  
+                    this.canLoadMore = true;
+                }}
+                onMomentumScrollBegin={()=>{
+                   
+                    this.canLoadMore=true;
+                }}
+                onEndReachedThreshold={0.5}
             />
 
 
@@ -212,14 +221,15 @@ class PODListPage extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    nav: state.nav,
     theme: state.theme.theme,
     podList: state.pods,
     network:state.network
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLoadPOD:(WaybillNo,details,callback)=>dispatch(actions.onLoadPOD(WaybillNo,details,callback)),
+    onRefreshPods:(items,WaybillNO)=>dispatch(actions.onRefreshPods(items,WaybillNO)),
+    onLoadMorePods:(newPageIndex,items,showItems,WaybillNO)=>dispatch(actions.onLoadMorePods(newPageIndex,items,showItems,WaybillNO))
+
 });
 
 //注意：connect只是个function，并不应定非要放在export后面
@@ -294,5 +304,8 @@ const styles = StyleSheet.create({
     Ipt:{
         paddingVertical: 0,
         textAlign:"center"
-    }
+    },
+    indicatorContainer:{
+        alignItems:"center"
+    },
 });
