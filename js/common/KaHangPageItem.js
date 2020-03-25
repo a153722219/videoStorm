@@ -110,15 +110,18 @@ class KaHangPageItem extends Component {
     }
 
     goDetail(PlanNO){
+        const type = this.statusFlag==2?1:0;
         LoadingManager.show();
         this.props.onLoadKaHangDetail(PlanNO,this.props.kahang.details,res=>{
             LoadingManager.close();
             if(res.code==600){
-                NavigationUtil.goPage({model:res.data,statusFlag:this.statusFlag},'GoTransPage')
+                if(type==1){
+                    NavigationUtil.goPage({model:res.data},'TaskDetailPage')
+                }else NavigationUtil.goPage({model:res.data,statusFlag:this.statusFlag},'GoTransPage')
             }else{
                 alert(res.msg || "加载失败")
             }
-        },0)
+        },type)
       
     }
 

@@ -4,7 +4,7 @@
 import {onThemeChange} from './theme'
 import {onUserLogin,onUserLogout} from './user'
 import {onRefreshCars,onLoadMoreCars,onLoadCarDetails} from './cars'
-import {onLoadPOD} from './PODs'
+import {onLoadPOD} from './pods'
 import {onNetWorkChange} from './network'
 import {
     onRefreshKaHang,

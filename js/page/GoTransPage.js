@@ -143,7 +143,7 @@ class GoTransPage extends Component {
                     const targetItems = this.props.kahang[this.storeKey+"1"];
                     this.props.onStartTranPort(this.state.model.PlanNo,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
                         LoadingManager.close();
-                        console.log(res);
+                        // console.log(res);
                         if(res.code==600){
                             this.setState({
                                 statusFlag:1

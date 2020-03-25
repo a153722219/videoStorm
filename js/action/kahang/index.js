@@ -94,7 +94,7 @@ export function onLoadKaHangDetail(PlanNO,details,callback,type=0){
         });
     }
 }
-
+//去运输
 export function onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItems,callback){
     const store = Globals.store;
     return dispatch=>{
@@ -121,7 +121,11 @@ export function onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.arrive(userName,PlanNo,LineID,Lat,Lon,Address)
+        const netAction = {
+            name:"arrive",
+            params:[userName,PlanNo,LineID,Lat,Lon,Address]
+        }
+        api[netAction.name](...netAction.params)
         .then(httpResult=>{
             _handleLineAction(
                 dispatch,
@@ -135,7 +139,8 @@ export function onArrived(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
                 userName,
                 4,
                 5,
-                callback
+                callback,
+                netAction
             )
         })
 
@@ -147,7 +152,11 @@ export function onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,c
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.arrive(userName,PlanNo,LineID,Lat,Lon,Address)
+        const netAction = {
+            name:"goLoading",
+            params:[userName,PlanNo,LineID,Lat,Lon,Address]
+        }
+        api[netAction.name](...netAction.params)
         .then(httpResult=>{
             _handleLineAction(
                 dispatch,
@@ -161,7 +170,8 @@ export function onGoLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,c
                 userName,
                 2,
                 2,
-                callback
+                callback,
+                netAction
             )
         })
     }
@@ -174,7 +184,11 @@ export function onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,ca
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.confirmLeave(userName,PlanNo,LineID,Lat,Lon,Address)
+        const netAction = {
+            name:"confirmLeave",
+            params:[userName,PlanNo,LineID,Lat,Lon,Address]
+        }
+        api[netAction.name](...netAction.params)
         .then(httpResult=>{
             _handleLineAction(
                 dispatch,
@@ -188,7 +202,8 @@ export function onLeave(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,ca
                 userName,
                 3,
                 3,
-                callback
+                callback,
+                netAction
             )
         })
     }
@@ -200,7 +215,11 @@ export function onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
     const store = Globals.store;
     return dispatch=>{
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.goDelivery(userName,PlanNo,LineID,Lat,Lon,Address)
+        const netAction = {
+            name:"goDelivery",
+            params:[userName,PlanNo,LineID,Lat,Lon,Address]
+        }
+        api[netAction.name](...netAction.params)
         .then(httpResult=>{
             _handleLineAction(
                 dispatch,
@@ -214,7 +233,8 @@ export function onOffLoad(PlanNo,Lat,Lon,Address,LineID,details,showItems,items,
                 userName,
                 2,
                 2,
-                callback
+                callback,
+                netAction
             )
         })
     }

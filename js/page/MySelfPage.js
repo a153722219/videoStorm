@@ -10,8 +10,6 @@ import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, View,Image,TouchableOpacity,ImageBackground} from 'react-native';
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import GlobalStyles from '../res/styles/GlobalStyles'
 import ViewUtil from '../util/ViewUtil';
 import {i18n} from '../i18n/index';
 import {uW, width} from "../util/screenUtil";
@@ -84,7 +82,7 @@ class MySelfPage extends Component{
 
     return (
         
-      <View style={[GlobalStyles.root_container,{backgroundColor:"#f5f5f5"}]}>
+      <View style={[styles.root_container,{backgroundColor:"#f5f5f5"}]}>
           {navigationBar}
           <ImageBackground style={styles.bgBox} source={i18n.locale=='zh'?require('../assets/zh/myBg.png'):require('../assets/en/bg.png')}>
               {/*<View style={styles.boxFix}>*/}
@@ -103,13 +101,13 @@ class MySelfPage extends Component{
                   style={{marginTop:134*uW}}
               >
 
-                  <View style={GlobalStyles.line}/>
+                  <View style={styles.line}/>
                   {this.getItem(this.MORE_MENU.Info)}
 
-                  <View style={GlobalStyles.line}/>
+                  <View style={styles.line}/>
                   {this.getItem(this.MORE_MENU.Setting)}
 
-                  <View style={GlobalStyles.line}/>
+                  <View style={styles.line}/>
                   {this.getItem(this.MORE_MENU.ChangeLang)}
 
               </ScrollView>
@@ -129,6 +127,16 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(MySelfPage);
 
 const styles = StyleSheet.create({
+    line:{
+        height:0.5,
+        width:0.5,
+        backgroundColor:'darkgray'
+    },
+
+    root_container:{
+        flex:1,
+        backgroundColor:'#f3f3f4'
+    },
     bgBox:{
       width:750*uW,height:323*uW,marginTop:-1
     },
