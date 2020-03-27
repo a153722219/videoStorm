@@ -64,7 +64,7 @@ export function _handleLoadMoreData(dispatch,PageSize,newPageIndex,httpResult,dp
 export function _handleLoadDetails(dispatch,key,contents,dpLoadSType,httpResult,callback) {
     if(httpResult.code<0){
         //无网络 返回本地数据
-        if(contents[key]){
+        if(contents[key] && Object.keys(contents[key]).length>0){
             dispatch({
                 type:dpLoadSType,
                 contents
@@ -202,9 +202,13 @@ export function _handlePlanAction(dispatch,httpResult,PlanNo,sourceItems,targetI
                     showItems,
                     Phone:userName
                 });
+                if(httpResult.code<0){
+                    //存入离线请求
+                    Globals.saveSendApis(netAction)
+                }
 
                 callback({
-                    code:httpResult.code,
+                    code:600,
                     data:httpResult.data
                 });
             }

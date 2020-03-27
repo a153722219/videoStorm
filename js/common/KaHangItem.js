@@ -55,7 +55,7 @@ class KaHangItem extends PureComponent {
 
     render() {
 
-        return <TouchableOpacity activeOpacity={0.8} onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO)}>
+        return <TouchableOpacity activeOpacity={0.8} onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO,false)}>
         <View style={styles.container}>
                 <View style={styles.titleBox}>
                     <View style={styles.titleBox}>
@@ -144,8 +144,8 @@ class KaHangItem extends PureComponent {
                         </View>
                         {/*装货按钮*/}
                         {
-                            this.props.model.OpBtnCode!=-1 &&
-                            <TouchableOpacity activeOpacity={0.8}  onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO)}>
+                            (this.props.model.OpBtnCode!=-1 && this.props.statusFlag!=2) &&
+                            <TouchableOpacity activeOpacity={0.8}  onPress={this.props.onItemClick.bind(this,this.props.model.PlanNO,true)}>
                                 <Text style={[styles.goLoadBox,{backgroundColor:this.props.theme}]}>
                                     {this.btnTextMap[this.props.model.OpBtnCode]}
                                 </Text>

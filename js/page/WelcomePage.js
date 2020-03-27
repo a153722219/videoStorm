@@ -97,6 +97,7 @@ class WelcomePage extends Component{
 
     if(userKey && this.props.user[userKey]){
       //如果redux里面有信息 则直接跳转首页
+
       NavigationUtil.resetToHomePage()
       return null
     }

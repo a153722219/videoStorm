@@ -147,11 +147,15 @@ class UploadPodPage extends Component {
             console.log("formdata", JSON.stringify(fd))
             LoadingManager.show();
             this.props.onUploadPOD(this.state.PlanNo,this.state.WaybillNO,fd,this.state.index,this.props.kahang.details,(res)=>{
+                    LoadingManager.close();    
                     console.log(res)
-                    if(res.code!=600)
-                            alert(res.data || "操作失败")
+                    if(res.code!=600){
+                        alert(res.data || "操作失败")
+                        return
+                    }
+                            
                     this.state.callback && this.state.callback();
-                   LoadingManager.close();
+                   
                    NavigationUtil.goBack(this.props.navigation)
             })
 

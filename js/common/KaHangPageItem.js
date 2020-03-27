@@ -65,12 +65,14 @@ class KaHangPageItem extends Component {
         return <KaHangItem model={data.item} statusFlag={this.props.statusFlag} onClickRemainBtn={(PlanNO)=>{
             this.props.onClickRemainBtn(PlanNO)
         }}  
-        onItemClick={(PlanNO)=>{
+        onItemClick={(PlanNO,flag)=>{
             
+            if(this.props.statusFlag==0 && flag){
+                this.goTrans(PlanNO)
+                return 
+            }else if(this.props.statusFlag!=0)
+                this.goDetail(PlanNO)
 
-            this.goDetail(PlanNO)
-
-            
         }}>
 
         </KaHangItem>
@@ -112,7 +114,8 @@ class KaHangPageItem extends Component {
     goDetail(PlanNO){
         const type = this.statusFlag==2?1:0;
         LoadingManager.show();
-        this.props.onLoadKaHangDetail(PlanNO,this.props.kahang.details,res=>{
+        const details = type==1?this.props.kahang.fullDetails:this.props.kahang.details
+        this.props.onLoadKaHangDetail(PlanNO,details,res=>{
             LoadingManager.close();
             if(res.code==600){
                 if(type==1){
@@ -123,6 +126,33 @@ class KaHangPageItem extends Component {
             }
         },type)
       
+    }
+
+
+    goTrans(PlanNO){
+        // console.log(this.props.statusFlag)model
+                if(this.props.geo.Lat && this.props.geo.Lon){
+                    LoadingManager.show();
+                    const {Lat,Lon,Address} = this.props.geo;
+                    const sourceItems = this.props.kahang[this.storeKey+"0"];
+                    const targetItems = this.props.kahang[this.storeKey+"1"];
+                    this.props.onStartTranPort(PlanNO,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+                        LoadingManager.close();
+                        // console.log(res);
+                        if(res.code==600){
+                            this.goDetail(PlanNO)
+                        }else{
+                            alert(res.data || "操作失败")
+                        }
+                        
+                    })
+
+                }else{
+                    alert("地址获取失败,请打开网络定位")
+                }
+
+                
+            
     }
 
     render() {
@@ -182,7 +212,8 @@ const mapStateToProps = state => ({
     user: state.user,
     theme: state.theme.theme,
     network:state.network,
-    kahang:state.kahang
+    kahang:state.kahang,
+    geo:state.geo.location,
 });
 
 const mapDispatchToProps = dispatch => ({

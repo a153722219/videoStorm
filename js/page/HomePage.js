@@ -92,7 +92,7 @@ import Globals from '../util/Globals';
                     },100)
                 }
               },100);
-         }
+         }else Globals.inited = true;
         
      }
 

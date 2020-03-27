@@ -99,8 +99,8 @@ class GoTransPage extends Component {
         if(index==-1){
             ViewUtil.showComfirm(()=>{
                 LoadingManager.show();
-                const sourceItems = this.props.kahang[this.storeKey+"1"];
-                const targetItems = this.props.kahang[this.storeKey+"2"];
+                const sourceItems = this.props.kahang[this.storeKey+"1"] || [];
+                const targetItems = this.props.kahang[this.storeKey+"2"] || [];
                 this.props.onManualEnd(PlanNo,sourceItems,this.props.kahang.showItems,targetItems,res=>{
                     LoadingManager.close();
                     if(res.code==600){
@@ -133,34 +133,7 @@ class GoTransPage extends Component {
         return -1
     }
 
-    goTrans(){
-        // console.log(this.props.statusFlag)model
-            if(this.state.statusFlag==0){
-                if(this.props.geo.Lat && this.props.geo.Lon){
-                    LoadingManager.show();
-                    const {Lat,Lon,Address} = this.props.geo;
-                    const sourceItems = this.props.kahang[this.storeKey+"0"];
-                    const targetItems = this.props.kahang[this.storeKey+"1"];
-                    this.props.onStartTranPort(this.state.model.PlanNo,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
-                        LoadingManager.close();
-                        // console.log(res);
-                        if(res.code==600){
-                            this.setState({
-                                statusFlag:1
-                            })
-                        }else{
-                            alert(res.data || "加载失败")
-                        }
-                        
-                    })
-
-                }else{
-                    alert("地址获取失败,请打开网络定位")
-                }
-
-                
-            }
-    }
+  
 
     _genBottomButton(index){
         
@@ -178,7 +151,7 @@ class GoTransPage extends Component {
                         PlanNo:this.state.model.PlanNo,
                         WaybillNOs:item.WaybillNOs,
                         callback:()=>{
-                            this.checkPlanHasFinished();
+                            this.checkPlanHasFinished(this.state.model.PlanNo);
                            
                         }
                     },"UploadPodPage");
@@ -205,7 +178,7 @@ class GoTransPage extends Component {
                                 currentLine:next
                             })
                         }else{
-                            this.checkPlanHasFinished();
+                            this.checkPlanHasFinished(this.state.model.PlanNo);
                         }
                     });              
                 });
@@ -314,15 +287,15 @@ class GoTransPage extends Component {
     }
 
 
-    checkPlanHasFinished(){
+    checkPlanHasFinished(PlanNo){
         for(let i in this.state.model.LineList){
             let item = this.state.model.LineList[i]
             if(item.OpBtnCode!=3 || (item.OpBtnCode==3 && item.NeedReceiptOrdCount>0)){
                 return false;
             }
         }
-        const sourceItems = this.props.kahang[this.storeKey+"1"];
-        const targetItems = this.props.kahang[this.storeKey+"2"];
+        const sourceItems = this.props.kahang[this.storeKey+"1"] || [];
+        const targetItems = this.props.kahang[this.storeKey+"2"] || [];
         this.props.onPlanFinish(PlanNo,sourceItems,this.props.kahang.showItems,targetItems,res=>{
             if(res.code==600){
                 this.setState({
@@ -418,7 +391,7 @@ class GoTransPage extends Component {
                     </Text>
                 </TouchableOpacity> */}
 
-                {
+                {/* {
                     this.state.statusFlag==0 &&
                     <TouchableOpacity activeOpacity={0.7} onPress={()=>{
                         this.goTrans();
@@ -427,10 +400,10 @@ class GoTransPage extends Component {
                             {i18n.t('goTran')}
                         </Text>
                     </TouchableOpacity>
-                }
-
+                } */}
+                {/* this.state.statusFlag==1 &&  */}
                 {
-                    this.state.statusFlag==1 && this._genBottomButton(this.state.currentLine)
+                    this._genBottomButton(this.state.currentLine)
                 }
 
             </View>}

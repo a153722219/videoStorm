@@ -270,6 +270,7 @@ export function onManualEnd(PlanNo,sourceItems,showItems,targetItems,callback){
                 userName,
                 Msg,
                 callback,
+                netAction
             )
 
         })
@@ -284,7 +285,10 @@ export function onUploadPOD(PlanNo,WaybillNO,fd,index,details,callback){
         const userName =  store.getState().user.currentUserKey.split('_')[1];
         api.uploadReceipt(userName,WaybillNO,fd).then(httpResult=>{
             if(httpResult.code<0){
-
+                callback({
+                    code:httpResult.code,
+                    data:"Network error"
+                })
             }else if(httpResult.code==600){
                 const item = details[PlanNo];
                 const lineItem = item.LineList[index];

@@ -35,6 +35,7 @@ class TaskDetailPage extends Component {
         });
         const {model} = this.props.navigation.state.params;
         this.model = model;
+        console.log(model)
     }
 
     componentDidMount() {

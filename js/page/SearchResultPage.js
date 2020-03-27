@@ -136,30 +136,64 @@ class searchResultPage extends Component {
     
     renderItem(data){
         // console.log(data)
-        return <KaHangItem model={data.item} statusFlag={this.fliState(data.TransportStatus)} 
+        const flag = this.fliState(data.item.TransportStatus)
+        return <KaHangItem model={data.item} statusFlag={flag} 
         onClickRemainBtn={(PlanNO)=>{
             this.loadPreview(PlanNO)     
         }}  
-        onItemClick={(PlanNO)=>{
-            this.goDetail(PlanNO) 
+        onItemClick={(PlanNO,_flag)=>{
+            if(flag==0 && _flag){
+                this.goTrans(PlanNO)
+                return 
+            }else if(flag!=0)
+                this.goDetail(PlanNO,flag)
         }}>
         </KaHangItem>
     }
 
 
-    goDetail(PlanNO){
+    goDetail(PlanNO,flag){
+        const type = flag==2?1:0;
         LoadingManager.show();
         this.props.onLoadKaHangDetail(PlanNO,this.props.kahang.details,res=>{
             LoadingManager.close();
             if(res.code==600){
-                NavigationUtil.goPage({model:res.data,statusFlag:1},'GoTransPage')
-           
+                if(type==1){
+                    NavigationUtil.goPage({model:res.data},'TaskDetailPage')
+                }else NavigationUtil.goPage({model:res.data,statusFlag:1},'GoTransPage')
+            
             }else{
                 alert(res.msg || "加载失败")
             }
-        },0)
+        },type)
       
     }
+
+
+    goTrans(PlanNO){
+        // console.log(this.props.statusFlag)model
+        if(this.props.geo.Lat && this.props.geo.Lon){
+            LoadingManager.show();
+            const {Lat,Lon,Address} = this.props.geo;
+            const sourceItems = this.props.kahang[this.storeKey+"0"];
+            const targetItems = this.props.kahang[this.storeKey+"1"];
+            this.props.onStartTranPort(PlanNO,Lat,Lon,Address,sourceItems,this.props.kahang.showItems,targetItems,res=>{
+                LoadingManager.close();
+                // console.log(res);
+                if(res.code==600){
+                    this.goDetail(PlanNO)
+                }else{
+                    alert(res.data || "操作失败")
+                }
+                
+            })
+
+        }else{
+            alert("地址获取失败,请打开网络定位")
+        }
+            
+    }
+
    
 
     //物理返回键
@@ -259,10 +293,12 @@ const mapStateToProps = state => ({
     theme: state.theme.theme,
     network:state.network,
     kahang:state.kahang,
-    previews:state.kahang.previews
+    previews:state.kahang.previews,
+    geo:state.geo.location,
 });
 
 const mapDispatchToProps = dispatch => ({
+    onStartTranPort:(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)=>dispatch(actions.onStartTranPort(PlanNo,Lat,Lon,Address,sourceItems,showItems,targetItem,callback)),
     onLoadKaHangPreView:(PlanNO,previews,callback)=>dispatch(actions.onLoadKaHangPreView(PlanNO,previews,callback)),
     onLoadKaHangDetail:(PlanNO,details,callback,type)=>dispatch(actions.onLoadKaHangDetail(PlanNO,details,callback,type))
 });
