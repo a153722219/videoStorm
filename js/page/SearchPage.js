@@ -19,6 +19,7 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil';
 import  setStatusBar from '../common/setStatusBar'
+import AsyncStorage from '@react-native-community/async-storage'
 @setStatusBar({
     barStyle: 'light-content',
     translucent: true,
@@ -28,16 +29,26 @@ class SearchPage extends Component {
 
     constructor(props) {
         super(props);
+        const phone = this.props.user.currentUserKey.substr(5)
         this.backPress = new BackPressComponent({
             backPress: () => this.onBackPress()
         });
 
         this.state = {
-            searchTxt:''
+            searchTxt:'',
+            phone:phone,
+            list:[]
         }
     }
 
     componentDidMount() {
+        const that = this;
+        AsyncStorage.getItem( `list_${this.state.phone}`,(err,result)=>{
+            if(result){
+               const storeList = JSON.parse(result)
+               that.setState({list:storeList})
+            }
+        })
         this.backPress.componentDidMount();
         // this.TextInput && this.TextInput.focus()
     }
@@ -59,18 +70,29 @@ class SearchPage extends Component {
                 <TextInput
                     placeholderTextColor="#CFCFCF"
                     style={styles.Ipt}
+                    value={this.state.searchTxt}
                     autoFocus={true}
                     returnKeyType="search"
                     keyboardType = 'phone-pad'
                     placeholder={i18n.t('searchPlaceHolder')}
                     ref={TextInput => this.TextInput = TextInput}
-                    onSubmitEditing={()=>{ NavigationUtil.goPage({key:this.state.searchTxt},'SearchResultPage')}}
+                    onSubmitEditing={()=>{
+                        const listName = `list_${this.state.phone}` 
+                        this.state.list.push(this.state.searchTxt)
+                        AsyncStorage.setItem(listName,JSON.stringify(this.state.list),()=>{})
+                        NavigationUtil.goPage({key:this.state.searchTxt},'SearchResultPage')
+                    }}
                     onChangeText={(val)=>{
                         this.setState({searchTxt:val})
                     }}
                 />
-               {this.state.searchTxt!==''&&<Text>X</Text>} 
             </View>
+            {this.state.searchTxt!=='' && 
+                <TouchableOpacity activeOpacity={0.6} onPress={()=>{
+                    this.setState({searchTxt:''})
+                }} style={{position:'absolute',right:'15%',height:'100%'}}> 
+                    <Text><Image style={{width:40* uW , height:40* uW}} source={require('../assets/close.png')}></Image> </Text>
+                </TouchableOpacity>}
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this.onBackPress()}>
                 <Text style={[styles.cancel,{marginLeft:i18n.locale=="zh"?28*uW:15*uW}]}>{i18n.t('cancel')}</Text>
             </TouchableOpacity>
@@ -79,7 +101,7 @@ class SearchPage extends Component {
 
 
     render() {
-
+       
         let navigationBar =
             <NavigationBar
                 // title={'页面'}
@@ -94,21 +116,25 @@ class SearchPage extends Component {
             <View style={styles.container}>
                 <Text style={styles.searchTitle}>{i18n.t('searchHistory')}</Text>
                 <View style={styles.itemBox}>
-                    <TouchableOpacity activeOpacity={0.5}>
-                        <Text style={styles.item} numberOfLines={1}>
-                            TX1234156f4sd56gf
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity activeOpacity={0.5}>
-                        <Text style={styles.item} numberOfLines={1}>
-                            TX1234156f4s
-                        </Text>
-                    </TouchableOpacity>
-
+                  {this.state.list==[]?<Text></Text>:this.state.list.map((item,index)=>{
+                      return <TouchableOpacity key={index} activeOpacity={0.5} onPress={()=>{
+                            this.setState({searchTxt:item.toString()})
+                            setTimeout(()=>{
+                                NavigationUtil.goPage({key:this.state.searchTxt},'SearchResultPage')
+                            },600)
+                      }}>
+                            <Text style={styles.item} numberOfLines={1}>
+                                {item}
+                            </Text>
+                        </TouchableOpacity>
+                    })} 
                 </View>
                 
-                <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                    const listName = `list_${this.state.phone}`
+                    this.setState({list:[]})
+                    AsyncStorage.setItem(listName,'')
+                }}>
                     <Text style={styles.clearBtn}>
                         {i18n.t('clearBtn')}
                     </Text>
@@ -121,6 +147,7 @@ class SearchPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    user: state.user,
     nav: state.nav,
     theme: state.theme.theme
 });
@@ -156,7 +183,7 @@ const styles = StyleSheet.create({
 
     itemBox:{
         flexDirection:'row',
-        justifyContent:"space-between",
+        justifyContent:"flex-start",
         flexWrap:'wrap',
 
     },
@@ -174,6 +201,7 @@ const styles = StyleSheet.create({
     },
 
     IptBox:{
+        position:'relative',
         flexDirection:'row',
         alignItems:'center'
     },
