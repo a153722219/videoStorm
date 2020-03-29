@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text,TouchableOpacity,Image,TextInput} from 'react-native';
+import {StyleSheet, View, Text,TouchableOpacity,Image,TextInput,Alert} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -77,6 +77,11 @@ class SearchPage extends Component {
                     placeholder={i18n.t('searchPlaceHolder')}
                     ref={TextInput => this.TextInput = TextInput}
                     onSubmitEditing={()=>{
+                        if(!this.props.network.haveNet){
+                            Alert. alert(i18n.t('tips'),i18n.t('networkAnomaly'),[{text:i18n.t('Yes')}])
+                            return 
+                        }
+                  
                         const listName = `list_${this.state.phone}` 
                         this.state.list.push(this.state.searchTxt)
                         AsyncStorage.setItem(listName,JSON.stringify(this.state.list),()=>{})
@@ -115,15 +120,19 @@ class SearchPage extends Component {
             {navigationBar}
             <View style={styles.container}>
                 <Text style={styles.searchTitle}>{i18n.t('searchHistory')}</Text>
-                <View style={styles.itemBox}>
+                <View style={[styles.itemBox,{paddingLeft:-20 * uW}]}>
                   {this.state.list==[]?<Text></Text>:this.state.list.map((item,index)=>{
                       return <TouchableOpacity key={index} activeOpacity={0.5} onPress={()=>{
+                        if(!this.props.network.haveNet){
+                            Alert. alert(i18n.t('tips'),i18n.t('networkAnomaly'),[{text:i18n.t('Yes')}])
+                            return 
+                        }
                             this.setState({searchTxt:item.toString()})
                             setTimeout(()=>{
                                 NavigationUtil.goPage({key:this.state.searchTxt},'SearchResultPage')
                             },600)
                       }}>
-                            <Text style={styles.item} numberOfLines={1}>
+                            <Text style={[styles.item,{marginLeft:20 * uW}]} numberOfLines={1}>
                                 {item}
                             </Text>
                         </TouchableOpacity>
@@ -149,7 +158,8 @@ class SearchPage extends Component {
 const mapStateToProps = state => ({
     user: state.user,
     nav: state.nav,
-    theme: state.theme.theme
+    theme: state.theme.theme,
+    network:state.network,
 });
 
 const mapDispatchToProps = dispatch => ({});
