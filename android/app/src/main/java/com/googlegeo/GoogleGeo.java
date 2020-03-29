@@ -22,8 +22,6 @@ import top.madev.clocationlib.bean.MyLocation;
 import top.madev.clocationlib.bean.Point;
 import top.madev.clocationlib.utils.BoundaryCheck;
 import top.madev.clocationlib.utils.CoordinateConversion;
-
-
 import javax.annotation.Nullable;
 
 public class GoogleGeo  extends ReactContextBaseJavaModule {

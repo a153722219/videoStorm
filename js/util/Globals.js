@@ -29,7 +29,7 @@ export default class Globals {
 
             let action = Globals.waitSendApis[i];
             let res = await api[action.name](...action.params);
-            await Globals.sleep(1000);
+            await Globals.sleep(200);
             if(res.code>=600){
                 // Globals.waitSendApis.splice(i,1);
                 Globals.waitSendApis[i].isDelete = true;

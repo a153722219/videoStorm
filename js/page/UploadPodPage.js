@@ -28,6 +28,8 @@ const options = {
     cancelButtonTitle:'取消',
     takePhotoButtonTitle:'拍照',
     chooseFromLibraryButtonTitle:'从相册选取',
+    quality:0.5,
+    maxWidth:1080,
     // customButtons: [
     //     {name: 'customButtons', title: '自定义按钮图片'},
     // ],

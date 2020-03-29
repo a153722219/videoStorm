@@ -25,4 +25,18 @@ export default class NavigationUtil{
             }
         )
     }
+
+    // static replacePage(params,page){
+    //     const navigation = NavigationUtil.navigation;
+    //     if(!navigation){
+    //         console.log("NavigationUtil.navigation can not be null!");
+    //         return
+    //     }
+    //     navigation.replace(
+    //         page,
+    //         {
+    //             ...params
+    //         }
+    //     )
+    // }
 }

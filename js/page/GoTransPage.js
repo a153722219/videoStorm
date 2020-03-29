@@ -151,8 +151,8 @@ class GoTransPage extends Component {
                         PlanNo:this.state.model.PlanNo,
                         WaybillNOs:item.WaybillNOs,
                         callback:()=>{
+                            console.log('cb')
                             this.checkPlanHasFinished(this.state.model.PlanNo);
-                           
                         }
                     },"UploadPodPage");
                 })

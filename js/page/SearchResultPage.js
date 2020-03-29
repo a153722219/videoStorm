@@ -159,8 +159,12 @@ class searchResultPage extends Component {
             LoadingManager.close();
             if(res.code==600){
                 if(type==1){
-                    NavigationUtil.goPage({model:res.data},'TaskDetailPage')
-                }else NavigationUtil.goPage({model:res.data,statusFlag:1},'GoTransPage')
+                    this.props.navigation.replace('TaskDetailPage',{model:res.data})
+                    // NavigationUtil.replacePage({model:res.data},'TaskDetailPage')
+                }else{
+                    // NavigationUtil.replacePage({model:res.data,statusFlag:1},'GoTransPage')
+                    this.props.navigation.replace('GoTransPage',{model:res.data,statusFlag:1})
+                }
             
             }else{
                 alert(res.msg || "加载失败")
