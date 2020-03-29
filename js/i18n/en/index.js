@@ -220,5 +220,9 @@ export default {
 
     arrived:"Confirm to Arrive",
 
-    searchResult:'searchResult'
+    searchResult:'searchResult',
+
+    tips:'Tips',
+    
+    networkAnomaly:'network anomaly'
 };

@@ -224,6 +224,10 @@ export default {
 
     ConfirmtoArrive:"确认到达",
 
-    searchResult:'搜索结果'
+    searchResult:'搜索结果',
+
+    tips:'提示',
+
+    networkAnomaly:'网络异常'
 
 };
