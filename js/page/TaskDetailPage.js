@@ -35,7 +35,7 @@ class TaskDetailPage extends Component {
         });
         const {model} = this.props.navigation.state.params;
         this.model = model;
-        console.log(model)
+        // console.log(model)
     }
 
     componentDidMount() {
@@ -54,7 +54,7 @@ class TaskDetailPage extends Component {
 
     getRightButton(){
         return <TouchableOpacity activeOpacity={0.7} onPress={()=>{
-            NavigationUtil.goPage({},'PODListPage')
+            NavigationUtil.goPage({PlanNO:this.model.PlanNO},'PODListPage')
         }}>
             <View  style={styles.navBtnBox}>
                     <Image style={styles.navBtnIcon} source={i18n.locale==='zh'?require('../assets/zh/PODs.png'):require('../assets/en/PODs.png')}/>

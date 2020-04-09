@@ -6,12 +6,12 @@ import {_handleRefreshData,_handleLoadMoreData} from '../ActionUtil'
 
 // 请求回单列表
 const PageSize = 10;
-export function onRefreshPods(items=[],WaybillNO) {
+export function onRefreshPods(items=[],PlanNo,WaybillNO) {
     const store = Globals.store;
     return dispatch=>{
         dispatch({type:Types.POD_REFRESH});
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.PODList(userName,WaybillNO,1).then(res=>{
+        api.PODList(userName,PlanNo,WaybillNO,1).then(res=>{
                  _handleRefreshData(
                      dispatch,
                      PageSize,
@@ -26,12 +26,12 @@ export function onRefreshPods(items=[],WaybillNO) {
     }
 }
 
-export function onLoadMorePods(newPageIndex,items=[],showItems=[],WaybillNO){
+export function onLoadMorePods(newPageIndex,items=[],showItems=[],PlanNo,WaybillNO){
     const store = Globals.store;
     return dispatch=>{
         dispatch({type:Types.POD_LOAD_MORE});
         const userName =  store.getState().user.currentUserKey.split('_')[1];
-        api.PODList(userName,WaybillNO,newPageIndex).then(res=>{
+        api.PODList(userName,PlanNo,WaybillNO,newPageIndex).then(res=>{
             _handleLoadMoreData(
                 dispatch,
                 PageSize,
