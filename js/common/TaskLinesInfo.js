@@ -61,7 +61,7 @@ class TaskLinesInfo extends Component {
             query:FullAddress,
             // end:"中国广东省广州市白云区天天来生活超市"
          });
-      }
+    }
 
 
     render() {
@@ -142,11 +142,11 @@ class TaskLinesInfo extends Component {
             <View style={styles.infoBox}>
                 <View style={[styles.InfoItem,{marginTop:0}]}>
                     <Text style={styles.InfoTitle} >
-                     {currentItem.LoadOrdCount>0?i18n.t('saler'):i18n.t('Receiver')}：
+                     {currentItem.LoadOrdCount>0?i18n.t('Receiver'):i18n.t('saler')}：
                     </Text>
 
                     <Text style={styles.InfoValue} >
-                        {currentItem.LoadOrdCount>0?currentItem.ShipperName:currentItem.ReceiverName}
+                        {currentItem.LoadOrdCount>0?currentItem.ReceiverName:currentItem.ShipperName}
                     </Text>
 
                 </View>
@@ -157,13 +157,13 @@ class TaskLinesInfo extends Component {
                     </Text>
 
                     <TouchableOpacity activeOpacity={0.7} onPress={()=>{
-                        const phone  = currentItem.LoadOrdCount>0?currentItem.ShipperPhone:currentItem.ReceiverPhone;
+                        const phone  = currentItem.LoadOrdCount>0?currentItem.ReceiverPhone:currentItem.ShipperPhone;
                         Utils.callPhone(phone)
                         }
                     }>
                         <View style={{flexDirection:'row',alignItems:"center"}}>
                             <Text style={styles.Phone} >
-                                {currentItem.LoadOrdCount>0?currentItem.ShipperPhone:currentItem.ReceiverPhone}
+                                {currentItem.LoadOrdCount>0?currentItem.ReceiverPhone:currentItem.ShipperPhone}
                             </Text>
                             <Image  style={styles.PhoneIcon} source={require('../assets/zh/phone.png')}/>
                         </View>
