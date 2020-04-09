@@ -224,5 +224,7 @@ export default {
 
     tips:'Tips',
     
-    networkAnomaly:'network anomaly'
+    networkAnomaly:'network anomaly',
+
+    None:'The input cannot be null'
 };

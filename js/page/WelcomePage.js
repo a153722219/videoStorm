@@ -144,6 +144,7 @@ class WelcomePage extends Component{
               placeholder={i18n.t('userIpt')}
               placeholderTextColor="#CFCFCF"
               underlineColorAndroid = "#E2E2E2"
+              keyboardType = 'phone-pad'
               value={this.state.userPhone}
               onChangeText={ipt=>this.setState({userPhone:ipt})}
             />

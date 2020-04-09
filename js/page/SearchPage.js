@@ -77,8 +77,12 @@ class SearchPage extends Component {
                     placeholder={i18n.t('searchPlaceHolder')}
                     ref={TextInput => this.TextInput = TextInput}
                     onSubmitEditing={()=>{
-                        if(!this.props.network.haveNet){
-                            Alert. alert(i18n.t('tips'),i18n.t('networkAnomaly'),[{text:i18n.t('Yes')}])
+                        if(!this.props.network.haveNet ){
+                            Alert.alert(i18n.t('tips'),i18n.t('networkAnomaly'),[{text:i18n.t('Yes')}])
+                            return 
+                        }
+                        if(!this.state.searchTxt){
+                            Alert.alert(i18n.t('tips'),i18n.t('None'),[{text:i18n.t('Yes')}])
                             return 
                         }
                   
@@ -89,6 +93,7 @@ class SearchPage extends Component {
                     }}
                     onChangeText={(val)=>{
                         this.setState({searchTxt:val})
+
                     }}
                 />
             </View>

@@ -18,7 +18,7 @@ api.selTransportDetails  = (Phone,PlanNO)=>httpPost('Api/TmsAppWebApi/SelTranspo
 //去运输接口
 api.startTransportPlan  = (Phone,PlanNO,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/StartTransportPlan',{Phone,PlanNO,Lat,Lon,Address})
 // 回单记录列表
-api.PODList = (Phone,WaybillNO,PageIndex=1,PageSize=10)=>httpPost('Api/TmsAppWebApi/SelReceiptWaybills',{Phone,WaybillNO,PageIndex,PageSize})
+api.PODList = (Phone,PlanNO,WaybillNO,PageIndex=1,PageSize=10)=>httpPost('Api/TmsAppWebApi/SelReceiptWaybills',{Phone,PlanNO,WaybillNO,PageIndex,PageSize})
 // 确认到达
 api.arrive = (Phone,PlanNO,LineID,Lat,Lon,Address)=>httpPost('Api/TmsAppWebApi/Arrive',{Phone,PlanNO,LineID,Lat,Lon,Address})
 //去装货

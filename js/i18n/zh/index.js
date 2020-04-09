@@ -228,6 +228,8 @@ export default {
 
     tips:'提示',
 
-    networkAnomaly:'网络异常'
+    networkAnomaly:'网络异常',
+    
+    None:'输入不能为空'
 
 };

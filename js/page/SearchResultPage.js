@@ -52,9 +52,9 @@ class searchResultPage extends Component {
     }
 
     componentDidMount() {
-        const {key} = this.props.navigation.state.params
-        this.setState({PlanNO:key})
-        this.getSearchResultData(key)
+        let {key} = this.props.navigation.state.params
+        this.setState({PlanNO:key.toUpperCase()})
+        this.getSearchResultData(key.toUpperCase())
         this.backPress.componentDidMount();
     }
 

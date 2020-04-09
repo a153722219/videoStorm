@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, TextInput,Image,FlatList,RefreshControl,TouchableOpacity,ActivityIndicator} from 'react-native';
+import {StyleSheet, View, Text, TextInput,Image,FlatList,RefreshControl,TouchableOpacity,ActivityIndicator,Alert} from 'react-native';
 //redux
 import {connect} from "react-redux";
 //导航栏
@@ -44,7 +44,8 @@ import DefaultPage from '../common/DefaultPage'
 // ];
 @setStatusBar({
     barStyle: 'dark-content',
-    translucent: true
+    translucent: true,
+    planNo:null
 })
 class PODListPage extends Component {
 
@@ -75,14 +76,15 @@ class PODListPage extends Component {
     }
 
     loadData(loadMore){
-        // console.log(loadMore)
+        const PlanNo = (this.props.navigation.state.params.PlanNO);
         const {PageIndex,showItems,hideLoadingMore} = this.props.podList;
+        const order = this.state.order.toUpperCase()
         if(!loadMore){
-            this.props.onRefreshPods(this.items,this.state.order)
+            this.props.onRefreshPods(this.items,PlanNo,order)
 
         }else if(hideLoadingMore){
             // console.log(1)
-            this.props.onLoadMorePods(PageIndex+1,this.items,showItems,this.state.order);
+            this.props.onLoadMorePods(PageIndex+1,this.items,showItems,PlanNo,order);
         }
     }
 
@@ -165,7 +167,13 @@ class PODListPage extends Component {
                 keyboardType = 'phone-pad'
                 style={[styles.Ipt,styles.searchBarBox]} 
                 placeholder={i18n.t('searchByOrder')}
-                onSubmitEditing={()=>{this.loadData(false)}}
+                onSubmitEditing={()=>{
+                    if(!this.state.order){
+                        Alert.alert(i18n.t('tips'),i18n.t('None'),[{text:i18n.t('Yes')}])
+                        return 
+                    }
+                    this.loadData(false)}
+                }
                 />
             </View>
 
@@ -227,8 +235,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onRefreshPods:(items,WaybillNO)=>dispatch(actions.onRefreshPods(items,WaybillNO)),
-    onLoadMorePods:(newPageIndex,items,showItems,WaybillNO)=>dispatch(actions.onLoadMorePods(newPageIndex,items,showItems,WaybillNO))
+    onRefreshPods:(items,PlanNo,WaybillNO)=>dispatch(actions.onRefreshPods(items,PlanNo,WaybillNO)),
+    onLoadMorePods:(newPageIndex,items,showItems,PlanNo,WaybillNO)=>dispatch(actions.onLoadMorePods(newPageIndex,items,showItems,PlanNo,WaybillNO))
 
 });
 
