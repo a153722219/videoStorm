@@ -192,8 +192,8 @@ const styles = StyleSheet.create({
     searchTitle:{
         width:122*uW,
         height:40*uW,
-        fontSize:28*uW,
-        fontWeight:"500"
+        fontSize:26*uW,
+        fontWeight:"bold"
     },
 
     itemBox:{

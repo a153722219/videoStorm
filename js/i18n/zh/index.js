@@ -74,7 +74,7 @@ export default {
 
     noFinished:"待执行",
 
-    Pending:"待执中",
+    Pending:"执行中",
 
     Pending2:"执行中",
 
