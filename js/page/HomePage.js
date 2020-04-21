@@ -17,7 +17,7 @@ import {i18n} from '../i18n/index';
 import ToastManager from '../common/ToastManager'
 import {uW} from "../util/screenUtil";
 import  setStatusBar from '../common/setStatusBar';
-import { PermissionsAndroid } from "react-native";
+
 //import { init,setGeoLanguage, setInterval,setNeedAddress,setLocatingWithReGeocode,addLocationListener, start, stop} from "react-native-amap-geolocation";
 import GoogleGeo from '../util/GoogleGeo';
 import Utils from '../util/Utils'
@@ -67,7 +67,7 @@ import Globals from '../util/Globals';
         
      }
 
-     async componentDidMount(){
+     componentDidMount(){
 
          this.unsubscribe = NetInfo.addEventListener(state=> {
              this.props.onNetWorkChange(state.isConnected);
@@ -78,9 +78,7 @@ import Globals from '../util/Globals';
             //  ToastManager.show('type='+ state.type +' isConnected = '+ state.isConnected);
          });
 
-         // 对于 Android 需要自行根据需要申请权限
-        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
-        GoogleGeo.setNetworkLocationUrl('https://www.baidream.top/'); //设置位置反代域名
+
         // Globals.waitSendApis.push({name:"manualEnd",params:[]})
          if(!Globals.inited){
             setTimeout(()=>{
@@ -98,19 +96,10 @@ import Globals from '../util/Globals';
      }
 
 
-     getLocation(){
-        // Utils.getLocation((data)=>{
-        //     if(data.errorCode=="0000"){
-        //         // console.log(data.msg)
-        //         this.props.onGeoChange(data.msg);
-        //     }
-        // })
-     }
 
 
      componentWillUnmount() {
-         this.geoTimer && clearInterval(this.geoTimer);
-         GoogleGeo.stopGetLocation();
+         
          this.unsubscribe();
      };
 
@@ -162,8 +151,6 @@ import Globals from '../util/Globals';
                             }else if(index==0){
                                 //do something
 
-                                this.getLocation();
-                                this.geoTimer = setInterval(this.getLocation,50000);
                                 NavigationUtil.goPage({},"KaHangPage")
 
                             }

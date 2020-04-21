@@ -13,6 +13,6 @@ export const baseURL = 'http://tmsappV2.e6gpshk.com';
 
 export const APPKEY = 'BC794515-B998-4608-829E-CC4450931D66';
 
-export const Google_API_KEY = 'AIzaSyD4YILbLdgGxE8u1TIcGC1aM-N8Mh1uDIE';
+export const Google_API_KEY = 'AIzaSyBGehdVw7d9FI4ZvCHdvPYG6vahPjl2NcM';
 
 export const proxyUrl = "https://www.baidream.top/";

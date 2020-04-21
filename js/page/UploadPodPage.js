@@ -146,7 +146,7 @@ class UploadPodPage extends Component {
                 fd.append("file",file)
                 return item
             })
-            console.log("formdata", JSON.stringify(fd))
+            //console.log("formdata", JSON.stringify(fd))
             LoadingManager.show();
             this.props.onUploadPOD(this.state.PlanNo,this.state.WaybillNO,fd,this.state.index,this.props.kahang.details,(res)=>{
                     LoadingManager.close();    

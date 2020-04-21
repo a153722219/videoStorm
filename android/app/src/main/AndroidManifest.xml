@@ -32,7 +32,7 @@
       android:theme="@style/AppTheme">
         <meta-data
             android:name="GOOGLE_LOCATION_API_KEY"
-            android:value="AIzaSyD4YILbLdgGxE8u1TIcGC1aM-N8Mh1uDIE" />
+            android:value="AIzaSyBGehdVw7d9FI4ZvCHdvPYG6vahPjl2NcM" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

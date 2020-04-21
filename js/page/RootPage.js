@@ -18,7 +18,11 @@ import BackPressComponent from '../common/BackPressComponent';
 import {i18n} from '../i18n/index';
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
-
+import GoogleGeo from '../util/GoogleGeo';
+import actions from '../action/index'
+import Utils from '../util/Utils'
+let geoaction =null;
+import { PermissionsAndroid } from "react-native";
  class RootPage extends Component{
   constructor(props){
     super(props)
@@ -39,13 +43,21 @@ import EventTypes from '../util/EventTypes'
          EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
      }
 
-     componentDidMount() {
+     async componentDidMount() {
        this.backPress.componentDidMount();
+        // 对于 Android 需要自行根据需要申请权限
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
+        GoogleGeo.setNetworkLocationUrl('https://www.baidream.top/'); //设置位置反代域名
+        geoaction  = this.props.onGeoChange;
+        this.getLocation();
+        this.geoTimer = setInterval(this.getLocation,50000);
 
     }
 
     componentWillUnmount() {
         this.backPress.componentWillUnmount();
+        this.geoTimer && clearInterval(this.geoTimer);
+         GoogleGeo.stopGetLocation();
     }
     /**
      * 处理 Android 中的物理返回键
@@ -62,6 +74,18 @@ import EventTypes from '../util/EventTypes'
         return true;
     };
 
+    
+    getLocation(){
+
+       const callback = function(data){
+            if(data.errorCode=="0000"){
+                // console.log(data.msg)
+                geoaction(data.msg);
+            }
+        }
+       Utils.getLocation(callback)
+    }
+
   render() {
         NavigationUtil.navigation = this.props.navigation;
         // this.props.navigation.navigate("DetailPage",{})
@@ -76,4 +100,8 @@ const mapStateToProps = state => ({
     theme: state.theme.theme
 });
 
-export default connect(mapStateToProps)(RootPage);
+const mapDispatchToProps = dispatch=>({
+    onGeoChange:e=>dispatch(actions.onGeoChange(e))
+
+});
+export default connect(mapStateToProps,mapDispatchToProps)(RootPage);
