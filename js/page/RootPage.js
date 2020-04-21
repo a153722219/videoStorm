@@ -47,7 +47,7 @@ import { PermissionsAndroid } from "react-native";
        this.backPress.componentDidMount();
         // 对于 Android 需要自行根据需要申请权限
         await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
-        GoogleGeo.setNetworkLocationUrl('https://www.baidream.top/'); //设置位置反代域名
+        // GoogleGeo.setNetworkLocationUrl('https://www.baidream.net/'); //设置位置反代域名
         geoaction  = this.props.onGeoChange;
         this.getLocation();
         this.geoTimer = setInterval(this.getLocation,50000);
