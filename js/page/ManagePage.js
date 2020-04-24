@@ -7,22 +7,11 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View,FlatList,ImageBackground,Image,TouchableOpacity,StatusBar} from 'react-native';
+import { StyleSheet, Text, View,FlatList,ImageBackground,Image,TouchableOpacity,StatusBar} from 'react-native';
 import {connect} from "react-redux"
-import {createAppContainer} from "react-navigation";
-import { createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import actions from '../action/index'
-import PopularItem from "../common/PopularItem";
-import Toast from 'react-native-easy-toast';
 import NavigationBar from '../common/NavigationBar';
 import NavigationUtil from '../navigator/NavigationUtil';
-import FavoriteDao from '../expand/dao/FavoriteDao';
-const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'};
-import  FavoriteUtil from '../util/FavoriteUtil';
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
-import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
-import EventBus from 'react-native-event-bus'
-import EventTypes from '../util/EventTypes'
+
 import {i18n} from '../i18n/index';
 import {uW} from '../util/screenUtil';
 import  setStatusBar from '../common/setStatusBar'
