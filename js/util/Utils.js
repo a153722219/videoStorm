@@ -53,6 +53,7 @@ export default class Utils{
     }
 
     static getLocation(callback){
+        // alert("debug模式")
         GoogleGeo.startGetLocation().then(async data=>{
             if(!data.msg){
 
@@ -62,25 +63,25 @@ export default class Utils{
                 }else language = "en";
                 const url = proxyUrl + 'maps/api/geocode/json?latlng='+data.latitude+","+data.longitude+"&key="+Google_API_KEY+"&language="+language;
                 console.log(url)
-                
+                // alert(url);
                 fetch(url).then((response) => response.json()).then(res=>{
                     console.log(res);
-
-                    if(data.multiaccuracy>300){
-                        callback(
-                            {
-                                errorCode:"-1",
-                                msg:{
-                                    Lat:0,
-                                    Lon:0,
-                                    multiaccuracy:2000,
-                                    Address:"can no get location",
-                                    date:""
-                                }
-                            }
-                        );
-                        return 
-                    }
+                    // alert(JSON.stringify(res))
+                    // if(data.multiaccuracy>300){
+                    //     callback(
+                    //         {
+                    //             errorCode:"-1",
+                    //             msg:{
+                    //                 Lat:0,
+                    //                 Lon:0,
+                    //                 multiaccuracy:2000,
+                    //                 Address:"can no get location",
+                    //                 date:""
+                    //             }
+                    //         }
+                    //     );
+                    //     return 
+                    // }
                     const formatAddress = (res.results && res.results[0])?res.results[0].formatted_address:""
                     const address = {}
                     address.Lat = data.latitude;
@@ -108,10 +109,12 @@ export default class Utils{
 
                   
             }else{
+                // alert(JSON.stringify(data))
                 console.log(data)
                 callback(data);
             }
         }).catch(err=>{
+            // alert(JSON.stringify(err))
             //发生错误 不做任何操作
             callback(err)
             console.log(err);

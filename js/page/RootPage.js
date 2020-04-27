@@ -41,6 +41,7 @@ import { PermissionsAndroid } from "react-native";
              i18n.locale = 'zh'
          }
          EventBus.getInstance().fireEvent(EventTypes.LANGUAGE_REFRESH)
+    
      }
 
      async componentDidMount() {
@@ -57,7 +58,7 @@ import { PermissionsAndroid } from "react-native";
     componentWillUnmount() {
         this.backPress.componentWillUnmount();
         this.geoTimer && clearInterval(this.geoTimer);
-         GoogleGeo.stopGetLocation();
+        GoogleGeo.stopGetLocation();
     }
     /**
      * 处理 Android 中的物理返回键
